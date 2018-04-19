@@ -1,0 +1,33 @@
+.ticket-form {
+  padding: $m-size;
+
+  &__heading {
+    margin: 0;
+    font-weight: $font-weight-thin;
+    font-size: $font-size-xl;
+
+    &--secondary {
+      font-size: $font-size-l;
+    }
+  }
+
+  &__block {
+    border-top: 1px solid $grey;
+    display: flex;
+    flex-direction: column;
+    margin-top: $s-size;
+    padding: $s-size;
+  }
+  &__input {
+    height: $l-size;
+    padding: 1rem;
+    font-size: 1.6rem;
+    font-weight: 300;
+    &--accounts {
+      width: 50rem;
+      &:last-of-type {
+        margin-top: $s-size;
+      }
+    }
+  }
+}
