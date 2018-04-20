@@ -1,7 +1,9 @@
 @import './base/settings';
 @import './base/base';
+@import './base/typography';
+@import './base/form-controls';
+@import './components/button';
 @import './components/content-container';
 @import './components/header';
-@import './components/page-header';
 @import './components/ticket-form';
 @import './components/visibility';

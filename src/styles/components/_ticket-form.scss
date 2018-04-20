@@ -1,33 +1,49 @@
 .ticket-form {
-  padding: $m-size;
+  box-shadow: 0px 0px 1px #666;;
+  margin: 2rem 1rem;
+  padding: $rem-three;
+  > button {
+    position: relative;
+    left: $rem-three-half;
+    bottom: $rem-one;
+  }
+}
 
-  &__heading {
-    margin: 0;
-    font-weight: $font-weight-thin;
-    font-size: $font-size-xl;
+.ticket-form__block {
+  display: flex;
+  flex-direction: column;
+  margin: $rem-three 0;
+  padding: 0 $rem-one;
 
-    &--secondary {
-      font-size: $font-size-l;
-    }
+  > .heading-secondary {
+    padding-bottom: $rem-half;
+    margin-bottom: $rem-one;
   }
 
-  &__block {
-    border-top: 1px solid $grey;
-    display: flex;
-    flex-direction: column;
-    margin-top: $s-size;
-    padding: $s-size;
+  > .input {
+    width: 99%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
   }
-  &__input {
-    height: $l-size;
-    padding: 1rem;
-    font-size: 1.6rem;
-    font-weight: 300;
-    &--accounts {
-      width: 50rem;
-      &:last-of-type {
-        margin-top: $s-size;
-      }
-    }
+}
+
+.ticket-form__block-row {
+  align-items: flex-end;
+  display: flex;
+  margin: -$rem-half auto $rem-one;
+  width: 99%;
+  > .input {
+    flex: 1;
   }
+  > .select {
+    margin-right: $rem-two-half;
+  }
+}
+
+.ticket-form__textarea {
+  @extend .input;
+  font-weight: $font-weight-avg;
+  height: 14rem;
+  margin-bottom: $rem-one-half;
+  padding: $rem-one-half;
 }

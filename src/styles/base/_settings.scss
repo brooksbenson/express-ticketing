@@ -1,6 +1,9 @@
 // Colors
-$dark-grey: #333;
-$grey: #666;
+$theme-green: rgb(39, 199, 139);
+$theme-black: rgb(0, 0, 0);
+$theme-white: #fff;
+$theme-grey: #666;
+$dark-grey: grey;
 $blue: #1c88bf;
 $dark-blue: #364051;
 $off-white: #f7f7f7;
@@ -13,9 +16,16 @@ $font-size-small: 1.2rem;
 $font-weight-thin: 300;
 $font-weight-avg: 600;
 $font-weight-thick: 900;
-// Spacing
-$s-size: 1.2rem;
-$m-size: 1.6rem;
-$l-size: 3.2rem;
-$xl-size: 4.8rem;
+// rem
+$rem-half: .5rem;
+$rem-one: 1rem;
+$rem-one-half: 1.5rem;
+$rem-two: 2rem;
+$rem-two-half: 2.5rem;
+$rem-three: 3rem;
+$rem-three-half: 3.5rem;
+$rem-four: 4rem;
+$rem-four-half: 4.5rem;
+$rem-five: 5rem;
+
 $desktop-breakpoint: 45rem;

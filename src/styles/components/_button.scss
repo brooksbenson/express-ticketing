@@ -1,0 +1,11 @@
+.button {
+  background: $theme-green;
+  color: $theme-white;
+  font-weight: $font-weight-thick;
+
+  &--ticket-form {
+    font-size: 2rem;
+    height: 6rem;
+    width: 9rem;
+  }
+}

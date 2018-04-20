@@ -1,0 +1,29 @@
+.input {
+  border: none;
+  border-bottom: 1px solid $theme-grey;
+  color: $theme-grey;
+  font-size: $rem-two;
+  font-weight: $font-weight-thin;
+  height: 4rem;
+  padding: $rem-one;
+  &:focus {
+    outline: none;
+    border-color: $theme-green;
+  }
+}
+
+.select {
+  background: $theme-white;
+  border: 1px solid $theme-grey;
+  height: 3rem;
+  transition: border-color .1s ease-in;
+  &:focus {
+    outline: none;
+    border-color: $theme-green;
+  }
+}
+
+.textarea {
+  @extend .input;
+  height: $rem-one * 14;
+}

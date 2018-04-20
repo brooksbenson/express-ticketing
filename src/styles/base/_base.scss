@@ -1,15 +1,15 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 10px;
 }
 
 body {
-  color: $dark-grey;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: $m-size;
+  font-size: $rem-one-half;
   line-height: 1.6;
 }
 
@@ -19,8 +19,4 @@ button {
 
 button:disabled {
   cursor: default;
-}
-
-.is-active {
-  font-weight: bold;
 }

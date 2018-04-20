@@ -1,12 +1,12 @@
 .header {
-  background: $dark-blue;
+  background: $theme-green;
+  padding: $rem-two $rem-one;
 }
 
 .header__content {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: $s-size 0;
 }
 
 .header__title {

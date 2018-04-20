@@ -1,0 +1,16 @@
+body {
+  color: $theme-black;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.heading {
+  border-bottom: 2px solid black;
+  font-size: $rem-three;
+  font-weight: $font-weight-thick;
+}
+
+.heading-secondary {
+  @extend .heading;
+  border-bottom: 1px solid black;
+  font-size: $rem-two-half;
+}
