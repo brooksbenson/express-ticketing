@@ -5,25 +5,42 @@
   font-size: $rem-two;
   font-weight: $font-weight-thin;
   height: 4rem;
-  padding: $rem-one;
+  padding: $rem-one-half;
   &:focus {
+    border: 1px solid $theme-green;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px $theme-grey;
     outline: none;
-    border-color: $theme-green;
+  }
+}
+
+.button {
+  background: $theme-green;
+  border-radius: 3px;
+  color: $theme-white;
+  font-weight: $font-weight-thick;
+
+  &--ticket-form {
+    font-size: $rem-two;
+    height: $rem-one * 6;
+    width: $rem-one * 9;
   }
 }
 
 .select {
   background: $theme-white;
   border: 1px solid $theme-grey;
-  height: 3rem;
-  transition: border-color .1s ease-in;
+  font-size: $rem-one-half + .1;
+  height: 3.5rem;
   &:focus {
     outline: none;
     border-color: $theme-green;
+    box-shadow: -1px 1px 2px $theme-grey;
   }
 }
 
 .textarea {
   @extend .input;
   height: $rem-one * 14;
+  padding: $rem-two $rem-one-half;
 }

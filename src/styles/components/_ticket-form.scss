@@ -4,7 +4,7 @@
   padding: $rem-three;
   > button {
     position: relative;
-    left: $rem-three-half;
+    left: $rem-two-half;
     bottom: $rem-one;
   }
 }
@@ -30,7 +30,7 @@
 .ticket-form__block-row {
   align-items: flex-end;
   display: flex;
-  margin: -$rem-half auto $rem-one;
+  margin: 0 auto $rem-one;
   width: 99%;
   > .input {
     flex: 1;
