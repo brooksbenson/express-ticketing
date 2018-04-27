@@ -10,18 +10,18 @@ export default [
     email: 'warren@bh.com'
   },
   {
-    name: 'Jenna Fischer',
-    number: '8013585432',
-    email: 'jenna@walmart.com'
-  },
-  {
-    name: 'Kenrick Lamar' ,
+    name: 'Emma Stone' ,
     number: '3587112441', 
-    email: 'kendrick@topdawg.com'
+    email: 'emma@gmail.com'
   },
   {
-    name: 'Tim Cook', 
+    name: 'Sam Walton',
+    number: '8013585432',
+    email: 'sam@walmart.com'
+  },
+  {
+    name: 'Emily Banks', 
     number: '3589990345',
-    email: 'tim@apple.com'
+    email: 'emily@yahoo.com'
   }
 ];

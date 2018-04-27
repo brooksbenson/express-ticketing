@@ -1,16 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import SearchResults from './SearchResults';
 import selectAccounts from '../selectors/accounts';
 import selectContacts from '../selectors/contacts';
-import accounts from '../fixtures/accounts';
-import contacts from '../fixtures/contacts';
 
-class TicketForm extends React.Component {
+export class TicketForm extends React.Component {
 
   state = {
-    accountSearchResult: [],
-    accountSearchString: '',
-    accountInputFocused: false,
     selectedAccount: null,
 
     contactSearchResult: [],
@@ -23,7 +19,7 @@ class TicketForm extends React.Component {
     if (this.state.selectedAccount !== null) return;
     this.setState(() => ({
       accountSearchResult: selectAccounts(
-        this.props.accounts || accounts, 
+        this.props.accounts,
         this.state.accountSearchString
       ), 
       accountInputFocused: true,
@@ -99,6 +95,7 @@ class TicketForm extends React.Component {
         <section className="ticket-form__block">
           <h3 className="heading-secondary"> Account </h3>
           <input
+            autoComplete="off"
             className="input"
             name="account"
             onChange={this.onAccountSearch}
@@ -115,6 +112,7 @@ class TicketForm extends React.Component {
             />
           }
           <input
+            autoComplete="off"
             className="input"
             name="contact"
             onFocus={this.onContactInputFocus}
@@ -167,4 +165,6 @@ class TicketForm extends React.Component {
   }
 }
 
-export default TicketForm;
+const mapStateToProps = ({ accounts }) => ({ accounts });
+
+export default connect(mapStateToProps)(TicketForm);
