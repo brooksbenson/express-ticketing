@@ -7,20 +7,20 @@ export default class SearchBar extends React.Component {
     searchString: '',
   }
 
-  // is you can't search, text input should be empty
+  // if you can't search, text input should be empty
   static getDerivedStateFromProps(nextProps, prevState) {
     return nextProps.canSearch
       ? { ...prevState }
       : { ...prevState, searchString: '' };
   }
 
-  displayResults() {
+  static displayResults(results, displayKey, uniqueKey, onClickHandler) {
     return (
       <ul>
         {
-          this.state.searchResults.slice(0, 7).map(r => (
-            <li key={r.id} onClick={() => this.onClickHandler(r) }>
-              { r[this.props.valueDisplayKey] } 
+          results.slice(0, 7).map(r => (
+            <li key={uniqueKey} onClick={() => onClickHandler(r) }>
+              { r[displayKey] } 
             </li>
           ))
         }
@@ -28,28 +28,35 @@ export default class SearchBar extends React.Component {
     )
   }
 
+  componentDidMount() {
+    if (this.props.isFocused) this.input.focus();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.isFocused) this.input.focus();
+  }
+
   onKeyPress = (e) => {
     if (e.key == 'Enter') {
-      const [ selectedResult ] = this.state.searchResults;
-      this.props.onValueSelect(selectedResult);
+      const [ newValue ] = this.state.searchResults;
+      this.props.onValueModification(newValue);
       this.setState(() => ({
-        displaySearchResults: false,
         searchResults: [],
-        searchString: selectedResult[this.props.valueDisplayKey]
+        searchString: newValue[this.props.valueDisplayKey]
       }));
     }
   };
 
-  onResultClick = (result) => {
-    this.props.onValueSelect(result);
+  onResultClick = (newValue) => {
+    this.props.onValueModification(newValue);
     this.setState(() => ({
-      searchString: result[this.props.valueDisplayKey],
+      searchString: newValue[this.props.valueDisplayKey],
       searchResults: []
     }));
   };
 
   onSearch = (e) => {
-    this.props.onValueSelect(null);
+    this.props.onValueModification(null);
     const searchString = e.target.value;
     this.setState(() => ({ 
       searchString,
@@ -65,17 +72,22 @@ export default class SearchBar extends React.Component {
       <div className={this.props.className}>
         <input
           autoComplete="off"
-          autoFocus={this.props.canSearch}
           className="input"
           disabled={!this.props.canSearch}
           onChange={this.onSearch}
           onKeyPress={this.onKeyPress}
           placeholder={this.props.placeholder}
-          ref={input => this.input = input}
+          ref={input => { this.input = input }}
           type="text"
           value={this.state.searchString}
         />
-        { this.props.canSearch && this.displayResults() }
+        { this.props.canSearch && SearchBar.displayResults(
+            this.state.searchResults,
+            this.props.valueDisplayKey,
+            this.props.uniqueValueKey,
+            this.onClickHandler
+          )
+        }
       </div>
     )
   }
