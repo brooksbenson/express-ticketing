@@ -1,134 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import SearchResults from './SearchResults';
-import selectAccounts from '../selectors/accounts';
-import selectContacts from '../selectors/contacts';
+import SearchBar from './SearchBar';
+import accountSelector from '../selectors/accounts';
+import contactSelector from '../selectors/contacts';
 
 export class TicketForm extends React.Component {
 
   state = {
-    selectedAccount: null,
-
-    contactSearchResult: [],
-    contactSearchString: '',
-    contactInputFocused: false,
-    selectedContact: null
-  };
-
-  onAccountInputFocus = () => {
-    if (this.state.selectedAccount !== null) return;
-    this.setState(() => ({
-      accountSearchResult: selectAccounts(
-        this.props.accounts,
-        this.state.accountSearchString
-      ), 
-      accountInputFocused: true,
-      selectedAccount: null 
-    }));
-  };
-
-  onAccountSearch = (e) => {
-    const accountSearchString= e.target.value;
-    this.setState(() => ({
-      accountInputFocused: true,
-      accountSearchResult: selectAccounts(
-        this.props.accounts || accounts, 
-        accountSearchString
-      ),
-      accountSearchString,
-      contactInputFocused: false,
-      contactSearchString: ''
-    }));
-  };
+    account: null,
+    contact: null
+  }
 
   onAccountSelect = (account) => {
-    this.setState(() => ({
-      accountInputFocused: false,
-      accountSearchString: account.name,
-      accountSearchResult: [],
-      selectedAccount: account,
-      contactInputFocused: true,
-      contactSearchResult: selectContacts(account.contacts, '')
-    }));
-    this.contactInput.focus();
-  };
-
-  onContactInputFocus = () => {
-    if (this.state.selectedAccount === null ||
-        this.state.selectedContact !== null) return;
-
-    this.setState(() => ({
-      contactInputFocused: true,
-      contactSearchResult: selectContacts(
-        this.state.selectedAccount.contacts,
-        this.state.contactSearchString
-      ),
-      selectedContact: null
+    this.setState(() => ({ 
+      account,
+      contact: null 
     }));
   };
-
-  onContactSearch = (e) => {
-    if (this.state.selectedAccount === null) return;
-    const contactSearchString = e.target.value;
-    this.setState(() => ({
-      contactInputFocused: true,
-      contactSearchString,
-      contactSearchResult: selectContacts(
-        this.state.selectedAccount.contacts,
-        contactSearchString
-      )
-    }));
-  }
 
   onContactSelect = (contact) => {
-    this.setState(() => ({
-      selectedContact: contact,
-      contactSearchString: contact.name,
-      contactInputFocused: false 
-    }));
-  }
+    this.setState(() => ({ contact }));
+  };
+
+  onTicketSubmit = (e) => {
+    e.preventDefault();
+  };
 
   render() {
     return (
-      <form className="ticket-form">
+      <form className="ticket-form" onSubmit={this.onTicketSubmit}>
         <h2 className="heading"> Create Ticket </h2>
         <section className="ticket-form__block">
           <h3 className="heading-secondary"> Account </h3>
-          <input
-            autoComplete="off"
-            className="input"
-            name="account"
-            onChange={this.onAccountSearch}
-            onFocus={this.onAccountInputFocus}
+          <SearchBar
+            canSearch={true}
+            className="ticket-form__search-bar"
+            onValueSelect={this.onAccountSelect}
             placeholder="Search accounts..."
-            type="text"
-            value={this.state.accountSearchString}
+            selector={accountSelector}
+            values={this.props.accounts}
+            valueDisplayKey="name"
           />
-          { this.state.accountInputFocused &&
-            <SearchResults
-              resultsArray={this.state.accountSearchResult}
-              resultsDisplayProp='name'
-              onResultClick={this.onAccountSelect}
-            />
-          }
-          <input
-            autoComplete="off"
-            className="input"
-            name="contact"
-            onFocus={this.onContactInputFocus}
-            onChange={this.onContactSearch}
+          <SearchBar
+            canSearch={this.state.account != null}
+            className="ticket-form__search-bar"
+            onValueSelect={this.onContactSelect}
             placeholder="Search contacts..."
-            ref={input => { this.contactInput = input }}
-            type="text"
-            value={this.state.contactSearchString}
+            selector={contactSelector}
+            values={this.state.account ? this.state.account.contacts : []}
+            valueDisplayKey="name"
           />
-          { this.state.contactInputFocused &&
-            <SearchResults
-              resultsArray={this.state.contactSearchResult}
-              resultsDisplayProp='name'
-              onResultClick={this.onContactSelect}
-            />
-          }
         </section>
         <section className="ticket-form__block">
           <h3 className="heading-secondary">

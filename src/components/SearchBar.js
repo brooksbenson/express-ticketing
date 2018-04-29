@@ -1,51 +1,81 @@
 import React from 'react';
 
-class SearchBar extends React.Component {
+export default class SearchBar extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayQueryResults: false,
-      inputValue: '',
-      queryResults: []
+  state = {
+    searchResults: [],
+    searchString: '',
+  }
+
+  // is you can't search, text input should be empty
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return nextProps.canSearch
+      ? { ...prevState }
+      : { ...prevState, searchString: '' };
+  }
+
+  displayResults() {
+    return (
+      <ul>
+        {
+          this.state.searchResults.slice(0, 7).map(r => (
+            <li key={r.id} onClick={() => this.onClickHandler(r) }>
+              { r[this.props.valueDisplayKey] } 
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  onKeyPress = (e) => {
+    if (e.key == 'Enter') {
+      const [ selectedResult ] = this.state.searchResults;
+      this.props.onValueSelect(selectedResult);
+      this.setState(() => ({
+        displaySearchResults: false,
+        searchResults: [],
+        searchString: selectedResult[this.props.valueDisplayKey]
+      }));
     }
-    this.onChange = this.onChange.bind(this);
-  }
+  };
 
-  onChange(e) {
-    const queryString = e.target.value;
+  onResultClick = (result) => {
+    this.props.onValueSelect(result);
     this.setState(() => ({
-      inputValue: queryString,
-      displayQueryResults: true,
-      queryResults: this.props.selector(
-        queryString, 
-        this.props.searchableItems
+      searchString: result[this.props.valueDisplayKey],
+      searchResults: []
+    }));
+  };
+
+  onSearch = (e) => {
+    this.props.onValueSelect(null);
+    const searchString = e.target.value;
+    this.setState(() => ({ 
+      searchString,
+      searchResults: this.props.selector(
+        this.props.values,
+        searchString
       )
-    }))
-  }
+    }));
+  };
 
   render() {
     return (
-      <div>
+      <div className={this.props.className}>
         <input
           autoComplete="off"
+          autoFocus={this.props.canSearch}
           className="input"
-          name="account"
+          disabled={!this.props.canSearch}
           onChange={this.onSearch}
+          onKeyPress={this.onKeyPress}
           placeholder={this.props.placeholder}
+          ref={input => this.input = input}
           type="text"
-          value={this.state.queryString}
+          value={this.state.searchString}
         />
-        { 
-          this.state.displayQueryResults &&
-          <ul>
-          {
-            this.state.queryResults(result => (
-              <li>{ result[this.props.resultDisplayKey] }</li>
-            ))
-          }
-        </ul>
-        }
+        { this.props.canSearch && this.displayResults() }
       </div>
     )
   }
