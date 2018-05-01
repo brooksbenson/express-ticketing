@@ -1,7 +1,7 @@
 .input {
   border: none;
   border-bottom: 1px solid $theme-grey;
-  color: $theme-grey;
+  color: $theme-black;
   font-size: $rem-two;
   font-weight: $font-weight-thin;
   height: 4rem;
@@ -14,23 +14,30 @@
   }
 }
 
-.button {
-  background: $theme-green;
+.btn {
   border-radius: 3px;
   color: $theme-white;
   font-weight: $font-weight-thick;
 
-  &--ticket-form {
+  &--primary {
+    background: $theme-green;
     font-size: $rem-two;
-    height: $rem-one * 6;
-    width: $rem-one * 9;
+    max-width: $rem-one * 9;
+    padding: $rem-one;
+  }
+
+  &--secondary {
+    background: $theme-black;
+    font-size: $rem-one-half;
+    max-width: $rem-one * 8;
+    padding: $rem-half;
   }
 }
 
 .select {
   background: $theme-white;
   border: 1px solid $theme-grey;
-  font-size: $rem-one-half + .1;
+  font-size: $rem-one-half + 0.1;
   height: 3.5rem;
   &:focus {
     outline: none;

@@ -1,11 +1,11 @@
 import React from 'react';
 
 export default class SearchBar extends React.Component {
-
   state = {
+    canDisplayResults: false,
     searchResults: [],
-    searchString: '',
-  }
+    searchString: ''
+  };
 
   // if you can't search, text input should be empty
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -17,15 +17,17 @@ export default class SearchBar extends React.Component {
   static displayResults(results, displayKey, uniqueKey, onClickHandler) {
     return (
       <ul>
-        {
+        {results.length > 0 ? (
           results.slice(0, 7).map(r => (
-            <li key={uniqueKey} onClick={() => onClickHandler(r) }>
-              { r[displayKey] } 
+            <li key={r[uniqueKey]} onClick={() => onClickHandler(r)}>
+              {r[displayKey]}
             </li>
           ))
-        }
+        ) : (
+          <li> No results found </li>
+        )}
       </ul>
-    )
+    );
   }
 
   componentDidMount() {
@@ -36,34 +38,34 @@ export default class SearchBar extends React.Component {
     if (this.props.isFocused) this.input.focus();
   }
 
-  onKeyPress = (e) => {
+  onKeyPress = e => {
     if (e.key == 'Enter') {
-      const [ newValue ] = this.state.searchResults;
+      const [newValue] = this.state.searchResults;
       this.props.onValueModification(newValue);
       this.setState(() => ({
+        canDisplayResults: false,
         searchResults: [],
         searchString: newValue[this.props.valueDisplayKey]
       }));
     }
   };
 
-  onResultClick = (newValue) => {
+  onResultClick = newValue => {
     this.props.onValueModification(newValue);
     this.setState(() => ({
+      canDisplayResults: false,
       searchString: newValue[this.props.valueDisplayKey],
       searchResults: []
     }));
   };
 
-  onSearch = (e) => {
+  onSearch = e => {
     this.props.onValueModification(null);
     const searchString = e.target.value;
-    this.setState(() => ({ 
+    this.setState(() => ({
+      canDisplayResults: searchString != '',
       searchString,
-      searchResults: this.props.selector(
-        this.props.values,
-        searchString
-      )
+      searchResults: this.props.selector(this.props.values, searchString)
     }));
   };
 
@@ -77,18 +79,20 @@ export default class SearchBar extends React.Component {
           onChange={this.onSearch}
           onKeyPress={this.onKeyPress}
           placeholder={this.props.placeholder}
-          ref={input => { this.input = input }}
+          ref={input => {
+            this.input = input;
+          }}
           type="text"
           value={this.state.searchString}
         />
-        { this.props.canSearch && SearchBar.displayResults(
+        {this.state.canDisplayResults &&
+          SearchBar.displayResults(
             this.state.searchResults,
             this.props.valueDisplayKey,
             this.props.uniqueValueKey,
-            this.onClickHandler
-          )
-        }
+            this.onResultClick
+          )}
       </div>
-    )
+    );
   }
 }
