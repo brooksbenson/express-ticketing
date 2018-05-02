@@ -1,0 +1,14 @@
+.contact-mini-form {
+  background: $theme-white;
+  box-shadow: 0 1px 2px $theme-grey;
+  display: flex;
+  flex-direction: column;
+  right: 0;
+  padding: $rem-one;
+  position: absolute;
+  top: $rem-one * 6;
+  z-index: 999;
+
+  &__input {
+  }
+}

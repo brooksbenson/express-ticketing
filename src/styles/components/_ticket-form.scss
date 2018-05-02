@@ -46,6 +46,7 @@
   align-items: flex-end;
   display: flex;
   margin: 0 auto $rem-one;
+  position: relative;
   width: 99%;
   > .input {
     flex: 1;
