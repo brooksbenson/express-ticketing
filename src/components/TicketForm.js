@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
+import ContactMiniForm from './ContactMiniForm';
 import accountSelector from '../selectors/accounts';
 import contactSelector from '../selectors/contacts';
 
@@ -8,9 +9,10 @@ export class TicketForm extends React.Component {
   state = {
     account: null,
     contact: null,
-    urgency: '',
+    displayContactMiniForm: false,
+    description: '',
     title: '',
-    description: ''
+    urgency: ''
   };
 
   onAccountModification = modification => {
@@ -33,12 +35,6 @@ export class TicketForm extends React.Component {
     }
   };
 
-  onUrgencyKeypress = e => {
-    if (e.key == 'Enter') {
-      this.titleInput.focus();
-    }
-  };
-
   onTitleChange = e => {
     const title = e.target.value;
     if (title.length <= 40) {
@@ -53,6 +49,12 @@ export class TicketForm extends React.Component {
 
   onTicketSubmit = e => {
     e.preventDefault();
+  };
+
+  toggleContactMiniForm = e => {
+    this.setState(state => ({
+      displayContactMiniForm: !state.displayContactMiniForm
+    }));
   };
 
   render() {
@@ -87,7 +89,13 @@ export class TicketForm extends React.Component {
               values={this.state.account ? this.state.account.contacts : []}
               valueDisplayKey="name"
             />
-            <button className="btn btn--secondary">Create Contact</button>
+            <button
+              className="btn btn--secondary"
+              onClick={this.toggleContactMiniForm}
+            >
+              Create Contact
+            </button>
+            {this.state.displayContactMiniForm && <ContactMiniForm />}
           </div>
         </section>
         <section className="ticket-form__block">
@@ -96,7 +104,6 @@ export class TicketForm extends React.Component {
             <select
               className="select"
               onChange={this.onUrgencyChange}
-              onKeyPress={this.onKeyPress}
               ref={select => {
                 this.selectUrgency = select;
               }}
