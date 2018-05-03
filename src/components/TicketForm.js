@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
-import ContactMiniForm from './ContactMiniForm';
+import ContactMiniFormController from './ContactMiniFormController';
 import accountSelector from '../selectors/accounts';
 import contactSelector from '../selectors/contacts';
 
@@ -9,7 +9,6 @@ export class TicketForm extends React.Component {
   state = {
     account: null,
     contact: null,
-    displayContactMiniForm: false,
     description: '',
     title: '',
     urgency: ''
@@ -59,7 +58,7 @@ export class TicketForm extends React.Component {
 
   render() {
     return (
-      <form className="ticket-form" onSubmit={this.onTicketSubmit}>
+      <div className="ticket-form" onSubmit={this.onTicketSubmit}>
         <h2 className="heading"> Create Ticket </h2>
         <section className="ticket-form__block">
           <h3 className="heading-secondary"> Account </h3>
@@ -89,13 +88,7 @@ export class TicketForm extends React.Component {
               values={this.state.account ? this.state.account.contacts : []}
               valueDisplayKey="name"
             />
-            <button
-              className="btn btn--secondary"
-              onClick={this.toggleContactMiniForm}
-            >
-              Create Contact
-            </button>
-            {this.state.displayContactMiniForm && <ContactMiniForm />}
+            <ContactMiniFormController disabled={this.state.account == null} />
           </div>
         </section>
         <section className="ticket-form__block">
@@ -136,7 +129,7 @@ export class TicketForm extends React.Component {
           />
         </section>
         <button className="btn btn--primary">Submit Ticket</button>
-      </form>
+      </div>
     );
   }
 }
