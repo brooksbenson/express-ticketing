@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
-import ContactMiniFormController from './ContactMiniFormController';
+import ContactController from './ContactController';
 import accountSelector from '../selectors/accounts';
 import contactSelector from '../selectors/contacts';
+import { addContact } from '../actions/accounts';
 
 export class TicketForm extends React.Component {
   state = {
@@ -13,6 +14,11 @@ export class TicketForm extends React.Component {
     title: '',
     urgency: ''
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps);
+    return prevState;
+  }
 
   onAccountModification = modification => {
     this.setState(() => ({
@@ -50,11 +56,14 @@ export class TicketForm extends React.Component {
     e.preventDefault();
   };
 
-  toggleContactMiniForm = e => {
-    this.setState(state => ({
-      displayContactMiniForm: !state.displayContactMiniForm
+  onNewContact = contact => {
+    this.props.addContact(this.state.account.id, contact);
+    this.setState(() => ({
+      contact
     }));
   };
+
+  onEditContact = contact => {};
 
   render() {
     return (
@@ -88,7 +97,12 @@ export class TicketForm extends React.Component {
               values={this.state.account ? this.state.account.contacts : []}
               valueDisplayKey="name"
             />
-            <ContactMiniFormController disabled={this.state.account == null} />
+            <ContactController
+              contact={this.state.contact}
+              disabled={this.state.account == null}
+              newContactHandler={this.onNewContact}
+              editContactHandler={this.onEditContact}
+            />
           </div>
         </section>
         <section className="ticket-form__block">
@@ -135,5 +149,10 @@ export class TicketForm extends React.Component {
 }
 
 const mapStateToProps = ({ accounts }) => ({ accounts });
+const mapDispatchToProps = dispatch => ({
+  addContact(accountId, contact) {
+    dispatch(addContact(accountId, contact));
+  }
+});
 
-export default connect(mapStateToProps)(TicketForm);
+export default connect(mapStateToProps, mapDispatchToProps)(TicketForm);

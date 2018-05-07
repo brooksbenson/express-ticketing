@@ -1,0 +1,12 @@
+.add-contact-controller {
+  & > .btn {
+    align-items: center;
+    display: flex;
+    height: 5rem;
+    justify-content: center;
+    line-height: 2rem;
+    position: relative;
+    top: 0.5rem;
+    width: 8rem;
+  }
+}
