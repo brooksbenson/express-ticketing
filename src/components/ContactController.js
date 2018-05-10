@@ -1,31 +1,37 @@
 import React from 'react';
-import isEmail from 'validator/lib/isEmail';
-import formatPhoneNumber from '../enhancers/format-phone-number';
 import ToggleButton from './ToggleButton';
 import ContactMiniForm from './ContactMiniForm';
-import { addContact } from '../actions/accounts';
+import formatPhoneNumber from '../enhancers/format-phone-number';
+import validateContact from '../enhancers/validate-contact';
 
 export default class ContactController extends React.Component {
   state = {
-    email: '',
-    name: '',
-    number: '',
+    contact: {
+      new: true,
+      email: '',
+      name: '',
+      number: ''
+    },
     showForm: false,
     btnContent: 'Create Contact',
     error: undefined
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { contact } = nextProps;
-    return contact
-      ? {
-          ...prevState,
-          email: contact.email,
-          name: contact.name,
-          number: formatPhoneNumber(contact.number),
-          btnContent: 'Edit Contact'
-        }
-      : { ...prevState, email: '', name: '', number: '' };
+    const { contactData } = nextProps;
+    if (contactData) {
+      const btnContent = 'Edit Contact';
+      const contact = {
+        ...contactData,
+        new: false,
+        number: formatPhoneNumber(contactData.number)
+      };
+      return { ...prevState, btnContent, contact };
+    } else {
+      const btnContent = 'Create Contact';
+      const contact = { new: true, name: '', email: '', number: '' };
+      return { ...prevState, btnContent, contact };
+    }
   }
 
   openForm = e => {
@@ -36,51 +42,43 @@ export default class ContactController extends React.Component {
   };
 
   closeForm = e => {
-    this.setState(() => ({
+    this.setState(({ contact }) => ({
       showForm: false,
-      btnContent: 'Create Contact'
+      btnContent: contact.new ? 'Create Contact' : 'Edit Contact'
     }));
   };
 
   handleEmailChange = e => {
-    const { value } = e.target;
-    this.setState(() => ({
-      email: value
+    const email = e.target.value;
+    this.setState(({ contact }) => ({
+      contact: { ...contact, email }
     }));
   };
 
   handleNameChange = e => {
-    const { value } = e.target;
-    if (/[^a-z\s]/i.test(value)) return;
-    this.setState(() => ({
-      name: value
+    const name = e.target.value;
+    if (/[^a-z\s]/i.test(name)) return;
+    this.setState(({ contact }) => ({
+      contact: { ...contact, name }
     }));
   };
 
   handleNumberChange = e => {
-    const { value } = e.target;
-    if (/[^\d\s()-]/.test(value) || value.length > 14) return;
-    this.setState(() => ({
-      number: formatPhoneNumber(value)
+    const number = e.target.value;
+    if (/[^\d\s()-]/.test(number) || number.length > 14) return;
+    this.setState(({ contact }) => ({
+      contact: { ...contact, number: formatPhoneNumber(number) }
     }));
   };
 
   handleSave = e => {
-    const { name, email, number } = this.state;
-    const [first = '', last = ''] = name.split(' ');
-    let error;
-    if (first.length < 3) error = 'Provide a valid first name';
-    else if (last.length < 3) error = 'Provide a valid last name';
-    else if (!isEmail(email)) error = 'Provide a valid email';
-    else if (number.length != 14) error = 'Provide a valid number';
-
+    const { ...contact } = this.state.contact;
+    const error = validateContact(contact);
     if (error) this.setState(() => ({ error }));
     else {
-      const contact = { name, email, number };
-      this.props.contact
-        ? this.props.editContactHandler(contact)
-        : this.props.newContactHandler(contact);
-
+      this.state.contact.new
+        ? this.props.newContactHandler(contact)
+        : this.props.editContactHandler(contact);
       this.setState(() => ({
         error: undefined,
         showForm: false,
@@ -100,9 +98,9 @@ export default class ContactController extends React.Component {
         {this.state.showForm && (
           <ContactMiniForm
             error={this.state.error}
-            name={this.state.name}
-            email={this.state.email}
-            number={this.state.number}
+            name={this.state.contact.name}
+            email={this.state.contact.email}
+            number={this.state.contact.number}
             nameHandler={this.handleNameChange}
             emailHandler={this.handleEmailChange}
             numberHandler={this.handleNumberChange}
