@@ -7,10 +7,14 @@ import {
   accountPick,
   accountSearchChange,
   contactBlur,
+  contactCtrlDataChange,
   contactPick,
   contactSearchChange,
   descriptionChange,
+  startNewContact,
+  startUpdateContact,
   titleChange,
+  toggleContactCtrl,
   urgencyChange
 } from '../actions/newTicket';
 
@@ -24,7 +28,7 @@ export const TicketForm = props => {
 
   const onTitleChange = e => {
     const change = e.target.value;
-    if (title.length <= 40) {
+    if (change.length <= 40) {
       props.titleChange(change);
     }
   };
@@ -42,7 +46,6 @@ export const TicketForm = props => {
           className="ticket-form__search-bar"
           disabled={false}
           displayKey="name"
-          onBlur={props.accountBlur}
           onPick={props.accountPick}
           onSearchChange={props.accountSearchChange}
           placeholder="Search accounts..."
@@ -56,7 +59,6 @@ export const TicketForm = props => {
             className="ticket-form__search-bar"
             disabled={props.account == null}
             displayKey="name"
-            onBlur={props.contactBlur}
             onPick={props.contactPick}
             onSearchChange={props.contactSearchChange}
             placeholder="Search contacts..."
@@ -65,10 +67,7 @@ export const TicketForm = props => {
             uniqueKey={'email'}
             values={props.account ? props.account.contacts : []}
           />
-          <ContactController
-            contactData={props.contact}
-            disabled={props.account == null}
-          />
+          <ContactController {...props} />
         </div>
       </section>
       <section className="ticket-form__block">
@@ -97,7 +96,7 @@ export const TicketForm = props => {
         <textarea
           className="textarea"
           name="description"
-          onChange={props.descriptionChange}
+          onChange={e => props.descriptionChange(e.target.value)}
           placeholder="Description (optional)"
           value={props.description}
         />
@@ -109,14 +108,16 @@ export const TicketForm = props => {
 
 const mapStateToProps = ({ newTicket }) => ({ ...newTicket });
 const mapDispatchToProps = dispatch => ({
-  accountBlur: () => dispatch(accountBlur()),
   accountPick: pick => dispatch(accountPick(pick)),
   accountSearchChange: change => dispatch(accountSearchChange(change)),
-  contactBlur: () => dispatch(contactBlur()),
+  contactCtrlDataChange: change => dispatch(contactCtrlDataChange(change)),
   contactPick: pick => dispatch(contactPick(pick)),
   contactSearchChange: change => dispatch(contactSearchChange(change)),
   descriptionChange: change => dispatch(descriptionChange(change)),
+  startNewContact: contact => dispatch(startNewContact(contact)),
+  startUpdateContact: contact => dispatch(startUpdateContact(contact)),
   titleChange: change => dispatch(titleChange(change)),
+  toggleContactCtrl: () => dispatch(toggleContactCtrl()),
   urgencyChange: change => dispatch(urgencyChange(change))
 });
 

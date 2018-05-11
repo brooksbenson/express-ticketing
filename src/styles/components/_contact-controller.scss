@@ -1,0 +1,46 @@
+.contact-controller {
+  position: relative;
+
+  > .btn {
+    align-items: center;
+    display: flex;
+    height: $rem-five;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    line-height: $rem-two;
+    width: $rem-one * 8;
+  }
+
+  &__form {
+    background: $theme-white;
+    box-shadow: 0px 1px 3px $theme-grey;
+    padding: $rem-one-half $rem-one;
+    position: absolute;
+    right: 0;
+    top: $rem-five + $rem-half;
+    width: $rem-one * 30;
+    z-index: 1;
+
+    > .btn {
+      font-size: $font-size-m;
+      margin: $rem-half;
+      padding: 3px $rem-half;
+    }
+  }
+
+  &__form-input {
+    padding-bottom: $rem-one 0 $rem-half;
+    width: 100%;
+
+    > span {
+      font-weight: $font-weight-thick;
+      letter-spacing: 0.5px;
+    }
+
+    > input {
+      letter-spacing: 0.5px;
+      padding: $rem-half;
+      width: 100%;
+    }
+  }
+}

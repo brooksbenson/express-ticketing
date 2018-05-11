@@ -14,7 +14,6 @@ const SearchBar = props => {
         autoComplete="off"
         className="input"
         disabled={props.disabled}
-        onBlur={props.onBlur}
         onChange={e => {
           props.onSearchChange(e.target.value);
         }}

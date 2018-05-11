@@ -7,6 +7,8 @@ const defaults = {
   accountSearchString: '',
   accountSearchResults: null,
   contact: null,
+  contactCtrlData: { name: '', email: '', number: '' },
+  contactCtrlOpen: false,
   contactSearchString: '',
   contactSearchResults: null,
   description: '',
@@ -18,8 +20,6 @@ const accounts = () => store.getState().accounts;
 
 export default (state = defaults, action) => {
   switch (action.type) {
-    case 'ACCOUNT_BLUR':
-      return { ...state, accountSearchResults: null };
     case 'ACCOUNT_PICK':
       return {
         ...state,
@@ -37,15 +37,15 @@ export default (state = defaults, action) => {
         contactSearchString: '',
         contactSearchResults: null
       };
-    case 'CONTACT_BLUR':
-      return {
-        ...state,
-        contactSearchResults: null
-      };
+
+    case 'CONTACT_CTRL_DATA_CHANGE':
+      return { ...state, contactCtrlData: { ...action.change } };
     case 'CONTACT_PICK':
       return {
         ...state,
         contact: action.pick,
+        contactCtrlData: { ...action.pick },
+        contactCtrlStatus: 'Edit',
         contactSearchString: action.pick.name,
         contactSearchResults: null
       };
@@ -53,16 +53,44 @@ export default (state = defaults, action) => {
       return {
         ...state,
         contact: null,
+        contactCtrlData: defaults.contactCtrlData,
         contactSearchString: action.change,
         contactSearchResults: selectContacts(
           state.account.contacts,
           action.change
-        )
+        ),
+        contactStatus: 'new'
       };
     case 'DESCRIPTION_CHANGE':
       return { ...state, description: action.change };
+    case 'NEW_CONTACT': {
+      const contacts = [...state.account.contacts, action.contact];
+      return {
+        ...state,
+        account: { ...state.account, contacts },
+        contact: action.contact,
+        contactCtrlData: { ...action.contact },
+        contactCtrlOpen: false,
+        contactSearchString: action.contact.name
+      };
+    }
+    case 'TOGGLE_CONTACT_CTRL':
+      return { ...state, contactCtrlOpen: !state.contactCtrlOpen };
     case 'TITLE_CHANGE':
       return { ...state, title: action.change };
+    case 'UPDATE_CONTACT': {
+      const { update } = action;
+      const contacts = state.account.contacts.map(existing => {
+        return existing.id === action.update.id ? action.update : existing;
+      });
+      return {
+        account: { ...state.account, contacts },
+        contact: update,
+        contactCtrlData: { ...update },
+        contactCtrlOpen: false,
+        contactSearchString: update.name
+      };
+    }
     case 'URGENCY_CHANGE':
       return { ...state, urgency: action.change };
     default:

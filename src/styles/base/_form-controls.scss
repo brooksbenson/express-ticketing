@@ -17,11 +17,11 @@
 .btn {
   border-radius: 3px;
   color: $theme-white;
-  font-weight: $font-weight-thick;
 
   &--primary {
     background: $theme-green;
     font-size: $rem-two;
+    font-weight: $font-weight-thick;
     max-width: $rem-one * 9;
     padding: $rem-one;
   }
@@ -29,8 +29,14 @@
   &--secondary {
     background: $theme-black;
     font-size: $rem-one-half;
+    font-weight: $font-weight-avg;
     max-width: $rem-one * 8;
     padding: $rem-half;
+  }
+
+  &--tertiary {
+    background: $theme-white;
+    color: $theme-black;
   }
 }
 
