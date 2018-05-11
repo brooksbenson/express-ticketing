@@ -3,60 +3,57 @@
   margin: 2rem 1rem;
   padding: $rem-three;
   > button {
-    position: relative;
+    font-size: $rem-two;
+    height: $rem-one * 6;
     left: $rem-two-half;
-    bottom: $rem-one;
+    padding: $rem-half;
+    position: relative;
+    width: $rem-one * 9;
+  }
+  > .heading {
+    border-bottom: 2px solid black;
+    padding-bottom: 0.5rem;
   }
 }
 
 .ticket-form__block {
+  > .heading {
+    margin-bottom: 1rem;
+  }
   display: flex;
   flex-direction: column;
   margin: $rem-three 0;
   padding: 0 $rem-one;
-
-  > .heading-secondary {
-    padding-bottom: $rem-half;
-    margin-bottom: $rem-one;
-  }
 }
 
 .ticket-form__search-bar {
-  &:not(last-child) {
-    margin-bottom: $rem-one;
-  }
+  padding-bottom: $rem-two;
   > .input {
-    // border: none;
-    border-radius: 3px;
-    box-shadow: 0 1px 2px $theme-grey;
+    padding: $rem-one;
+    height: $rem-four;
     width: 99%;
-    margin: $rem-one auto 0;
   }
   > ul {
+    background: #fff;
+    box-shadow: 1px 1px 5px $theme-grey;
+    border-top: none;
     list-style: none;
     margin: 0.1rem;
     position: absolute;
-    box-shadow: 0 1px 2px #666;
-    padding: 1rem;
-    background: #fff;
-    z-index: 1000;
+    padding: $rem-half $rem-one;
+    z-index: 1;
   }
 }
 
 .ticket-form__block-row {
-  align-items: center;
   display: flex;
-  margin: 0 auto $rem-one;
-  position: relative;
-  width: 99%;
-  > .input {
-    flex: 1;
-  }
-  > .select {
-    margin-right: $rem-two-half;
-  }
   > .ticket-form__search-bar {
     flex: 1;
+  }
+  > .input {
+    flex: 1;
+    margin-right: $rem-one;
+    padding: $rem-one;
   }
 }
 
@@ -64,6 +61,6 @@
   @extend .input;
   font-weight: $font-weight-avg;
   height: 14rem;
-  margin-bottom: $rem-one-half;
+  margin-top: $rem-one-half; //
   padding: $rem-one-half;
 }

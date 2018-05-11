@@ -1,15 +1,10 @@
 .input {
-  border: none;
-  border-bottom: 1px solid $theme-grey;
+  border: 1px solid $theme-black;
+  border-radius: 3px;
   color: $theme-black;
-  font-size: $rem-two;
-  font-weight: $font-weight-thin;
-  height: 4rem;
-  padding: $rem-one-half;
+  font-size: $rem-one-half + 0.1;
   &:focus {
-    border: 1px solid $theme-green;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px $theme-grey;
+    border-color: $theme-green;
     outline: none;
   }
 }
@@ -20,23 +15,17 @@
 
   &--primary {
     background: $theme-green;
-    font-size: $rem-two;
     font-weight: $font-weight-thick;
-    max-width: $rem-one * 9;
-    padding: $rem-one;
   }
 
   &--secondary {
     background: $theme-black;
-    font-size: $rem-one-half;
     font-weight: $font-weight-avg;
-    max-width: $rem-one * 8;
-    padding: $rem-half;
   }
 
   &--tertiary {
-    background: $theme-white;
-    color: $theme-black;
+    background: $theme-blue;
+    font-weight: $font-weight-avg;
   }
 }
 
@@ -44,7 +33,6 @@
   background: $theme-white;
   border: 1px solid $theme-grey;
   font-size: $rem-one-half + 0.1;
-  height: 3.5rem;
   &:focus {
     outline: none;
     border-color: $theme-green;
@@ -54,6 +42,5 @@
 
 .textarea {
   @extend .input;
-  height: $rem-one * 14;
-  padding: $rem-two $rem-one-half;
+  padding: $rem-one-half;
 }

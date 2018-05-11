@@ -49,6 +49,7 @@ const ContactController = props => {
           <div className="contact-controller__form-input">
             <span> Name </span>
             <input
+              className="input"
               onChange={nameChange}
               type="text"
               value={props.contactCtrlData.name}
@@ -57,6 +58,7 @@ const ContactController = props => {
           <div className="contact-controller__form-input">
             <span> Email </span>
             <input
+              className="input"
               onChange={emailChange}
               type="text"
               value={props.contactCtrlData.email}
@@ -65,6 +67,7 @@ const ContactController = props => {
           <div className="contact-controller__form-input">
             <span> Number </span>
             <input
+              className="input"
               onChange={numberChange}
               type="text"
               value={formatPhoneNumber(props.contactCtrlData.number)}

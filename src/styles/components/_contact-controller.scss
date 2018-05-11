@@ -22,14 +22,13 @@
     z-index: 1;
 
     > .btn {
-      font-size: $font-size-m;
-      margin: $rem-half;
-      padding: 3px $rem-half;
+      margin-top: $rem-one;
+      padding: $rem-one $rem-one-half;
     }
   }
 
   &__form-input {
-    padding-bottom: $rem-one 0 $rem-half;
+    padding: $rem-one 0 $rem-half;
     width: 100%;
 
     > span {

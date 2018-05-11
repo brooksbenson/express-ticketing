@@ -71,7 +71,8 @@ export default (state = defaults, action) => {
         contact: action.contact,
         contactCtrlData: { ...action.contact },
         contactCtrlOpen: false,
-        contactSearchString: action.contact.name
+        contactSearchString: action.contact.name,
+        contactSearchResults: null
       };
     }
     case 'TOGGLE_CONTACT_CTRL':

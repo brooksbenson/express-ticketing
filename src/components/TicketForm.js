@@ -73,6 +73,13 @@ export const TicketForm = props => {
       <section className="ticket-form__block">
         <h3 className="heading-secondary">Triage</h3>
         <div className="ticket-form__block-row">
+          <input
+            className="input"
+            name="title"
+            onChange={onTitleChange}
+            placeholder="Title"
+            type="text"
+          />
           <select
             className="select"
             onChange={onUrgencyChange}
@@ -85,16 +92,9 @@ export const TicketForm = props => {
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
-          <input
-            className="input"
-            name="title"
-            onChange={onTitleChange}
-            placeholder="Title"
-            type="text"
-          />
         </div>
         <textarea
-          className="textarea"
+          className="textarea ticket-form__textarea"
           name="description"
           onChange={e => props.descriptionChange(e.target.value)}
           placeholder="Description (optional)"
