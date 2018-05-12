@@ -15,3 +15,20 @@ const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 export { firebase, googleAuthProvider, database as default };
+
+/*
+  accounts: [{
+    id: TBD,
+    name: String,
+    tickets: [id...],
+    contacts: [id...],
+  }],
+  tickets: [{
+    account: id,
+    contact: id,
+    urgency: low|medium|high,
+    title: String,
+    comments: [id, id, id],
+    users: [id...]
+  }],
+*/
