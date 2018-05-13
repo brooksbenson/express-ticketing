@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
 import ContactController from './ContactController';
-import { addTicket } from '../actions/tickets';
+import { startAddTicket } from '../actions/tickets';
 import {
   accountPick,
   accountSearchChange,
@@ -33,12 +33,14 @@ export const TicketForm = props => {
   };
 
   const submit = e => {
-    console.log(props.user);
     e.preventDefault();
-    props.addTicket({
-      account: props.account,
-      assignments: [{ ...props.user, completed: false }],
-      comments: [{ ...props.user, description: props.description }],
+    props.startAddTicket({
+      accountName: props.account.name,
+      contactName: props.contact.name,
+      contactEmail: props.contact.email,
+      contactNumber: props.contact.number,
+      assignments: [{ uid: props.user.uid, completed: false }],
+      comments: [{ uid: props.user.uid, text: props.description }],
       date: Date.now(),
       status: 'Open',
       title: props.title,
