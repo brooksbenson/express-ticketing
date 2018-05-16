@@ -15,99 +15,21 @@ const db = firebase.database();
 export { firebase, db as default };
 
 /*
-  "accounts": {
-    "ref": {
-      "name": String
-    }
-  },
-  "accountTickets": {
-    "ref[account]": {
-      "ref[ticket]": true
-    }
-  },
-  "assignments": {
-    "ref[ticket]": {
-      "name": Boolean, ...
-      "ref[user]": true
-    }
-  },
-  "comments": {
-    "ref[ticket]": {
-      "1": {
+  {
+    "accounts": {
+      "ref": {
         "name": String,
-        "body": String,
-        "timestamp": Number
-      } 
-    }
-  },
-  "contacts": {
-    "ref": {
-      "ref[account]": true,
-      "name": String,
-      "email": String,
-      "number": String
-    }
-  },
-  "contactTickets": {
-    "ref[contact]": {
-      "ref[ticket]": true
-    }
-  },
-  "tickets": {
-    "ref": {
-      "ref[account]": true,
-      "ref[comments]": true,
-      "ref[contact]": true,
-      "ref[ticketsByStatus]": true,
-      "ref[ticketsByUrgency]": true,
-      "ref[urgency]": true,
-      "accountName": String,
-      "contactName": String,
-      "contactEmail": String,
-      "contactNumber": String,
-      "participatingUsers": {
-        "ref[user]": true
-      },
-      "statusName": String,
-      "urgencyName": String
-      "date": Number,
-      "title": String,
-    }
-  },
-  "ticketsByStatus": {
-    "open": {
-      "ref[ticket]": true
+        "website": String
+      }
     },
-    "inProgress": {
-      "ref[ticket]": true
-    }
-    "pending": {
-      "ref[ticket]": true
-    },
-    "resolved": {
-      "ref[ticket]": true
-    }
-  },
-  "ticketsByUrgency": {
-    "low": {
-      "ref[ticket]": "true"
-    },
-    "medium": {
-      "ref[ticket]": "true"
-    },
-    "high": {
-      "ref[ticket]": "true"
-    }
-  },
-  "unresolvedTicketsByUser": {
-    "ref[user]": {
-      "ref[ticket]": true
-    } 
-  },
-  "users": {
-    "ref": {
-      "email": String
-      "name": String,
+    "contacts": {
+      "ref[account]": {
+        "ref": {
+          "name": String,
+          "email": String,
+          "number": String
+        }
+      }
     }
   }
 */

@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
 import CreateTicketPage from '../components/CreateTicketPage';
+import ManageAccountsPage from '../components/ManageAccountsPage';
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';
 
@@ -13,7 +14,7 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
-        <Route path="/" component={CreateTicketPage} />
+        <Route path="/create" component={CreateTicketPage} />
       </Switch>
     </div>
   </Router>
