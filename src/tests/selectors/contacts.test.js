@@ -1,5 +1,5 @@
 import selectContacts from '../../selectors/contacts';
-import contacts from '../../fixtures/contacts';
+import contacts from '../fixtures/contacts';
 
 test('should select Warren Buffet by name', () => {
   const query = 'warren';

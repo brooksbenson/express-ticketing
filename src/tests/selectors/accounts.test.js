@@ -1,26 +1,26 @@
 import selectAccounts from '../../selectors/accounts';
-import accounts from '../../fixtures/accounts';
+import accounts from '../fixtures/accounts';
 
-test('should select walmart by name', () => {
-  const query = 'walmart';
+test('should select flower motors by name', () => {
+  const query = 'flower motors';
   const result = selectAccounts(accounts, query);
-  expect(result[0].name).toBe('Walmart');
+  expect(result[0].name).toBe('Flower Motors');
 });
 
-test('should select walmart by id', () => {
-  const query = '568392';
+test('should select dynamic foods with partial query', () => {
+  const query = 'dyf';
   const result = selectAccounts(accounts, query);
-  expect(result[0].name).toBe('Walmart');
+  expect(result[0].name).toBe('Dynamic Foods');
 });
 
-test('should select walmart with partial query', () => {
-  const query = 'wt';
+test('should select dynamic foods by website', () => {
+  const query = 'www.fooddynamics.com';
   const result = selectAccounts(accounts, query);
-  expect(result[0].name).toBe('Walmart');
+  expect(result[0].name).toBe('Dynamic Foods');
 });
 
-test('should select multiple account with partial query', () => {
-  const query = 'a';
+test('should select multiple accounts with partial query', () => {
+  const query = 'e';
   const result = selectAccounts(accounts, query);
   expect(result.length).toBeGreaterThan(1);
 });

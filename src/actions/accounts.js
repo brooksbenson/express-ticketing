@@ -5,16 +5,34 @@ export const addAccount = account => ({
   account
 });
 
-export const startAddAccount = data => {
+export const startAddAccount = account => {
   return async dispatch => {
     const { key } = await db.ref('accounts').push();
-    await Promise.all([
-      db.ref(`accounts/${key}`).set(data),
-      db.ref(`contacts/${key}`).set({})
-    ]);
-    const account = { ...data, key };
-    dispatch(addAccount(account));
+    await db.ref(`accounts/${key}`).set(account);
+    dispatch(addAccount({ key, ...account }));
     return key;
+  };
+};
+
+export const setAccounts = accounts => ({
+  type: 'SET_ACCOUNTS',
+  accounts
+});
+
+export const startSetAccounts = () => {
+  return async dispatch => {
+    const accounts = [];
+    await db
+      .ref('accounts')
+      .once('value')
+      .then(snapshot => {
+        snapshot.forEach(child => {
+          const { key } = child;
+          accounts.push({ key, ...child.val() });
+        });
+        dispatch(setAccounts(accounts));
+      });
+    return accounts;
   };
 };
 
