@@ -1,0 +1,12 @@
+.content-container {
+  margin: 0 auto;
+  padding: 0 $rem-one-half;
+  max-width: $rem-one * 80;
+}
+
+.content-innards {
+  box-shadow: 0px 0px 1px #666;
+  margin: 2rem 1rem;
+  min-height: 90vh;
+  padding: $rem-three;
+}

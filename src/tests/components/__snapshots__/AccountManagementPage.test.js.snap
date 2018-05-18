@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountManagementPage should match snapshot 1`] = `
+<section>
+  <h2>
+     Manage Accounts 
+  </h2>
+  <div>
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <input
+      onChange={[Function]}
+      type="text"
+      value=""
+    />
+    <button
+      onClick={[Function]}
+    >
+       Save 
+    </button>
+  </div>
+  <ul>
+    <li
+      key="jfkda;"
+    >
+       a.name 
+    </li>
+    <li
+      key="kfjdka"
+    >
+       a.name 
+    </li>
+    <li
+      key="fjdkal"
+    >
+       a.name 
+    </li>
+  </ul>
+</section>
+`;

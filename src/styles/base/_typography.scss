@@ -6,9 +6,8 @@ body {
 .heading {
   font-size: $rem-three;
   font-weight: $font-weight-thick;
-}
 
-.heading-secondary {
-  @extend .heading;
-  font-size: $rem-two-half;
+  &--secondary {
+    font-size: $rem-two-half;
+  }
 }

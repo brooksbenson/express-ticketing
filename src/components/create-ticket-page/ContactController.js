@@ -1,6 +1,5 @@
 import React from 'react';
-import formatPhoneNumber from '../enhancers/format-phone-number';
-import validateContact from '../enhancers/validate-contact';
+import formatPhoneNumber from '../../enhancers/format-phone-number';
 
 const ContactController = props => {
   const emailChange = e => {

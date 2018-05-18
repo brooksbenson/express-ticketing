@@ -7,7 +7,12 @@ import {
   setAccounts,
   startSetAccounts
 } from '../../actions/accounts';
-import accounts from '../fixtures/accounts';
+import accountsData from '../fixtures/accounts';
+
+const accounts = accountsData.map(a => {
+  const { key, ...account } = a;
+  return account;
+});
 
 const store = configureMockStore([thunk])({});
 beforeEach(done => {
@@ -34,13 +39,13 @@ test('startAddAccount should save account to db', done => {
       .ref(`accounts/${key}`)
       .once('value')
       .then(snapshot => {
-        expect(snapshot.val()).toBeTruthy();
+        expect(snapshot.val()).toEqual(account);
         done();
       });
   });
 });
 
-test('startAddAccount should add account with key to the store', done => {
+test('startAddAccount should add account with key to store', done => {
   const [account] = accounts;
   store.dispatch(startAddAccount(account)).then(key => {
     const [action] = store.getActions();

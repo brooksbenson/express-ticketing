@@ -1,0 +1,59 @@
+.manage-accounts {
+  box-shadow: 0 0 3px $theme-grey;
+  margin: $rem-one-half 0;
+  > .heading {
+    border-bottom: 2px solid black;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.manage-accounts__block {
+  padding: $rem-one;
+  > .heading {
+    margin: $rem-half 0;
+  }
+}
+
+.manage-accounts__form {
+  padding: $rem-half;
+  margin-bottom: $rem-one;
+  > button {
+    position: relative;
+    left: 1rem;
+    top: 1.5rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+.manage-accounts__form-row {
+  display: inline-block;
+  width: 50%;
+  > span {
+    font-size: $rem-one-half + 0.3;
+    letter-spacing: 1px;
+    margin-right: $rem-half;
+  }
+  > input {
+    letter-spacing: 1px;
+    padding: $rem-half $rem-one;
+    width: 75%;
+  }
+}
+
+.manage-accounts__list {
+  list-style: none;
+  padding: $rem-half;
+
+  > li {
+    background: $off-white;
+    box-shadow: 0 1px 3px $theme-grey;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+  }
+
+  > li:hover {
+    box-shadow: 0 1px 1px $theme-grey;
+  }
+}

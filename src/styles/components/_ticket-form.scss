@@ -1,7 +1,4 @@
 .ticket-form {
-  box-shadow: 0px 0px 1px #666;
-  margin: 2rem 1rem;
-  padding: $rem-three;
   > button {
     font-size: $rem-two;
     height: $rem-one * 6;
@@ -62,6 +59,6 @@
   @extend .input;
   font-weight: $font-weight-avg;
   height: 14rem;
-  margin-top: $rem-one-half; //
+  margin-top: $rem-one-half;
   padding: $rem-one-half;
 }

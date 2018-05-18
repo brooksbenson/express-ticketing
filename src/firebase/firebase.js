@@ -21,15 +21,5 @@ export { firebase, db as default };
         "name": String,
         "website": String
       }
-    },
-    "contacts": {
-      "ref[account]": {
-        "ref": {
-          "name": String,
-          "email": String,
-          "number": String
-        }
-      }
     }
-  }
 */

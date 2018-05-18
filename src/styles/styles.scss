@@ -1,9 +1,10 @@
 @import './base/settings';
 @import './base/base';
-@import './base/typography';
 @import './base/form-controls';
-@import './components/content-container';
-@import './components/header';
-@import './components/ticket-form';
+@import './base/layout';
+@import './base/typography';
 @import './components/contact-controller';
+@import './components/header';
+@import './components/manage-accounts';
+@import './components/ticket-form';
 @import './components/visibility';

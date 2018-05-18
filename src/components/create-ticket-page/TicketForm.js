@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
 import ContactController from './ContactController';
-import { startAddTicket } from '../actions/tickets';
 import {
   accountPick,
   accountSearchChange,
@@ -15,7 +14,7 @@ import {
   titleChange,
   toggleContactCtrl,
   urgencyChange
-} from '../actions/newTicket';
+} from '../../actions/newTicket';
 
 export const TicketForm = props => {
   const onUrgencyChange = e => {
@@ -34,22 +33,10 @@ export const TicketForm = props => {
 
   const submit = e => {
     e.preventDefault();
-    props.startAddTicket({
-      accountName: props.account.name,
-      contactName: props.contact.name,
-      contactEmail: props.contact.email,
-      contactNumber: props.contact.number,
-      assignments: [{ uid: props.user.uid, completed: false }],
-      comments: [{ uid: props.user.uid, text: props.description }],
-      date: Date.now(),
-      status: 'Open',
-      title: props.title,
-      urgency: props.urgency
-    });
   };
 
   return (
-    <div className="ticket-form">
+    <div className="ticket-form content-innards">
       <h2 className="heading"> Create Ticket </h2>
       <section className="ticket-form__block">
         <h3 className="heading-secondary"> Account </h3>
@@ -123,7 +110,6 @@ const mapStateToProps = ({ newTicket, user }) => ({ ...newTicket, user });
 const mapDispatchToProps = dispatch => ({
   accountPick: pick => dispatch(accountPick(pick)),
   accountSearchChange: change => dispatch(accountSearchChange(change)),
-  addTicket: ticket => dispatch(addTicket(ticket)),
   contactCtrlDataChange: change => dispatch(contactCtrlDataChange(change)),
   contactPick: pick => dispatch(contactPick(pick)),
   contactSearchChange: change => dispatch(contactSearchChange(change)),
