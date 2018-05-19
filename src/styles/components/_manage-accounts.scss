@@ -1,6 +1,5 @@
 .manage-accounts {
   box-shadow: 0 0 3px $theme-grey;
-  margin: $rem-one-half 0;
   > .heading {
     border-bottom: 2px solid black;
     padding-bottom: 0.5rem;
@@ -36,10 +35,25 @@
   > input {
     letter-spacing: 1px;
     padding: $rem-half $rem-one;
-    width: 75%;
+    width: 70%;
+  }
+  @media (max-width: $bp-med) {
+    display: flex;
+    padding: $rem-half;
+    width: 90%;
+    > span {
+      display: inline-block;
+      width: $rem-one * 8;
+    }
+    > input {
+      flex: 1;
+      width: 100%;
+    }
+  }
+  @media (max-width: $bp-sm) {
+    flex-direction: column;
   }
 }
-
 .manage-accounts__list {
   list-style: none;
   padding: $rem-half;
