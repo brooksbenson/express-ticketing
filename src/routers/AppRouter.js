@@ -2,8 +2,7 @@ import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
-import CreateTicketPage from '../components/create-ticket-page/CreateTicketPage';
-import AccountManagementPage from '../components/account-management-page/AccountManagementPage';
+import AccountManagementPage from '../components/AccountManagementPage';
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';
 
@@ -15,7 +14,6 @@ const AppRouter = () => (
       <Header />
       <Switch>
         <Route path="/" component={AccountManagementPage} exact={true} />
-        <Route path="/create" component={CreateTicketPage} />
       </Switch>
     </div>
   </Router>

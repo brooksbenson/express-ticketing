@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startAddAccount } from '../../actions/accounts';
+import { startAddAccount } from '../actions/accounts';
 
 export class AccountManagementPage extends React.Component {
   state = {
@@ -39,7 +39,7 @@ export class AccountManagementPage extends React.Component {
           <h2 className="heading"> Manage Accounts </h2>
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary"> New Account </h3>
-            <form className="manage-accounts__form">
+            <form className="manage-accounts__form" onSubmit={this.onSave}>
               <div className="manage-accounts__form-row">
                 <span> Name </span>
                 <input
@@ -58,9 +58,7 @@ export class AccountManagementPage extends React.Component {
                   value={this.state.website}
                 />
               </div>
-              <button className="btn btn--secondary" onClick={this.onSave}>
-                Save
-              </button>
+              <button className="btn btn--secondary">Save</button>
             </form>
           </div>
           <div className="manage-accounts__block">

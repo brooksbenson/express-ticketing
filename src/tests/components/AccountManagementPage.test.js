@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { AccountManagementPage } from '../../components/account-management-page/AccountManagementPage';
+import { AccountManagementPage } from '../../components/AccountManagementPage';
 import accounts from '../fixtures/accounts';
 
 let wrapper;
@@ -45,6 +45,6 @@ test('AccountManagementPage should invoke startAddAccount prop on save', () => {
     website: 'www.universal.io'
   };
   wrapper.setState(state);
-  wrapper.find('button').simulate('click');
+  wrapper.find('form').simulate('submit', { preventDefault: () => {} });
   expect(startAddAccountArg).toEqual(state);
 });

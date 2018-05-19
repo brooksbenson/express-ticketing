@@ -1,43 +1,96 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AccountManagementPage should match snapshot 1`] = `
-<section>
-  <h2>
-     Manage Accounts 
-  </h2>
-  <div>
-    <input
-      onChange={[Function]}
-      type="text"
-      value=""
-    />
-    <input
-      onChange={[Function]}
-      type="text"
-      value=""
-    />
-    <button
-      onClick={[Function]}
+<section
+  className="content-container"
+>
+  <div
+    className="manage-accounts content-innards"
+  >
+    <h2
+      className="heading"
     >
-       Save 
-    </button>
+       Manage Accounts 
+    </h2>
+    <div
+      className="manage-accounts__block"
+    >
+      <h3
+        className="heading heading--secondary"
+      >
+         New Account 
+      </h3>
+      <form
+        className="manage-accounts__form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="manage-accounts__form-row"
+        >
+          <span>
+             Name 
+          </span>
+          <input
+            className="input"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="manage-accounts__form-row"
+        >
+          <span>
+             Website 
+          </span>
+          <input
+            className="input"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <button
+          className="btn btn--secondary"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+    <div
+      className="manage-accounts__block"
+    >
+      <h3
+        className="heading heading--secondary"
+      >
+         Accounts 
+      </h3>
+      <ul
+        className="manage-accounts__list"
+      >
+        <li
+          key="jfkda;"
+        >
+           
+          Flower Motors
+           
+        </li>
+        <li
+          key="kfjdka"
+        >
+           
+          Prophecy Systems
+           
+        </li>
+        <li
+          key="fjdkal"
+        >
+           
+          Dynamic Foods
+           
+        </li>
+      </ul>
+    </div>
   </div>
-  <ul>
-    <li
-      key="jfkda;"
-    >
-       a.name 
-    </li>
-    <li
-      key="kfjdka"
-    >
-       a.name 
-    </li>
-    <li
-      key="fjdkal"
-    >
-       a.name 
-    </li>
-  </ul>
 </section>
 `;
