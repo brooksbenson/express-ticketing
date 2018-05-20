@@ -36,22 +36,15 @@ export const startSetAccounts = () => {
   };
 };
 
-/*
-{
-  "accounts": {
-    "ref": {
-      "name": String,
-      "website": String
-    }
-  },
-  "contacts": {
-    "ref[account]": {
-      "ref": {
-        "name": String,
-        "email": String,
-        "number": String
-      }
-    }
-  }
-}
-*/
+export const updateAccount = update => ({
+  type: 'UPDATE_ACCOUNT',
+  update
+});
+
+export const startUpdateAccount = update => {
+  const { key, ...accountData } = update;
+  return async dispatch => {
+    await db.ref(`accounts/${key}`).set(accountData);
+    dispatch(updateAccount(update));
+  };
+};

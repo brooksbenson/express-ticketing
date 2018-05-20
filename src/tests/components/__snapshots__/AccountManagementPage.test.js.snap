@@ -10,7 +10,7 @@ exports[`AccountManagementPage should match snapshot 1`] = `
     <h2
       className="heading"
     >
-       Manage Accounts 
+       Accounts 
     </h2>
     <div
       className="manage-accounts__block"
@@ -18,7 +18,8 @@ exports[`AccountManagementPage should match snapshot 1`] = `
       <h3
         className="heading heading--secondary"
       >
-         New Account 
+        New
+         Account
       </h3>
       <form
         className="manage-accounts__form"
@@ -70,24 +71,21 @@ exports[`AccountManagementPage should match snapshot 1`] = `
       >
         <li
           key="jfkda;"
+          onClick={[Function]}
         >
-           
           Flower Motors
-           
         </li>
         <li
           key="kfjdka"
+          onClick={[Function]}
         >
-           
           Prophecy Systems
-           
         </li>
         <li
           key="fjdkal"
+          onClick={[Function]}
         >
-           
           Dynamic Foods
-           
         </li>
       </ul>
     </div>
