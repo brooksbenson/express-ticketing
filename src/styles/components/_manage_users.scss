@@ -1,10 +1,10 @@
-.manage-accounts {
+.manage-users {
   box-shadow: 0 0 3px $theme-grey;
   > .heading {
     border-bottom: 2px solid black;
     padding-bottom: 0.5rem;
   }
-  > .manage-accounts__block:not(:first-child) {
+  > .manage-users__block:not(:first-child) {
     > .heading {
       display: inline-block;
     }
@@ -29,14 +29,14 @@
   }
 }
 
-.manage-accounts__block {
+.manage-users__block {
   padding: $rem-one;
   > .heading {
     margin: $rem-half 0;
   }
 }
 
-.manage-accounts__form {
+.manage-users__form {
   padding: $rem-half;
   margin-bottom: $rem-one;
   > button {
@@ -44,15 +44,10 @@
     position: relative;
     left: $rem-one;
     top: $rem-one-half;
-
-    & + button {
-      color: black;
-      margin-left: $rem-one;
-    }
   }
 }
 
-.manage-accounts__form-row {
+.manage-users__form-row {
   display: inline-block;
   width: 50%;
   > span {
@@ -82,7 +77,7 @@
     flex-direction: column;
   }
 }
-.manage-accounts__list {
+.manage-users__list {
   height: $rem-one * 50;
   overflow: scroll;
   list-style: none;

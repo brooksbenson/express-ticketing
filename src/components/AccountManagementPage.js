@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startAddAccount, stateUpdateAccount } from '../actions/accounts';
+import { startAddAccount, startUpdateAccount } from '../actions/accounts';
+import accountSelector from '../selectors/accounts';
 
 export class AccountManagementPage extends React.Component {
   state = {
     accountKey: '',
     name: '',
+    search: '',
     website: ''
   };
 
@@ -53,12 +55,17 @@ export class AccountManagementPage extends React.Component {
     }
   };
 
+  onSearch = e => {
+    const search = e.target.value;
+    this.setState(() => ({ search }));
+  };
+
   render() {
-    const { accountKey, name, website } = this.state;
+    const { accountKey, name, search, website } = this.state;
     return (
       <section className="content-container">
         <div className="manage-accounts content-innards">
-          <h2 className="heading"> Accounts </h2>
+          <h2 className="heading"> Manage Accounts </h2>
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary">
               {accountKey ? 'Update' : 'New'} Account
@@ -92,15 +99,22 @@ export class AccountManagementPage extends React.Component {
           </div>
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary"> Accounts </h3>
+            <input
+              className="search"
+              onChange={this.onSearch}
+              placeholder="Search..."
+              type="text"
+              value={search}
+            />
             <ul className="manage-accounts__list">
-              {this.props.accounts.map(a => (
+              {accountSelector(this.props.accounts, search).map(a => (
                 <li
                   key={a.key}
                   onClick={() => {
                     this.onAccountClick(a);
                   }}
                 >
-                  {a.name}
+                  <button>{a.name}</button>
                 </li>
               ))}
             </ul>
@@ -117,7 +131,7 @@ const mapDispatchToProps = dispatch => ({
     await dispatch(startAddAccount(account));
   },
   startUpdateAccount: async update => {
-    await dispatch(stateUpdateAccount(update));
+    await dispatch(startUpdateAccount(update));
   }
 });
 

@@ -7,8 +7,7 @@ export const addAccount = account => ({
 
 export const startAddAccount = account => {
   return async dispatch => {
-    const { key } = await db.ref('accounts').push();
-    await db.ref(`accounts/${key}`).set(account);
+    const { key } = await db.ref('accounts').push(account);
     dispatch(addAccount({ key, ...account }));
     return key;
   };

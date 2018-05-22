@@ -9,6 +9,15 @@
   }
 }
 
+.search {
+  border: 1px solid white;
+  box-shadow: 0 1px 3px $theme-grey;
+  &:focus {
+    border: 1px solid $theme-green;
+    outline: none;
+  }
+}
+
 .btn {
   border-radius: 3px;
   color: $theme-white;

@@ -3,6 +3,8 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
 import AccountManagementPage from '../components/AccountManagementPage';
+import UserMangementPage from '../components/UserManagementPage';
+
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';
 
@@ -13,7 +15,12 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
-        <Route path="/" component={AccountManagementPage} exact={true} />
+        <Route path="/" component={UserManagementPage} exact={true} />
+        <Route
+          path="/admin/accounts"
+          component={AccountManagementPage}
+          exact={true}
+        />
       </Switch>
     </div>
   </Router>

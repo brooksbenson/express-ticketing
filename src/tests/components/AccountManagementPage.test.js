@@ -48,7 +48,8 @@ test('AccountManagementPage should invoke startAddAccount prop with account data
   const state = {
     accountKey: '',
     name: '',
-    website: 'www.universal.com'
+    website: 'www.universal.com',
+    search: ''
   };
   wrapper.setState(state);
   wrapper.find('form').simulate('submit', { preventDefault: () => {} });
@@ -60,7 +61,8 @@ test('AccountManagementPage should invoke startUpdateAccount prop', () => {
   const state = {
     accountKey: 'fjdka-lj',
     name: 'Universal Systems',
-    website: 'www.universal.io'
+    website: 'www.universal.io',
+    search: ''
   };
   wrapper.setState(state);
   wrapper.find('form').simulate('submit', { preventDefault: () => {} });
@@ -108,4 +110,20 @@ test('should respond to cancel update correctly', () => {
       .at(0)
       .text()
   ).toBe('New Account');
+});
+
+test('should setState on search change', () => {
+  const value = 'walmart';
+  wrapper
+    .find('.search')
+    .at(0)
+    .simulate('change', { target: { value } });
+  expect(wrapper.state('search')).toBe(value);
+});
+
+test('should change list on search', () => {
+  const initialListLength = wrapper.find('li').length;
+  wrapper.setState({ search: 'flower' });
+  const searchListLength = wrapper.find('li').length;
+  expect(initialListLength).toBeGreaterThan(searchListLength);
 });

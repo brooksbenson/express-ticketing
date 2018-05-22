@@ -12,14 +12,5 @@ const config = {
 firebase.initializeApp(config);
 
 const db = firebase.database();
-export { firebase, db as default };
-
-/*
-  {
-    "accounts": {
-      "ref": {
-        "name": String,
-        "website": String
-      }
-    }
-*/
+const auth = firebase.auth();
+export { firebase, auth, db as default };

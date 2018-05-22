@@ -10,7 +10,7 @@ exports[`AccountManagementPage should match snapshot 1`] = `
     <h2
       className="heading"
     >
-       Accounts 
+       Manage Accounts 
     </h2>
     <div
       className="manage-accounts__block"
@@ -66,6 +66,13 @@ exports[`AccountManagementPage should match snapshot 1`] = `
       >
          Accounts 
       </h3>
+      <input
+        className="search"
+        onChange={[Function]}
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
       <ul
         className="manage-accounts__list"
       >
@@ -73,19 +80,25 @@ exports[`AccountManagementPage should match snapshot 1`] = `
           key="jfkda;"
           onClick={[Function]}
         >
-          Flower Motors
+          <button>
+            Flower Motors
+          </button>
         </li>
         <li
           key="kfjdka"
           onClick={[Function]}
         >
-          Prophecy Systems
+          <button>
+            Prophecy Systems
+          </button>
         </li>
         <li
           key="fjdkal"
           onClick={[Function]}
         >
-          Dynamic Foods
+          <button>
+            Dynamic Foods
+          </button>
         </li>
       </ul>
     </div>
