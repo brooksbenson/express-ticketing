@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserManagementPage should match snapshot 1`] = `
+<section
+  className="content-container"
+>
+  <div
+    className="manage-users content-innards"
+  >
+    <h2
+      className="heading"
+    >
+       Manage users 
+    </h2>
+    <div
+      className="manage-users__block"
+    >
+      <h3
+        className="heading heading--secondary"
+      >
+        New User
+      </h3>
+      <form
+        className="manage-users__form"
+        onSubmit={[Function]}
+      >
+        <div
+          className="manage-users__form-row"
+        >
+          <span>
+             Email 
+          </span>
+          <input
+            className="input"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="manage-users__form-row"
+        >
+          <span>
+             Password 
+          </span>
+          <input
+            className="input"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <button
+          className="btn btn--secondary"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+    <div
+      className="manage-users__block"
+    >
+      <h3
+        className="heading heading--secondary"
+      >
+         Users 
+      </h3>
+      <input
+        className="search"
+        onChange={[Function]}
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
+      <ul
+        className="manage-users__list"
+      >
+        <li
+          key="kdlejf"
+        >
+           
+          max@mail.com
+           
+        </li>
+        <li
+          key="-keiajf"
+        >
+           
+          brooks@mail.com
+           
+        </li>
+        <li
+          key="-wqqadv"
+        >
+           
+          nick@mail.com
+           
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+`;

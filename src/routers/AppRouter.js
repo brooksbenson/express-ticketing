@@ -3,7 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
 import AccountManagementPage from '../components/AccountManagementPage';
-import UserMangementPage from '../components/UserManagementPage';
+import UserManagementPage from '../components/UserManagementPage';
 
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';

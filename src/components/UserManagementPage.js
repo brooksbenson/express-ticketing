@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { auth } from '../firebase/firebase';
-import { startAddUser, startSetUsers } from '../actions/users';
+import { startAddUser } from '../actions/users';
+import userSelector from '../selectors/users';
 
 export class UserManagementPage extends React.Component {
   state = {
@@ -24,7 +25,18 @@ export class UserManagementPage extends React.Component {
     }));
   };
 
-  onSave = e => {};
+  onSave = e => {
+    e.preventDefault();
+    const { email, password } = this.state;
+    auth.createUserWithEmailAndPassword(email, password).then(() => {
+      this.props.startAddUser({ email }).then(() => {
+        this.setState(() => ({
+          email: '',
+          password: ''
+        }));
+      });
+    });
+  };
 
   onSearch = e => {
     const search = e.target.value;
@@ -32,11 +44,11 @@ export class UserManagementPage extends React.Component {
   };
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, search } = this.state;
     return (
       <section className="content-container">
         <div className="manage-users content-innards">
-          <h2 className="heading"> Manage users </h2>
+          <h2 className="heading"> Manage Users </h2>
           <div className="manage-users__block">
             <h3 className="heading heading--secondary">New User</h3>
             <form className="manage-users__form" onSubmit={this.onSave}>
@@ -85,10 +97,7 @@ export class UserManagementPage extends React.Component {
 const mapStateToProps = ({ users }) => ({ users });
 const mapDispatchToProps = dispatch => ({
   startAddUser: async user => {
-    await dispatch(startAdduser(user));
-  },
-  startSetUsers: async () => {
-    await dispatch(startSetUsers());
+    await dispatch(startAddUser(user));
   }
 });
 
