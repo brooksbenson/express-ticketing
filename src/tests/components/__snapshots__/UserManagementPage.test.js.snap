@@ -10,7 +10,7 @@ exports[`UserManagementPage should match snapshot 1`] = `
     <h2
       className="heading"
     >
-       Manage users 
+       Manage Users 
     </h2>
     <div
       className="manage-users__block"
@@ -48,6 +48,21 @@ exports[`UserManagementPage should match snapshot 1`] = `
             onChange={[Function]}
             type="text"
             value=""
+          />
+        </div>
+        <div
+          className="manage-users__admin-checkbox"
+        >
+          <label
+            for="admin"
+          >
+             Admin 
+          </label>
+          <input
+            name="admin"
+            onClick={[Function]}
+            type="checkbox"
+            value={false}
           />
         </div>
         <button

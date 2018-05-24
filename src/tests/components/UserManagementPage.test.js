@@ -46,3 +46,11 @@ test('should change list on search', () => {
   const searchListLength = wrapper.find('li').length;
   expect(initialListLength).toBeGreaterThan(searchListLength);
 });
+
+test('should setState on admin checkbox click', () => {
+  const checkboxInput = wrapper.find('input[type="checkbox"]');
+  checkboxInput.simulate('click');
+  expect(wrapper.state('admin')).toBeTruthy();
+  checkboxInput.simulate('click');
+  expect(wrapper.state('admin')).toBeFalsy();
+});

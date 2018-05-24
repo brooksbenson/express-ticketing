@@ -77,6 +77,14 @@
     flex-direction: column;
   }
 }
+
+.manage-users__admin-checkbox {
+  margin: $rem-one 0 0 $rem-half;
+  > label {
+    font-size: $rem-one-half + 0.1;
+  }
+}
+
 .manage-users__list {
   height: $rem-one * 50;
   overflow: scroll;

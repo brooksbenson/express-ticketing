@@ -8,6 +8,7 @@ export class UserManagementPage extends React.Component {
   state = {
     email: '',
     password: '',
+    admin: false,
     search: ''
   };
 
@@ -25,12 +26,17 @@ export class UserManagementPage extends React.Component {
     }));
   };
 
+  onAdminCheckboxClick = () => {
+    this.setState(({ admin }) => ({ admin: !admin }));
+  };
+
   onSave = e => {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { admin, email, password } = this.state;
     auth.createUserWithEmailAndPassword(email, password).then(() => {
-      this.props.startAddUser({ email }).then(() => {
+      this.props.startAddUser({ admin, email }).then(() => {
         this.setState(() => ({
+          admin: false,
           email: '',
           password: ''
         }));
@@ -44,7 +50,7 @@ export class UserManagementPage extends React.Component {
   };
 
   render() {
-    const { email, password, search } = this.state;
+    const { email, password, admin, search } = this.state;
     return (
       <section className="content-container">
         <div className="manage-users content-innards">
@@ -68,6 +74,15 @@ export class UserManagementPage extends React.Component {
                   onChange={this.onPasswordChange}
                   type="text"
                   value={password}
+                />
+              </div>
+              <div className="manage-users__admin-checkbox">
+                <label htmlFor="admin"> Admin </label>
+                <input
+                  name="admin"
+                  onClick={this.onAdminCheckboxClick}
+                  type="checkbox"
+                  value={admin}
                 />
               </div>
               <button className="btn btn--secondary">Save</button>

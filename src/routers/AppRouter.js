@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
+import AdminRoute from './AdminRoute';
 import AccountManagementPage from '../components/AccountManagementPage';
 import UserManagementPage from '../components/UserManagementPage';
 
@@ -15,10 +16,10 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
-        <Route path="/" component={UserManagementPage} exact={true} />
-        <Route
-          path="/admin/accounts"
-          component={AccountManagementPage}
+        <AdminRoute path="/users" Component={UserManagementPage} exact={true} />
+        <AdminRoute
+          path="/accounts"
+          Component={AccountManagementPage}
           exact={true}
         />
       </Switch>
