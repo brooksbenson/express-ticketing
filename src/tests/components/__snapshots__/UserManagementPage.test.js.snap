@@ -28,6 +28,19 @@ exports[`UserManagementPage should match snapshot 1`] = `
           className="manage-users__form-row"
         >
           <span>
+             Name 
+          </span>
+          <input
+            className="input"
+            onChange={[Function]}
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="manage-users__form-row"
+        >
+          <span>
              Email 
           </span>
           <input
@@ -54,7 +67,7 @@ exports[`UserManagementPage should match snapshot 1`] = `
           className="manage-users__admin-checkbox"
         >
           <label
-            for="admin"
+            htmlFor="admin"
           >
              Admin 
           </label>

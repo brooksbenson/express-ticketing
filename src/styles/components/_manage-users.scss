@@ -38,6 +38,7 @@
 
 .manage-users__form {
   padding: $rem-half;
+  padding-left: $rem-half;
   margin-bottom: $rem-one;
   > button {
     padding: $rem-half $rem-one;
@@ -48,33 +49,23 @@
 }
 
 .manage-users__form-row {
-  display: inline-block;
-  width: 50%;
+  margin-bottom: $rem-one;
   > span {
+    display: block;
     font-size: $rem-one-half + 0.3;
     letter-spacing: 1px;
-    margin-right: $rem-half;
+    margin-bottom: $rem-half;
   }
   > input {
     letter-spacing: 1px;
-    padding: $rem-half $rem-one;
-    width: 65%;
-  }
-  @media (max-width: $bp-med) {
-    display: flex;
-    padding: $rem-half;
-    width: 90%;
-    > span {
-      display: inline-block;
-      width: $rem-one * 9;
+    padding: $rem-one $rem-one;
+    width: 70%;
+    @media (max-width: $bp-md) {
+      width: 90%;
     }
-    > input {
-      flex: 1;
-      width: 100%;
+    @media (max-width: $bp-sm) {
+      width: 90%;
     }
-  }
-  @media (max-width: $bp-sm) {
-    flex-direction: column;
   }
 }
 

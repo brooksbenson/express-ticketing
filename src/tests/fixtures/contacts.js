@@ -1,32 +1,32 @@
 export default [
   {
-    id: 1,
-    name: 'J.R.R Tolkien',
+    key: '-jKDji485',
+    name: 'Jerry Fisher',
     number: '8015678989',
-    email: 'jrr@lotr.com'
+    email: 'jerry@mail.com'
   },
   {
-    id: 2,
-    name: 'Warren Buffet',
+    key: '-jKDji485',
+    name: 'Warren Buffguy',
     number: '3587658900',
-    email: 'warren@bh.com'
+    email: 'warren@mail.com'
   },
   {
-    id: 3,
-    name: 'Emma Stone',
+    key: '-jKDji485',
+    name: 'Wendy Robinson',
     number: '3587112441',
-    email: 'emma@gmail.com'
+    email: 'wendy@mail.com'
   },
   {
-    id: 4,
-    name: 'Sam Walton',
+    key: '-jKDji485',
+    name: 'Trish Buckingham',
     number: '8013585432',
-    email: 'sam@walmart.com'
+    email: 'trish@mail.com'
   },
   {
-    id: 5,
-    name: 'Emily Banks',
+    key: '-jKDji485',
+    name: 'Samuel Cheshire',
     number: '3589990345',
-    email: 'emily@yahoo.com'
+    email: 'samuel@mail.com'
   }
 ];

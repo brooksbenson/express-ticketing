@@ -4,29 +4,6 @@
     border-bottom: 2px solid black;
     padding-bottom: 0.5rem;
   }
-  > .manage-accounts__block:not(:first-child) {
-    > .heading {
-      display: inline-block;
-    }
-    > .search {
-      float: right;
-      letter-spacing: 1px;
-      padding: $rem-half $rem-one;
-      position: relative;
-      right: $rem-half;
-      top: $rem-one-half;
-    }
-    @media (max-width: $bp-sm) {
-      > .heading {
-        display: block;
-      }
-      > .search {
-        float: none;
-        position: static;
-        margin: 0 0 $rem-one $rem-half;
-      }
-    }
-  }
 }
 
 .manage-accounts__block {
@@ -65,7 +42,7 @@
     padding: $rem-half $rem-one;
     width: 70%;
   }
-  @media (max-width: $bp-med) {
+  @media (max-width: $bp-md) {
     display: flex;
     padding: $rem-half;
     width: 90%;
@@ -82,11 +59,13 @@
     flex-direction: column;
   }
 }
-.manage-accounts__list {
-  height: $rem-one * 50;
-  overflow: scroll;
-  list-style: none;
-  padding: $rem-half;
+.manage-accounts__search-list {
+  > ul {
+    height: $rem-one * 50;
+    overflow: scroll;
+    list-style: none;
+    padding: $rem-half;
+  }
 
   > li {
     background: $off-white;

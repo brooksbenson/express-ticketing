@@ -14,6 +14,6 @@ const appJsx = (
   </Provider>
 );
 
-hydrateStore('jeff@mail.com').then(() => {
+hydrateStore('brooks@mail.com').then(() => {
   ReactDOM.render(appJsx, appRoot);
 });

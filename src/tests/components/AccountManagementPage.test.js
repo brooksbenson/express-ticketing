@@ -46,58 +46,34 @@ test('AccountManagementPage should setState on website change', () => {
 
 test('AccountManagementPage should invoke startAddAccount prop with account data', () => {
   const state = {
-    accountKey: '',
-    name: '',
-    website: 'www.universal.com',
-    search: ''
+    key: '',
+    name: 'Universal Systems',
+    website: 'www.universal.com'
   };
   wrapper.setState(state);
   wrapper.find('form').simulate('submit', { preventDefault: () => {} });
-  const { accountKey, ...accountData } = state;
-  expect(startAddAccountArg).toEqual(accountData);
+  const { key, search, ...account } = state;
+  expect(startAddAccountArg).toEqual(account);
 });
 
 test('AccountManagementPage should invoke startUpdateAccount prop', () => {
   const state = {
-    accountKey: 'fjdka-lj',
+    key: 'fjdka-lj',
     name: 'Universal Systems',
-    website: 'www.universal.io',
-    search: ''
+    website: 'www.universal.io'
   };
   wrapper.setState(state);
   wrapper.find('form').simulate('submit', { preventDefault: () => {} });
   expect(startUpdateAccountArg).toEqual(state);
 });
 
-test('AccountManagementPage should respond to account click correctly', () => {
-  const [account] = accounts;
-  wrapper
-    .find('.manage-accounts__list')
-    .children()
-    .at(0)
-    .simulate('click');
-  expect(wrapper.state('accountKey')).toBe(account.key);
-  expect(
-    wrapper
-      .find('form')
-      .children()
-      .find('button').length
-  ).toBe(2);
-  expect(
-    wrapper
-      .find('h3')
-      .at(0)
-      .text()
-  ).toBe('Update Account');
-});
-
 test('should respond to cancel update correctly', () => {
-  wrapper.setState({ ...accounts[0], accountKey: accounts[0].key });
+  wrapper.setState({ ...accounts[0] });
   wrapper
     .find('button')
     .at(1)
     .simulate('click');
-  expect(wrapper.state('accountKey')).toBeFalsy();
+  expect(wrapper.state('key')).toBeFalsy();
   expect(
     wrapper
       .find('form')
@@ -110,20 +86,4 @@ test('should respond to cancel update correctly', () => {
       .at(0)
       .text()
   ).toBe('New Account');
-});
-
-test('should setState on search change', () => {
-  const value = 'walmart';
-  wrapper
-    .find('.search')
-    .at(0)
-    .simulate('change', { target: { value } });
-  expect(wrapper.state('search')).toBe(value);
-});
-
-test('should change list on search', () => {
-  const initialListLength = wrapper.find('li').length;
-  wrapper.setState({ search: 'flower' });
-  const searchListLength = wrapper.find('li').length;
-  expect(initialListLength).toBeGreaterThan(searchListLength);
 });

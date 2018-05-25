@@ -8,22 +8,24 @@ export class UserManagementPage extends React.Component {
   state = {
     email: '',
     password: '',
+    name: '',
     admin: false,
     search: ''
   };
 
   onEmailChange = e => {
-    const change = e.target.value;
-    this.setState(() => ({
-      email: change
-    }));
+    const email = e.target.value;
+    this.setState(() => ({ email }));
   };
 
   onPasswordChange = e => {
-    const change = e.target.value;
-    this.setState(() => ({
-      password: change
-    }));
+    const password = e.target.value;
+    this.setState(() => ({ password }));
+  };
+
+  onNameChange = e => {
+    const name = e.target.value;
+    this.setState(() => ({ name }));
   };
 
   onAdminCheckboxClick = () => {
@@ -32,11 +34,12 @@ export class UserManagementPage extends React.Component {
 
   onSave = e => {
     e.preventDefault();
-    const { admin, email, password } = this.state;
+    const { admin, email, password, name } = this.state;
     auth.createUserWithEmailAndPassword(email, password).then(() => {
-      this.props.startAddUser({ admin, email }).then(() => {
+      this.props.startAddUser({ admin, email, name }).then(() => {
         this.setState(() => ({
           admin: false,
+          name: '',
           email: '',
           password: ''
         }));
@@ -50,7 +53,7 @@ export class UserManagementPage extends React.Component {
   };
 
   render() {
-    const { email, password, admin, search } = this.state;
+    const { email, password, admin, search, name } = this.state;
     return (
       <section className="content-container">
         <div className="manage-users content-innards">
@@ -58,6 +61,15 @@ export class UserManagementPage extends React.Component {
           <div className="manage-users__block">
             <h3 className="heading heading--secondary">New User</h3>
             <form className="manage-users__form" onSubmit={this.onSave}>
+              <div className="manage-users__form-row">
+                <span> Name </span>
+                <input
+                  className="input"
+                  onChange={this.onNameChange}
+                  type="text"
+                  value={name}
+                />
+              </div>
               <div className="manage-users__form-row">
                 <span> Email </span>
                 <input
@@ -76,6 +88,7 @@ export class UserManagementPage extends React.Component {
                   value={password}
                 />
               </div>
+
               <div className="manage-users__admin-checkbox">
                 <label htmlFor="admin"> Admin </label>
                 <input

@@ -66,41 +66,30 @@ exports[`AccountManagementPage should match snapshot 1`] = `
       >
          Accounts 
       </h3>
-      <input
-        className="search"
-        onChange={[Function]}
-        placeholder="Search..."
-        type="text"
-        value=""
+      <SearchList
+        className="manage-accounts__search-list"
+        list={
+          Array [
+            Object {
+              "key": "jfkda;",
+              "name": "Flower Motors",
+              "website": "www.flowerpower.com",
+            },
+            Object {
+              "key": "kfjdka",
+              "name": "Prophecy Systems",
+              "website": "www.prophetic.io",
+            },
+            Object {
+              "key": "fjdkal",
+              "name": "Dynamic Foods",
+              "website": "www.fooddynamics.com",
+            },
+          ]
+        }
+        onClick={[Function]}
+        selector={[Function]}
       />
-      <ul
-        className="manage-accounts__list"
-      >
-        <li
-          key="jfkda;"
-          onClick={[Function]}
-        >
-          <button>
-            Flower Motors
-          </button>
-        </li>
-        <li
-          key="kfjdka"
-          onClick={[Function]}
-        >
-          <button>
-            Prophecy Systems
-          </button>
-        </li>
-        <li
-          key="fjdkal"
-          onClick={[Function]}
-        >
-          <button>
-            Dynamic Foods
-          </button>
-        </li>
-      </ul>
     </div>
   </div>
 </section>

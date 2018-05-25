@@ -1,56 +1,46 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import SearchList from './reuse/SearchList';
 import { startAddAccount, startUpdateAccount } from '../actions/accounts';
 import accountSelector from '../selectors/accounts';
 
+const stateDefaults = {
+  key: '',
+  name: '',
+  website: ''
+};
+
 export class AccountManagementPage extends React.Component {
-  state = {
-    accountKey: '',
-    name: '',
-    search: '',
-    website: ''
-  };
+  state = { ...stateDefaults };
 
   onAccountClick = account => {
-    this.setState(() => ({
-      ...account,
-      accountKey: account.key
-    }));
+    this.setState(() => ({ ...account }));
   };
 
   onCancel = () => {
-    this.setState(() => ({
-      accountKey: '',
-      name: '',
-      website: ''
-    }));
+    this.setState(() => ({ ...stateDefaults }));
   };
 
   onNameChange = e => {
-    const change = e.target.value;
-    this.setState(() => ({
-      name: change
-    }));
+    const name = e.target.value;
+    this.setState(() => ({ name }));
   };
 
   onWebsiteChange = e => {
-    const change = e.target.value;
-    this.setState(() => ({
-      website: change
-    }));
+    const website = e.target.value;
+    this.setState(() => ({ website }));
   };
 
   onSave = e => {
     e.preventDefault();
-    const defaults = { accountKey: '', name: '', website: '' };
-    if (this.state.accountKey) {
+    if (this.state.key) {
       this.props.startUpdateAccount({ ...this.state }).then(() => {
-        this.setState(() => ({ ...defaults }));
+        this.setState(() => ({ ...stateDefaults }));
       });
     } else {
-      const { accountKey, ...accountData } = this.state;
-      this.props.startAddAccount({ ...accountData }).then(() => {
-        this.setState(() => ({ ...defaults }));
+      const { key, ...accountData } = this.state;
+      this.props.startAddAccount(accountData).then(() => {
+        this.setState(() => ({ ...stateDefaults }));
       });
     }
   };
@@ -61,14 +51,15 @@ export class AccountManagementPage extends React.Component {
   };
 
   render() {
-    const { accountKey, name, search, website } = this.state;
+    const { key, name, website } = this.state;
+    const { accounts } = this.props;
     return (
       <section className="content-container">
         <div className="manage-accounts content-innards">
           <h2 className="heading"> Manage Accounts </h2>
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary">
-              {accountKey ? 'Update' : 'New'} Account
+              {key ? 'Update' : 'New'} Account
             </h3>
             <form className="manage-accounts__form" onSubmit={this.onSave}>
               <div className="manage-accounts__form-row">
@@ -90,7 +81,7 @@ export class AccountManagementPage extends React.Component {
                 />
               </div>
               <button className="btn btn--secondary">Save</button>
-              {accountKey && (
+              {key && (
                 <button className="btn btn-tertiary" onClick={this.onCancel}>
                   Cancel
                 </button>
@@ -99,25 +90,12 @@ export class AccountManagementPage extends React.Component {
           </div>
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary"> Accounts </h3>
-            <input
-              className="search"
-              onChange={this.onSearch}
-              placeholder="Search..."
-              type="text"
-              value={search}
+            <SearchList
+              className="manage-accounts__search-list"
+              list={accounts}
+              onClick={this.onAccountClick}
+              selector={accountSelector}
             />
-            <ul className="manage-accounts__list">
-              {accountSelector(this.props.accounts, search).map(a => (
-                <li
-                  key={a.key}
-                  onClick={() => {
-                    this.onAccountClick(a);
-                  }}
-                >
-                  <button>{a.name}</button>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </section>
