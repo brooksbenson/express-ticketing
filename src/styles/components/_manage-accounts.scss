@@ -59,28 +59,35 @@
     flex-direction: column;
   }
 }
-.manage-accounts__search-list {
+.manage-accounts__list {
+  > input {
+    padding: $rem-half;
+    margin-left: $rem-half;
+    margin-bottom: $rem-one;
+    width: 50%;
+  }
+
   > ul {
     height: $rem-one * 50;
     overflow: scroll;
     list-style: none;
     padding: $rem-half;
-  }
 
-  > li {
-    background: $off-white;
-    box-shadow: 0 1px 3px $theme-grey;
-    cursor: pointer;
-    letter-spacing: 1px;
-    margin-bottom: $rem-one-half;
-    padding: $rem-one;
-    > button {
-      border: none;
-      background: inherit;
+    > li {
+      background: $off-white;
+      box-shadow: 0 1px 3px $theme-grey;
+      cursor: pointer;
+      letter-spacing: 1px;
+      margin-bottom: $rem-one-half;
+      padding: $rem-one;
+      > button {
+        border: none;
+        background: inherit;
+      }
     }
-  }
 
-  > li:hover {
-    box-shadow: 0 1px 1px $theme-grey;
+    > li:hover {
+      box-shadow: 0 1px 1px $theme-grey;
+    }
   }
 }

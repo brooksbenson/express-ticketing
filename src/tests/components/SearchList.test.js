@@ -22,8 +22,9 @@ test('should match snapshot', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('wrapper should have class "test__list"', () => {
-  expect(wrapper.shouldHaveClass('test__list')).toBeTruthy();
+test('parent div should have class "test__list"', () => {
+  const parentDiv = wrapper.find('div').first();
+  expect(parentDiv.hasClass('test__list'));
 });
 
 test('state should change on search', () => {

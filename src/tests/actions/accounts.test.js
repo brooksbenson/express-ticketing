@@ -11,6 +11,11 @@ import {
 } from '../../actions/accounts';
 import accountsData from '../fixtures/accounts';
 
+/*
+  A test fails every once in awhile
+  randomly.
+*/
+
 const accounts = accountsData.map(a => {
   const { key, ...account } = a;
   return account;
@@ -41,7 +46,8 @@ test('startAddAccount should save account to db and store', done => {
       .ref(`accounts/${key}`)
       .once('value')
       .then(snapshot => {
-        expect(snapshot.val()).toEqual(account);
+        const accountSnapshot = snapshot.val();
+        expect(accountSnapshot).toEqual(account);
         const [action] = store.getActions();
         expect(action).toEqual({
           type: 'ADD_ACCOUNT',
@@ -104,8 +110,9 @@ test('startUpdateAccount should update account in db and store', done => {
         .ref(`accounts/${key}`)
         .once('value')
         .then(snapshot => {
-          const { key, ...accountData } = update;
-          expect(snapshot.val()).toEqual(accountData);
+          const { key, ...updateData } = update;
+          const accountSnapshot = snapshot.val();
+          expect(accountSnapshot).toEqual(updateData);
           done();
         });
     });

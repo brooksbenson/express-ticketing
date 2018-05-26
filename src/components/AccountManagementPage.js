@@ -91,7 +91,7 @@ export class AccountManagementPage extends React.Component {
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary"> Accounts </h3>
             <SearchList
-              className="manage-accounts__search-list"
+              className="manage-accounts__list"
               list={accounts}
               onClick={this.onAccountClick}
               selector={accountSelector}
