@@ -22,8 +22,8 @@ export default class SearchList extends React.Component {
         />
         <ul>
           {selector(list, search).map(item => (
-            <li key={a.key} onClick={() => this.props.onClick(item)}>
-              <button>{a.name}</button>
+            <li key={item.key} onClick={() => this.props.onClick(item)}>
+              <button>{item.name}</button>
             </li>
           ))}
         </ul>

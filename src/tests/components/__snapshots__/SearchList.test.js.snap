@@ -1,3 +1,41 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should match snapshot 1`] = `undefined`;
+exports[`should match snapshot 1`] = `
+<div
+  className="test__list"
+>
+  <input
+    className="search"
+    onChange={[Function]}
+    placeholder="Search..."
+    type="text"
+    value=""
+  />
+  <ul>
+    <li
+      key="jfkda;"
+      onClick={[Function]}
+    >
+      <button>
+        Flower Motors
+      </button>
+    </li>
+    <li
+      key="kfjdka"
+      onClick={[Function]}
+    >
+      <button>
+        Prophecy Systems
+      </button>
+    </li>
+    <li
+      key="fjdkal"
+      onClick={[Function]}
+    >
+      <button>
+        Dynamic Foods
+      </button>
+    </li>
+  </ul>
+</div>
+`;

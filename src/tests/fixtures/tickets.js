@@ -1,8 +1,19 @@
-import users from './users';
-import accounts from './accounts';
-import contacts from './contacts';
+import users from '../fixtures/users';
+import accounts from '../fixtures/accounts';
+import contacts from '../fixtures/contacts';
 
-export const rawTicket = () => {
-  const { website, ...account } = accounts[0];
-  const [contact] = contacts;
-};
+const { isAdmin, ...user } = users[0];
+
+export const ticketInit = date => ({
+  date,
+  user,
+  account: accounts[0],
+  contact: contacts[0],
+  title: 'Shipping Delay',
+  urgency: 'High',
+  comment: {
+    date,
+    name: user.name,
+    body: 'Truck #35828 stranded in Nebraska with a flat tire'
+  }
+});

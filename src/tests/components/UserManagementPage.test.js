@@ -14,10 +14,19 @@ test('UserManagementPage should match snapshot', () => {
 });
 
 test('UserManagementPage should setState on email change', () => {
-  const value = 'brooks@mail.com';
+  const value = 'Brooks Benson';
   wrapper
     .find('input')
     .at(0)
+    .simulate('change', { target: { value } });
+  expect(wrapper.state('name')).toBe(value);
+});
+
+test('UserManagementPage should setState on email change', () => {
+  const value = 'brooks@mail.com';
+  wrapper
+    .find('input')
+    .at(1)
     .simulate('change', { target: { value } });
   expect(wrapper.state('email')).toBe(value);
 });
@@ -26,7 +35,7 @@ test('UserManagementPage should setState on password change', () => {
   const value = 'password1';
   wrapper
     .find('input')
-    .at(1)
+    .at(2)
     .simulate('change', { target: { value } });
   expect(wrapper.state('password')).toBe(value);
 });
