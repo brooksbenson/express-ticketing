@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import AdminRoute from './AdminRoute';
 import AccountManagementPage from '../components/AccountManagementPage';
 import UserManagementPage from '../components/UserManagementPage';
+import AddTicketPage from '../components/AddTicketPage';
 
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';
@@ -16,6 +17,7 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
+        <Route path="/" component={AddTicketPage} exact={true} />
         <AdminRoute path="/users" Component={UserManagementPage} exact={true} />
         <AdminRoute
           path="/accounts"

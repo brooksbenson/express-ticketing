@@ -9,6 +9,7 @@
     "build:prod": "webpack -p --env production",
     "dev-server": "webpack-dev-server",
     "test": "cross-env NODE_ENV=test jest --config=jest.config.json --watch",
+    "test:clear-cache": "jest --clearCache",
     "start": "node server/server.js",
     "heroku-postbuild": "yarn run build:prod"
   },
@@ -49,7 +50,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
-    "jest": "20.0.4",
+    "jest": "^23.0.1",
     "raf": "^3.4.0",
     "react-test-renderer": "^16.3.2",
     "webpack-dev-server": "2.5.1"

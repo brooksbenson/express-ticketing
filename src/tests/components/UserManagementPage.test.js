@@ -40,22 +40,6 @@ test('UserManagementPage should setState on password change', () => {
   expect(wrapper.state('password')).toBe(value);
 });
 
-test('should setState on search change', () => {
-  const value = 'walmart';
-  wrapper
-    .find('.search')
-    .at(0)
-    .simulate('change', { target: { value } });
-  expect(wrapper.state('search')).toBe(value);
-});
-
-test('should change list on search', () => {
-  const initialListLength = wrapper.find('li').length;
-  wrapper.setState({ search: 'flower' });
-  const searchListLength = wrapper.find('li').length;
-  expect(initialListLength).toBeGreaterThan(searchListLength);
-});
-
 test('should setState on admin checkbox click', () => {
   const checkboxInput = wrapper.find('input[type="checkbox"]');
   checkboxInput.simulate('click');

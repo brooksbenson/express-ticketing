@@ -93,38 +93,33 @@ exports[`UserManagementPage should match snapshot 1`] = `
       >
          Users 
       </h3>
-      <input
-        className="search"
-        onChange={[Function]}
-        placeholder="Search..."
-        type="text"
-        value=""
-      />
-      <ul
+      <SearchList
         className="manage-users__list"
-      >
-        <li
-          key="kdlejf"
-        >
-           
-          max@mail.com
-           
-        </li>
-        <li
-          key="-keiajf"
-        >
-           
-          brooks@mail.com
-           
-        </li>
-        <li
-          key="-wqqadv"
-        >
-           
-          nick@mail.com
-           
-        </li>
-      </ul>
+        list={
+          Array [
+            Object {
+              "admin": false,
+              "email": "max@mail.com",
+              "key": "kdlejf",
+              "name": "Max Benson",
+            },
+            Object {
+              "admin": true,
+              "email": "brooks@mail.com",
+              "key": "-keiajf",
+              "name": "Brooks Benson",
+            },
+            Object {
+              "admin": false,
+              "email": "jeff@mail.com",
+              "key": "-wqqadv",
+              "name": "Jeff Benson",
+            },
+          ]
+        }
+        onClick={[Function]}
+        selector={[Function]}
+      />
     </div>
   </div>
 </section>

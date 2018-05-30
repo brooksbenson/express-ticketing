@@ -2,13 +2,13 @@ import users from '../fixtures/users';
 import accounts from '../fixtures/accounts';
 import contacts from '../fixtures/contacts';
 
-const { isAdmin, ...user } = users[0];
+const { isAdmin, email, ...user } = users[0];
 
 export const ticketInit = date => ({
   date,
   user,
-  account: accounts[0],
-  contact: contacts[0],
+  accountKey: accounts[0].key,
+  contactKey: contacts[0].key,
   title: 'Shipping Delay',
   urgency: 'High',
   comment: {
