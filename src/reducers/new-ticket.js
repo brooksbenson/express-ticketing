@@ -27,17 +27,30 @@ export default (state = defaults, action) => {
         accountSearchString: action.pick.name,
         accountSearchResults: null
       };
-    case 'ACCOUNT_SEARCH_CHANGE':
+    case 'ACCOUNT_SEARCH_CHANGE': {
+      const searchString = action.change;
       return {
         ...state,
         account: null,
         contact: null,
-        accountSearchString: action.change,
-        accountSearchResults: selectAccounts(accounts(), action.change),
+        accountSearchString: searchString,
+        accountSearchResults: selectAccounts(accounts(), searchString),
         contactSearchString: '',
         contactSearchResults: null
       };
-
+    }
+    case 'ADD_CONTACT': {
+      const contacts = [...state.account.contacts, action.contact];
+      return {
+        ...state,
+        account: { ...state.account, contacts },
+        contact: action.contact,
+        contactCtrlData: { ...action.contact },
+        contactCtrlOpen: false,
+        contactSearchString: action.contact.name,
+        contactSearchResults: null
+      };
+    }
     case 'CONTACT_CTRL_DATA_CHANGE':
       return { ...state, contactCtrlData: { ...action.change } };
     case 'CONTACT_PICK':
@@ -63,17 +76,10 @@ export default (state = defaults, action) => {
       };
     case 'DESCRIPTION_CHANGE':
       return { ...state, description: action.change };
-    case 'NEW_CONTACT': {
-      const contacts = [...state.account.contacts, action.contact];
-      return {
-        ...state,
-        account: { ...state.account, contacts },
-        contact: action.contact,
-        contactCtrlData: { ...action.contact },
-        contactCtrlOpen: false,
-        contactSearchString: action.contact.name,
-        contactSearchResults: null
-      };
+
+    case 'SET_CONTACTS': {
+      const account = { ...state.account, contacts: action.contacts };
+      return { ...state, account };
     }
     case 'TOGGLE_CONTACT_CTRL':
       return { ...state, contactCtrlOpen: !state.contactCtrlOpen };
@@ -81,10 +87,11 @@ export default (state = defaults, action) => {
       return { ...state, title: action.change };
     case 'UPDATE_CONTACT': {
       const { update } = action;
-      const contacts = state.account.contacts.map(existing => {
-        return existing.id === action.update.id ? action.update : existing;
-      });
+      const contacts = state.account.contacts.map(
+        existing => (existing.key === update.key ? update : existing)
+      );
       return {
+        ...state,
         account: { ...state.account, contacts },
         contact: update,
         contactCtrlData: { ...update },

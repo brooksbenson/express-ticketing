@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import formatPhoneNumber from '../helpers/format-number';
+import { startAddContact, startUpdateContact } from '../actions/contacts';
 
 const ContactController = props => {
   const emailChange = e => {
@@ -24,11 +26,19 @@ const ContactController = props => {
     });
   };
 
-  const save = () => {
+  const save = e => {
     if (props.contact) {
-      props.startUpdateContact({ ...props.contactCtrlData });
+      const { key, ...update } = props.contactCtrlData;
+      props.startUpdateContact({
+        accountKey: props.account.key,
+        contactKey: props.contact.key,
+        update
+      });
     } else {
-      props.startNewContact({ ...props.contactCtrlData });
+      props.startAddContact({
+        accountKey: props.account.key,
+        contact: { ...props.contactCtrlData }
+      });
     }
   };
 
@@ -73,8 +83,7 @@ const ContactController = props => {
             />
           </div>
           <button className="btn btn--tertiary" onClick={save}>
-            {' '}
-            Save{' '}
+            Save
           </button>
         </div>
       )}
@@ -82,4 +91,8 @@ const ContactController = props => {
   );
 };
 
-export default ContactController;
+const mapDispatchToProps = dispatch => ({
+  startAddContact: contact => dispatch(startAddContact(contact)),
+  startUpdateContact: update => dispatch(startUpdateContact(update))
+});
+export default connect(undefined, mapDispatchToProps)(ContactController);

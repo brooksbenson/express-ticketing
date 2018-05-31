@@ -1,7 +1,6 @@
 .ticket-form {
   box-shadow: 0px 0px 1px #666;
   margin: 2rem 1rem;
-  padding: $rem-three;
   > button {
     font-size: $rem-two;
     height: $rem-one * 6;
@@ -18,8 +17,8 @@
 
 .ticket-form__block {
   > .heading {
-    border-bottom: 1px solid black;
-    margin-bottom: 1rem;
+    border-bottom: 1px solid $theme-black;
+    margin-bottom: $rem-one-half;
   }
   display: flex;
   flex-direction: column;

@@ -1,7 +1,13 @@
-export const accountPick = pick => ({
-  type: 'ACCOUNT_PICK',
-  pick
-});
+import { dispatch } from '../store/store';
+import { startAddContact, startSetContacts } from './contacts';
+
+export const accountPick = pick => {
+  dispatch(startSetContacts(pick.key));
+  return {
+    type: 'ACCOUNT_PICK',
+    pick
+  };
+};
 
 export const accountSearchChange = change => ({
   type: 'ACCOUNT_SEARCH_CHANGE',
@@ -27,19 +33,6 @@ export const descriptionChange = change => ({
   type: 'DESCRIPTION_CHANGE',
   change
 });
-
-export const newContact = contact => ({
-  type: 'NEW_CONTACT',
-  contact
-});
-
-export const startNewContact = contact => {
-  return dispatch => {
-    Promise.resolve().then(() => {
-      dispatch(newContact(contact));
-    });
-  };
-};
 
 export const updateContact = update => ({
   type: 'UPDATE_CONTACT',

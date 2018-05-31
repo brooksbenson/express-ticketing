@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import SearchBar from './SearchBar';
 import ContactController from './ContactController';
 import { startAddTicket } from '../actions/tickets';
+import { startAddContact } from '../actions/contacts';
 import {
   accountPick,
   accountSearchChange,
@@ -10,8 +11,6 @@ import {
   contactPick,
   contactSearchChange,
   descriptionChange,
-  startNewContact,
-  startUpdateContact,
   titleChange,
   toggleContactCtrl,
   urgencyChange
@@ -35,8 +34,8 @@ export const AddTicketPage = props => {
   const submit = e => {
     e.preventDefault();
     props.startAddTicket({
-      accountName: props.account.name,
-      contactName: props.contact.name,
+      accountKey: props.account.key,
+      contactName: props.contact.key,
       contactEmail: props.contact.email,
       contactNumber: props.contact.number,
       assignments: [{ uid: props.user.uid, completed: false }],
@@ -47,75 +46,76 @@ export const AddTicketPage = props => {
       urgency: props.urgency
     });
   };
-
   return (
-    <div className="ticket-form">
-      <h2 className="heading"> Create Ticket </h2>
-      <section className="ticket-form__block">
-        <h3 className="heading-secondary"> Account </h3>
-        <SearchBar
-          className="ticket-form__search-bar"
-          disabled={false}
-          displayKey="name"
-          onPick={props.accountPick}
-          onSearchChange={props.accountSearchChange}
-          placeholder="Search accounts..."
-          searchString={props.accountSearchString}
-          results={props.accountSearchResults}
-          uniqueKey={'id'}
-          values={props.accounts}
-        />
-        <div className="ticket-form__block-row">
+    <section className="content-container">
+      <div className="ticket-form content-innards">
+        <h2 className="heading"> Create Ticket </h2>
+        <section className="ticket-form__block">
+          <h3 className="heading heading--secondary"> Account </h3>
           <SearchBar
             className="ticket-form__search-bar"
-            disabled={props.account == null}
+            disabled={false}
             displayKey="name"
-            onPick={props.contactPick}
-            onSearchChange={props.contactSearchChange}
-            placeholder="Search contacts..."
-            searchString={props.contactSearchString}
-            results={props.contactSearchResults}
-            uniqueKey={'email'}
-            values={props.account ? props.account.contacts : []}
+            onPick={props.accountPick}
+            onSearchChange={props.accountSearchChange}
+            placeholder="Search accounts..."
+            searchString={props.accountSearchString}
+            results={props.accountSearchResults}
+            uniqueKey="key"
+            values={props.accounts}
           />
-          <ContactController {...props} />
-        </div>
-      </section>
-      <section className="ticket-form__block">
-        <h3 className="heading-secondary">Triage</h3>
-        <div className="ticket-form__block-row">
-          <input
-            className="input"
-            name="title"
-            onChange={onTitleChange}
-            placeholder="Title"
-            type="text"
+          <div className="ticket-form__block-row">
+            <SearchBar
+              className="ticket-form__search-bar"
+              disabled={props.account == null}
+              displayKey="name"
+              onPick={props.contactPick}
+              onSearchChange={props.contactSearchChange}
+              placeholder="Search contacts..."
+              searchString={props.contactSearchString}
+              results={props.contactSearchResults}
+              uniqueKey="key"
+              values={props.account ? props.account.contacts : []}
+            />
+            <ContactController {...props} />
+          </div>
+        </section>
+        <section className="ticket-form__block">
+          <h3 className="heading heading--secondary">Triage</h3>
+          <div className="ticket-form__block-row">
+            <input
+              className="input"
+              name="title"
+              onChange={onTitleChange}
+              placeholder="Title"
+              type="text"
+            />
+            <select
+              className="select"
+              onChange={onUrgencyChange}
+              value={props.urgency || 'urgency'}
+            >
+              <option value="urgency" disabled>
+                Urgency
+              </option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <textarea
+            className="textarea ticket-form__textarea"
+            name="description"
+            onChange={e => props.descriptionChange(e.target.value)}
+            placeholder="Description (optional)"
+            value={props.description}
           />
-          <select
-            className="select"
-            onChange={onUrgencyChange}
-            value={props.urgency || 'urgency'}
-          >
-            <option value="urgency" disabled>
-              Urgency
-            </option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
-        </div>
-        <textarea
-          className="textarea ticket-form__textarea"
-          name="description"
-          onChange={e => props.descriptionChange(e.target.value)}
-          placeholder="Description (optional)"
-          value={props.description}
-        />
-      </section>
-      <button className="btn btn--primary" onClick={submit}>
-        Submit Ticket
-      </button>
-    </div>
+        </section>
+        <button className="btn btn--primary" onClick={submit}>
+          Submit Ticket
+        </button>
+      </div>
+    </section>
   );
 };
 
@@ -128,8 +128,6 @@ const mapDispatchToProps = dispatch => ({
   contactPick: pick => dispatch(contactPick(pick)),
   contactSearchChange: change => dispatch(contactSearchChange(change)),
   descriptionChange: change => dispatch(descriptionChange(change)),
-  startNewContact: contact => dispatch(startNewContact(contact)),
-  startUpdateContact: contact => dispatch(startUpdateContact(contact)),
   titleChange: change => dispatch(titleChange(change)),
   toggleContactCtrl: () => dispatch(toggleContactCtrl()),
   urgencyChange: change => dispatch(urgencyChange(change))
