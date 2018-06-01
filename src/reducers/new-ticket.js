@@ -11,7 +11,7 @@ const defaults = {
   contactCtrlOpen: false,
   contactSearchString: '',
   contactSearchResults: null,
-  description: '',
+  comment: '',
   title: '',
   urgency: ''
 };
@@ -74,8 +74,8 @@ export default (state = defaults, action) => {
         ),
         contactStatus: 'new'
       };
-    case 'DESCRIPTION_CHANGE':
-      return { ...state, description: action.change };
+    case 'COMMENT_CHANGE':
+      return { ...state, comment: action.change };
 
     case 'SET_CONTACTS': {
       const account = { ...state.account, contacts: action.contacts };

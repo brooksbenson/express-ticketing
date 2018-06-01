@@ -10,7 +10,7 @@ import {
   contactCtrlDataChange,
   contactPick,
   contactSearchChange,
-  descriptionChange,
+  commentChange,
   titleChange,
   toggleContactCtrl,
   urgencyChange
@@ -32,19 +32,25 @@ export const AddTicketPage = props => {
   };
 
   const submit = e => {
+    const date = Date.now();
     e.preventDefault();
-    props.startAddTicket({
-      accountKey: props.account.key,
-      contactName: props.contact.key,
-      contactEmail: props.contact.email,
-      contactNumber: props.contact.number,
-      assignments: [{ uid: props.user.uid, completed: false }],
-      comments: [{ uid: props.user.uid, text: props.description }],
-      date: Date.now(),
-      status: 'Open',
-      title: props.title,
-      urgency: props.urgency
-    });
+    props
+      .startAddTicket({
+        date,
+        userKey: props.user.key,
+        accountKey: props.account.key,
+        contactKey: props.contact.key,
+        title: props.title,
+        urgency: props.urgency,
+        comment: {
+          date,
+          name: props.user.name,
+          body: props.comment
+        }
+      })
+      .then(key => {
+        props.history.push(`tickets/${key}`);
+      });
   };
   return (
     <section className="content-container">
@@ -89,6 +95,7 @@ export const AddTicketPage = props => {
               onChange={onTitleChange}
               placeholder="Title"
               type="text"
+              value={props.title}
             />
             <select
               className="select"
@@ -105,10 +112,10 @@ export const AddTicketPage = props => {
           </div>
           <textarea
             className="textarea ticket-form__textarea"
-            name="description"
-            onChange={e => props.descriptionChange(e.target.value)}
-            placeholder="Description (optional)"
-            value={props.description}
+            name="comment"
+            onChange={e => props.commentChange(e.target.value)}
+            placeholder="Comment"
+            value={props.comment}
           />
         </section>
         <button className="btn btn--primary" onClick={submit}>
@@ -127,7 +134,8 @@ const mapDispatchToProps = dispatch => ({
   contactCtrlDataChange: change => dispatch(contactCtrlDataChange(change)),
   contactPick: pick => dispatch(contactPick(pick)),
   contactSearchChange: change => dispatch(contactSearchChange(change)),
-  descriptionChange: change => dispatch(descriptionChange(change)),
+  commentChange: change => dispatch(commentChange(change)),
+  startAddTicket: ticket => dispatch(startAddTicket(ticket)),
   titleChange: change => dispatch(titleChange(change)),
   toggleContactCtrl: () => dispatch(toggleContactCtrl()),
   urgencyChange: change => dispatch(urgencyChange(change))

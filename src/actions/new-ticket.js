@@ -29,8 +29,8 @@ export const contactSearchChange = change => ({
   change
 });
 
-export const descriptionChange = change => ({
-  type: 'DESCRIPTION_CHANGE',
+export const commentChange = change => ({
+  type: 'COMMENT_CHANGE',
   change
 });
 

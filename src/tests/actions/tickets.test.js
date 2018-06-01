@@ -38,7 +38,7 @@ test('should save ticket data under ref tickets/open', done => {
         expect(
           snap
             .child('userKeys')
-            .child(ticket.user.key)
+            .child(ticket.userKey)
             .val()
         ).toBeTruthy();
         done();
@@ -53,7 +53,8 @@ test('should save ticket comment under ref comments/key', done => {
       .once('value')
       .then(snap => {
         const comments = snap.val();
-        expect(comments.c1).toEqual(ticket.comment);
+        const [key] = Object.keys(comments);
+        expect(comments[key]).toEqual(ticket.comment);
         done();
       });
   });
@@ -68,7 +69,7 @@ test('should correctly dispatch ticket to store', done => {
         key: key,
         accountKey: ticket.accountKey,
         contactKey: ticket.contactKey,
-        userKeys: [ticket.user.key],
+        userKeys: [ticket.userKey],
         date: ticket.date,
         title: ticket.title,
         urgency: ticket.urgency,

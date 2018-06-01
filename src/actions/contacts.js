@@ -21,7 +21,6 @@ export const updateContact = update => ({
 export const startUpdateContact = ({ accountKey, contactKey, update }) => {
   return async dispatch => {
     await db.ref(`contacts/${accountKey}/${contactKey}`).set(update);
-    console.log('when');
     dispatch(updateContact({ key: contactKey, ...update }));
   };
 };

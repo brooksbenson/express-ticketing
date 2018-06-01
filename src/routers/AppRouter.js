@@ -6,6 +6,7 @@ import AdminRoute from './AdminRoute';
 import AccountManagementPage from '../components/AccountManagementPage';
 import UserManagementPage from '../components/UserManagementPage';
 import AddTicketPage from '../components/AddTicketPage';
+import TicketPage from '../components/TicketPage';
 
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';
@@ -17,7 +18,8 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
-        <Route path="/" component={AddTicketPage} exact={true} />
+        <Route path="/add" component={AddTicketPage} />
+        <Route path="/ticket/:key" component={TicketPage} />
         <AdminRoute path="/users" Component={UserManagementPage} exact={true} />
         <AdminRoute
           path="/accounts"

@@ -6,14 +6,14 @@ export const addTicket = ticket => ({
 });
 
 export const startAddTicket = ticketData => {
-  const { user, comment, ...ticket } = ticketData;
+  const { userKey, comment, ...ticket } = ticketData;
   return async dispatch => {
     const { key } = await db
       .ref('tickets/open')
-      .push({ ...ticket, userKeys: { [user.key]: true } });
-    await db.ref(`comments/${key}`).set({ c1: comment });
+      .push({ ...ticket, userKeys: { [userKey]: true } });
+    await db.ref(`comments/${key}`).push(comment);
     dispatch(
-      addTicket({ ...ticket, key, comments: [comment], userKeys: [user.key] })
+      addTicket({ ...ticket, key, comments: [comment], userKeys: [userKey] })
     );
     return key;
   };

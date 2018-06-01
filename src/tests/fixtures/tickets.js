@@ -6,7 +6,7 @@ const { isAdmin, email, ...user } = users[0];
 
 export const ticketInit = date => ({
   date,
-  user,
+  userKey: user.key,
   accountKey: accounts[0].key,
   contactKey: contacts[0].key,
   title: 'Shipping Delay',
