@@ -5,7 +5,8 @@ import { ticketInit } from '../fixtures/tickets';
 import users from '../fixtures/users';
 import accounts from '../fixtures/accounts';
 import contacts from '../fixtures/contacts';
-
+import { startAddTicket } from '../../actions/tickets';
+import { startAddContact } from '../../actions/contacts';
 import {
   updateUrgency,
   startUpdateUrgency,
@@ -17,7 +18,8 @@ import {
   startSetTicket
 } from '../../actions/ticket';
 
-const store = configureMockStore([thunk])({});
+const createStore = configureMockStore([thunk])({});
+
 let ticket;
 beforeEach(done => {
   ticket = ticketInit(Date.now());
@@ -127,13 +129,56 @@ test('setTicket should correctly setup action', () => {
   });
 });
 
-test('startSetTicket should get ticket from db and dispatch action', done => {
-  store.dispatch(startAddTicket(ticket)).then(ticketKey => {
-    store.dispatch(startSetTicket(ticketKey)).then(() => {
-      const [, action] = store.getActions();
-      expect(action).toEqual({
-        type: 'SET_TICKET'
-      });
+test('startSetTicket should get ticket from store and dispatch action', async () => {
+  /* 
+    Add contact to db
+    Create mock ticket key
+    Add comment under comments/mockTicketKey
+
+    These things are done becuase the function retrieves 
+    the contact and comments from the database.
+  */
+  const { key, ...contact } = contacts[0];
+  const contactKey = await db
+    .ref(`contacts/${ticket.accountKey}/`)
+    .push(contact).key;
+  const mockTicketKey = '-jfdkaj8';
+  await db.ref(`comments/${ticketKey}`).push(ticket.comment);
+  const store2 = configureMockStore([thunk])({
+    accounts,
+    users,
+    tickets: [
+      {
+        key: mockTicketKey,
+        accountKey: accounts[0].key,
+        contactKey,
+        userKeys: [users[0].key],
+        date: ticket.date
+      }
+    ]
+  });
+  const { userKey, comment, contactKey: x, ...storeTicket } = ticket;
+  const { key, ...contact } = contacts[0];
+  const { key: accountKey } = accounts[0];
+  const contactKey = await store.dispatch(
+    startAddContact({ contact, accountKey })
+  );
+  const ticketKey = await store.dispatch(startAddTicket(ticket));
+  await store.dispatch({ ...storeTicket, contactKey });
+  store.dispatch(startSetTicket(ticket)).then(() => {
+    const [, action] = store.getActions();
+    expect(action).toEqual({
+      type: 'SET_TICKET',
+      ticket: {
+        date: ticket.date,
+        account: accounts[0],
+        contact: contacts[0],
+        users: [users[0]],
+        title: ticket.title,
+        urgency: ticket.urgency,
+        comments: [ticket.comment]
+      }
     });
+    done();
   });
 });

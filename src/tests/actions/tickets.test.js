@@ -46,15 +46,15 @@ test('should save ticket data under ref tickets/open', done => {
   });
 });
 
-test('should save ticket comment under ref comments/key', done => {
+test('should save comments under comments/ticketKey', done => {
   store.dispatch(startAddTicket(ticket)).then(key => {
     db
       .ref(`comments/${key}`)
       .once('value')
       .then(snap => {
         const comments = snap.val();
-        const [key] = Object.keys(comments);
-        expect(comments[key]).toEqual(ticket.comment);
+        const [commentKey] = Object.keys(comments);
+        expect(comments[commentKey]).toEqual(ticket.comment);
         done();
       });
   });
@@ -69,11 +69,10 @@ test('should correctly dispatch ticket to store', done => {
         key: key,
         accountKey: ticket.accountKey,
         contactKey: ticket.contactKey,
-        userKeys: [ticket.userKey],
+        userKeys: { [ticket.userKey]: true },
         date: ticket.date,
         title: ticket.title,
-        urgency: ticket.urgency,
-        comments: [ticket.comment]
+        urgency: ticket.urgency
       }
     });
     done();

@@ -5,12 +5,12 @@ import contacts from '../fixtures/contacts';
 const { isAdmin, email, ...user } = users[0];
 
 export const ticketInit = date => ({
-  date,
-  userKey: user.key,
   accountKey: accounts[0].key,
   contactKey: contacts[0].key,
+  userKey: user.key,
   title: 'Shipping Delay',
   urgency: 'High',
+  date,
   comment: {
     date,
     name: user.name,

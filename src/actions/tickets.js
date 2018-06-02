@@ -8,13 +8,12 @@ export const addTicket = ticket => ({
 export const startAddTicket = ticketData => {
   const { userKey, comment, ...ticket } = ticketData;
   return async dispatch => {
-    const { key } = await db
-      .ref('tickets/open')
-      .push({ ...ticket, userKeys: { [userKey]: true } });
+    const { key } = await db.ref('tickets/open').push({
+      ...ticket,
+      userKeys: { [userKey]: true }
+    });
     await db.ref(`comments/${key}`).push(comment);
-    dispatch(
-      addTicket({ ...ticket, key, comments: [comment], userKeys: [userKey] })
-    );
+    dispatch(addTicket({ key, ...ticket, userKeys: { [userKey]: true } }));
     return key;
   };
 };

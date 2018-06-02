@@ -1,8 +1,3 @@
-/*
-  update urgency
-  add user
-  add comment
-*/
 import db from '../firebase/firebase';
 
 export const updateUrgency = urgency => ({
@@ -36,10 +31,39 @@ export const addComment = comment => ({
   comment
 });
 
-export const startAddComment = ({ ticketKey, comment }) => {
+export const startAddComment = ({ ticketKey, comment, index }) => {
   return async dispatch => {
-    const { key } = await db.ref(`comments/${ticketKey}`).push(comment);
+    const key = 'c' + index;
+    await db.ref(`tickets/${ticketKey}/comments`).update({ [key]: comment });
     dispatch(addComment(comment));
     return key;
+  };
+};
+
+// set ticket
+export const setTicket = ticket => ({
+  type: 'SET_TICKET',
+  ticket
+});
+
+// start set ticket
+export const startSetTicket = t => {
+  return async (dispatch, getState) => {
+    const [contactSnap, commentSnap] = await Promise.all([
+      db.ref(`contacts/${t.contactKey}`).once('value'),
+      db.ref(`comments/${t.key}`).once('value')
+    ]);
+    const { accounts, users } = getState();
+    dispatch(
+      setTicket({
+        date: t.date,
+        account: accounts.find(a => a.key == t.accountKey),
+        contact: contactSnap.val(),
+        comments: commentSnap.val(),
+        users: users.filter(u => t.userKeys[u.key]),
+        title: t.title,
+        urgency: t.urgency
+      })
+    );
   };
 };
