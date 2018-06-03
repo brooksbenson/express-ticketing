@@ -1,14 +1,13 @@
 import db from '../firebase/firebase';
 
-export const addTicket = ticket => ({
+export const addTicket = ({ userKey, ...ticket }) => ({
   type: 'ADD_TICKET',
-  ticket
+  ticket: { ...ticket, userKeys: [userKey] }
 });
 
-export const startAddTicket = ticketData => {
-  const { userKey, comment, ...ticket } = ticketData;
+export const startAddTicket = ({ userKey, comment, ...ticket }) => {
   return async dispatch => {
-    const { key } = await db.ref('tickets/open').push({
+    const { key } = await db.ref('tickets').push({
       ...ticket,
       userKeys: { [userKey]: true }
     });

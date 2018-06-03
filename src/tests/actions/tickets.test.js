@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import db from '../../firebase/firebase';
-import { startAddTicket, addTicket } from '../../actions/tickets';
+import { addTicket, startAddTicket } from '../../actions/tickets';
 import { ticketInit } from '../fixtures/tickets';
 
 const store = configureMockStore([thunk])([]);
@@ -16,51 +16,52 @@ beforeEach(done => {
     .then(() => done());
 });
 
-test('should setup action correctly', () => {
-  const action = addTicket(ticket);
+test('addTicket should setup action correctly', () => {
+  const { comment, userKey, ...rest } = ticket;
+  const action = addTicket({ userKey, ...rest });
   expect(action).toEqual({
     type: 'ADD_TICKET',
-    ticket
+    ticket: {
+      ...rest,
+      userKeys: [userKey]
+    }
   });
 });
 
-test('should save ticket data under ref tickets/open', done => {
-  store.dispatch(startAddTicket(ticket)).then(key => {
-    db
-      .ref(`tickets/open/${key}`)
-      .once('value')
-      .then(snap => {
-        expect(snap.child('accountKey').val()).toBe(ticket.accountKey);
-        expect(snap.child('contactKey').val()).toBe(ticket.contactKey);
-        expect(snap.child('title').val()).toBe(ticket.title);
-        expect(snap.child('urgency').val()).toBe(ticket.urgency);
-        expect(snap.child('date').val()).toBe(ticket.date);
-        expect(
-          snap
-            .child('userKeys')
-            .child(ticket.userKey)
-            .val()
-        ).toBeTruthy();
-        done();
-      });
+test('startAddTicket should save ticket in db', done => {
+  store.dispatch(startAddTicket(ticket)).then(async key => {
+    const snap = await db.ref(`tickets/${key}`).once('value');
+    expect(snap.val()).toEqual({
+      accountKey: ticket.accountKey,
+      contactKey: ticket.contactKey,
+      userKeys: { [ticket.userKey]: true },
+      date: ticket.date,
+      title: ticket.title,
+      urgency: ticket.urgency
+    });
+    done();
   });
 });
 
-test('should save comments under comments/ticketKey', done => {
-  store.dispatch(startAddTicket(ticket)).then(key => {
-    db
-      .ref(`comments/${key}`)
-      .once('value')
-      .then(snap => {
-        const comments = snap.val();
-        const [commentKey] = Object.keys(comments);
-        expect(comments[commentKey]).toEqual(ticket.comment);
-        done();
-      });
+test('startAddTicket should save comments in db', done => {
+  store.dispatch(startAddTicket(ticket)).then(async key => {
+    const snap = await db.ref('comments/${key}').once('value');
+    const comments = snap.val();
+    const [commentKey] = Object.keys(comments);
+    expect(comments[commentKey]).toEqual(ticket.comment);
+    done();
   });
 });
 
-test('should correctly dispatch ticket to store', done => {
+test('startAddTicket should save ticket key under ref open_tickets', done => {
+  store.dispatch(startAddTicket(ticket)).then(async key => {
+    const snap = await db.ref(`open_tickets`).once('value');
+    expect(snap.val()[key]).toBeTruthy();
+    done();
+  });
+});
+
+test('startAddTicket should correctly dispatch action', done => {
   store.dispatch(startAddTicket(ticket)).then(key => {
     const [action] = store.getActions();
     expect(action).toEqual({
