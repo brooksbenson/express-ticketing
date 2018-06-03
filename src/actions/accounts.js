@@ -1,13 +1,14 @@
 import db from '../firebase/firebase';
 
-export const addAccount = account => ({
+export const addAccount = ({ key, ...account }) => ({
   type: 'ADD_ACCOUNT',
+  key,
   account
 });
 
 export const startAddAccount = account => {
   return async dispatch => {
-    const { key } = await db.ref('accounts').push(account);
+    const { key } = await db.ref('account_data').push(account);
     dispatch(addAccount({ key, ...account }));
     return key;
   };
@@ -20,30 +21,20 @@ export const setAccounts = accounts => ({
 
 export const startSetAccounts = () => {
   return async dispatch => {
-    const accounts = [];
-    await db
-      .ref('accounts')
-      .once('value')
-      .then(snapshot => {
-        snapshot.forEach(child => {
-          const { key } = child;
-          accounts.push({ key, ...child.val() });
-        });
-        dispatch(setAccounts(accounts));
-      });
-    return accounts;
+    const accountsSnap = await db.ref('account_data').once('value');
+    dispatch(setAccounts(accountsSnap.val()));
   };
 };
 
-export const updateAccount = update => ({
+export const updateAccount = ({ key, ...update }) => ({
   type: 'UPDATE_ACCOUNT',
+  key,
   update
 });
 
-export const startUpdateAccount = update => {
-  const { key, ...accountData } = update;
+export const startUpdateAccount = ({ key, ...update }) => {
   return async dispatch => {
-    await db.ref(`accounts/${key}`).set(accountData);
-    dispatch(updateAccount(update));
+    await db.ref(`account_data/${key}`).set(update);
+    dispatch(updateAccount({ key, ...update }));
   };
 };

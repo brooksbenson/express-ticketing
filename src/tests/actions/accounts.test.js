@@ -9,17 +9,7 @@ import {
   updateAccount,
   startUpdateAccount
 } from '../../actions/accounts';
-import accountsData from '../fixtures/accounts';
-
-/*
-  A test fails every once in awhile
-  randomly.
-*/
-
-const accounts = accountsData.map(a => {
-  const { key, ...account } = a;
-  return account;
-});
+import { accountsArr, accountsObj } from '../fixtures/accounts';
 
 const store = configureMockStore([thunk])({});
 beforeEach(done => {
@@ -31,19 +21,20 @@ beforeEach(done => {
 });
 
 test('addAccount should correctly setup action', () => {
-  const [account] = accounts;
+  const { key, ...account } = accountsArr[0];
   const action = addAccount(account);
   expect(action).toEqual({
     type: 'ADD_ACCOUNT',
+    key,
     account
   });
 });
 
 test('startAddAccount should save account to db and store', done => {
-  const [account] = accounts;
-  store.dispatch(startAddAccount(account)).then(key => {
+  const { key, ...account } = accountsArr[0];
+  store.dispatch(startAddAccount(account)).then(accountKey => {
     db
-      .ref(`accounts/${key}`)
+      .ref(`account_data/${accountKey}`)
       .once('value')
       .then(snapshot => {
         const accountSnapshot = snapshot.val();
@@ -51,7 +42,8 @@ test('startAddAccount should save account to db and store', done => {
         const [action] = store.getActions();
         expect(action).toEqual({
           type: 'ADD_ACCOUNT',
-          account: { ...account, key }
+          key: accountKey,
+          account
         });
         done();
       });
@@ -59,62 +51,55 @@ test('startAddAccount should save account to db and store', done => {
 });
 
 test('setAccounts should correctly setup action', () => {
-  const action = setAccounts(accounts);
+  const action = setAccounts(accountsOb);
   expect(action).toEqual({
     type: 'SET_ACCOUNTS',
-    accounts
+    accountsObj
   });
 });
 
-test('startSetAccounts should add accounts with keys to store', done => {
+test('startSetAccounts should fetch accounts from db and dispatch them to store', done => {
   db
-    .ref('accounts')
-    .set(accounts)
+    .ref('account_data')
+    .set(accountsObj)
     .then(() => {
       store.dispatch(startSetAccounts()).then(() => {
         const [action] = store.getActions();
         expect(action.type).toBe('SET_ACCOUNTS');
-        expect(action.accounts.length).toBe(3);
-        action.accounts.forEach(account => {
-          expect(account.key).toBeTruthy();
-        });
+        expect(action.accounts).toEqual(accountsObj);
         done();
       });
     });
 });
 
 test('updateAccount should setup action correctly', () => {
-  const update = {
-    key: 'jfkdjal',
-    name: 'McDonalds',
-    website: 'www.mcdonalds.com'
-  };
-  const action = updateAccount(update);
+  const { key, ...update } = accountsArr[0];
+  const action = updateAccount({ key, ...update });
   expect(action).toEqual({
     type: 'UPDATE_ACCOUNT',
+    key,
     update
   });
 });
 
-test('startUpdateAccount should update account in db and store', done => {
-  const [account] = accounts;
+test('startUpdateAccount should update account in db and dispatch action', done => {
+  const { key, ...account } = accountsArr[0];
   store.dispatch(startAddAccount(account)).then(key => {
-    const update = { ...account, name: 'McDonalds', key };
-    store.dispatch(startUpdateAccount(update)).then(() => {
-      const [, action] = store.getActions();
-      expect(action).toEqual({
-        type: 'UPDATE_ACCOUNT',
-        update
-      });
+    const update = { ...account, name: 'Animal Arc' };
+    store.dispatch(startUpdateAccount({ key, ...update })).then(() => {
       db
-        .ref(`accounts/${key}`)
+        .ref(`account_data/${key}`)
         .once('value')
-        .then(snapshot => {
-          const { key, ...updateData } = update;
-          const accountSnapshot = snapshot.val();
-          expect(accountSnapshot).toEqual(updateData);
-          done();
+        .then(snap => {
+          expect(snap.val()).toEqual(update);
         });
     });
+    const [, action] = store.getActions();
+    expect(action).toEqual({
+      type: 'UPDATE_ACCOUNT',
+      key,
+      update
+    });
+    done();
   });
 });

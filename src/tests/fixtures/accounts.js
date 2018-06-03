@@ -1,4 +1,4 @@
-export default [
+const accountsArr = [
   {
     key: 'jfkda;',
     name: 'Flower Motors',
@@ -15,3 +15,10 @@ export default [
     website: 'www.fooddynamics.com'
   }
 ];
+
+const accountsObj = {};
+accountsArr.forEach(({ key, ...a }) => {
+  accountsObj[key] = a;
+});
+
+export { accountsArr, accountsObj };

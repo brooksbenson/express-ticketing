@@ -1,27 +1,29 @@
 import db from '../firebase/firebase';
 
-export const addContact = contact => ({
+export const addContact = ({ key, ...contact }) => ({
   type: 'ADD_CONTACT',
+  key,
   contact
 });
 
 export const startAddContact = ({ contact, accountKey }) => {
   return async dispatch => {
-    const { key } = await db.ref(`contacts/${accountKey}`).push(contact);
+    const { key } = await db.ref(`contact_data/${accountKey}`).push(contact);
     dispatch(addContact({ key, ...contact }));
     return key;
   };
 };
 
-export const updateContact = update => ({
+export const updateContact = ({ key, ...update }) => ({
   type: 'UPDATE_CONTACT',
+  key,
   update
 });
 
-export const startUpdateContact = ({ accountKey, contactKey, update }) => {
+export const startUpdateContact = ({ accountKey, key, ...update }) => {
   return async dispatch => {
-    await db.ref(`contacts/${accountKey}/${contactKey}`).set(update);
-    dispatch(updateContact({ key: contactKey, ...update }));
+    await db.ref(`contact_data/${accountKey}/${key}`).set(update);
+    dispatch(updateContact({ key, ...update }));
   };
 };
 
@@ -32,16 +34,7 @@ export const setContacts = contacts => ({
 
 export const startSetContacts = accountKey => {
   return async dispatch => {
-    const contacts = [];
-    await db
-      .ref(`contacts/${accountKey}`)
-      .once('value')
-      .then(snap => {
-        snap.forEach(child => {
-          const { key } = child;
-          contacts.push({ key, ...child.val() });
-        });
-      });
-    dispatch(setContacts(contacts));
+    const snap = db.ref(`contact_data/${accountKey}`).only('value');
+    dispatch(setContacts(snap.val()));
   };
 };

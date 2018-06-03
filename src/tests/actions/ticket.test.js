@@ -143,7 +143,7 @@ test('startSetTicket should get ticket from store and dispatch action', async ()
     .ref(`contacts/${ticket.accountKey}/`)
     .push(contact).key;
   const mockTicketKey = '-jfdkaj8';
-  await db.ref(`comments/${ticketKey}`).push(ticket.comment);
+  await db.ref(`comments/${mockTicketKey}`).push(ticket.comment);
   const store2 = configureMockStore([thunk])({
     accounts,
     users,

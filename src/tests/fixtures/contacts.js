@@ -1,4 +1,4 @@
-export default [
+const contactsArr = [
   {
     key: '-jKDji485',
     name: 'Jerry Fisher',
@@ -16,17 +16,12 @@ export default [
     name: 'Wendy Robinson',
     number: '3587112441',
     email: 'wendy@mail.com'
-  },
-  {
-    key: '-jKDji485',
-    name: 'Trish Buckingham',
-    number: '8013585432',
-    email: 'trish@mail.com'
-  },
-  {
-    key: '-jKDji485',
-    name: 'Samuel Cheshire',
-    number: '3589990345',
-    email: 'samuel@mail.com'
   }
 ];
+
+const contactsObj = {};
+contactsArr.forEach(({ key, ...c }) => {
+  contactsObj[key] = c;
+});
+
+export { contactsArr, contactsObj };
