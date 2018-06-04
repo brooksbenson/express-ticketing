@@ -1,10 +1,11 @@
 import { setUser } from '../../actions/user';
-import users from '../fixtures/users';
+import { usersArr, usersObj } from '../fixtures/users';
 
 test('setUser should correctly setup action', () => {
-  const action = setUser(users, 'brooks@mail.com');
+  const { key } = usersArr[0];
+  const action = setUser(usersObj[key]);
   expect(action).toEqual({
     type: 'SET_USER',
-    user: users[1]
+    user: usersObj[key]
   });
 });

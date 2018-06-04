@@ -1,4 +1,4 @@
-export default [
+const usersArr = [
   {
     key: 'kdlejf',
     name: 'Max Benson',
@@ -18,3 +18,10 @@ export default [
     admin: false
   }
 ];
+
+const usersObj = {};
+usersArr.forEach(({ key, admin, ...info }) => {
+  usersObj[key] = info;
+});
+
+export { usersArr, usersObj };

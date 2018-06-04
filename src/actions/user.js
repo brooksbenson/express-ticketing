@@ -1,4 +1,4 @@
-export const setUser = (users, email) => ({
+export const setUser = user => ({
   type: 'SET_USER',
-  user: users.find(u => u.email == email)
+  user
 });

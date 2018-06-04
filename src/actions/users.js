@@ -1,13 +1,14 @@
 import db, { auth } from '../firebase/firebase';
 
-export const addUser = user => ({
+export const addUser = ({ key, ...user }) => ({
   type: 'ADD_USER',
+  key,
   user
 });
 
 export const startAddUser = user => {
   return async dispatch => {
-    const { key } = db.ref('usersPublic').push(user);
+    const { key } = await db.ref('user_data').push(user);
     dispatch(addUser({ key, ...user }));
     return key;
   };

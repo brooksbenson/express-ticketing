@@ -7,39 +7,42 @@ import {
   setUsers,
   startSetUsers
 } from '../../actions/users';
-import users from '../fixtures/users';
+import { usersArr, usersObj } from '../fixtures/users';
 
 const store = configureMockStore([thunk])({});
 
 beforeEach(done => {
   store.clearActions();
   db
-    .ref()
-    .set(null)
+    .ref('user_data')
+    .set(usersObj)
     .then(() => done());
 });
 
 test('addUser should setup action correctly', () => {
-  const [user] = users;
-  const action = addUser(user);
+  const { key } = usersArr[0];
+  const user = usersObj[key];
+  const action = addUser({ key, ...user });
   expect(action).toEqual({
     type: 'ADD_USER',
+    key,
     user
   });
 });
 
 test('startAddUser should add user to db and store', done => {
-  const { key, ...user } = users[0];
+  const user = { name: 'Jeremy Street', email: 'jeremy@mail.com', admin: true };
   store.dispatch(startAddUser(user)).then(key => {
     db
-      .ref(`usersPublic/${key}`)
+      .ref(`user_data/${key}`)
       .once('value')
       .then(snapshot => {
         expect(snapshot.val()).toEqual(user);
         const [action] = store.getActions();
         expect(action).toEqual({
           type: 'ADD_USER',
-          user: { ...user, key }
+          key,
+          user
         });
         done();
       });
