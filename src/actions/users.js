@@ -21,12 +21,7 @@ export const setUsers = users => ({
 
 export const startSetUsers = () => {
   return async dispatch => {
-    const users = [];
-    const snapshot = await db.ref('usersPublic').once('value');
-    snapshot.forEach(child => {
-      const { key } = child;
-      users.push({ key, ...child.val() });
-    });
-    dispatch(setUsers(users));
+    const snap = db.ref('user_data').once('value');
+    dispatch(setUsers(snap.val()));
   };
 };

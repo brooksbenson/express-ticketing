@@ -1,12 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import db from '../../firebase/firebase';
-import { ticketInit } from '../fixtures/tickets';
-import users from '../fixtures/users';
-import accounts from '../fixtures/accounts';
-import contacts from '../fixtures/contacts';
-import { startAddTicket } from '../../actions/tickets';
-import { startAddContact } from '../../actions/contacts';
+import dbModel from '../fixtures/db-model';
+import storeModel from '../fixtures/store-model';
 import {
   updateUrgency,
   startUpdateUrgency,
@@ -18,75 +14,71 @@ import {
   startSetTicket
 } from '../../actions/ticket';
 
-const createStore = configureMockStore([thunk])({});
+const { activeTicketKey } = storeModel;
+const { activeUserKey } = storeModel;
 
-let ticket;
+const store = configureMockStore([thunk])(storeModel);
+
 beforeEach(done => {
-  ticket = ticketInit(Date.now());
   store.clearActions();
   db
     .ref()
-    .set(null)
+    .set(dbModel)
     .then(() => done());
 });
 
 test('updateUrgency should correctly setup action object', () => {
-  const urgency = 'Low';
-  const action = updateUrgency(urgency);
+  const urgency = 'High';
+  const key = activeTicketKey;
+  const action = updateUrgency({ key, urgency });
   expect(action).toEqual({
     type: 'UPDATE_URGENCY',
+    key,
     urgency
   });
 });
 
-test('startUpdateUrgency should update urgency in db and dispatch action', done => {
+test('startUpdateUrgency should update urgency in db and dispatch action', async done => {
   const urgency = 'Medium';
-  store.dispatch(startAddTicket(ticket)).then(ticketKey => {
-    store.dispatch(startUpdateUrgency({ ticketKey, urgency })).then(() => {
-      db
-        .ref(`tickets/open/${ticketKey}`)
-        .once('value')
-        .then(snap => {
-          expect(snap.val().urgency).toBe(urgency);
-          const [, action] = store.getActions();
-          expect(action).toEqual({
-            type: 'UPDATE_URGENCY',
-            urgency
-          });
-          done();
-        });
-    });
+  const key = activeTicketKey;
+  await store.dispatch(startUpdateUrgency({ key, urgency }));
+  const snap = await db.ref('tickets/${key}/urgency').once('value');
+  expect(snap.val()).toBe(urgency);
+  expect(store.getActions()[0]).toEqual({
+    type: 'UPDATE_URGENCY',
+    key,
+    urgency
   });
+  done();
 });
 
 test('addUser should correctly setup action', () => {
-  const [, user] = users;
-  const action = addUser(user);
+  const userKey = '-ikdoenvc';
+  const ticketKey = activeTicketKey;
+  const action = addUser({ ticketKey, userKey });
   expect(action).toEqual({
     type: 'ADD_USER_TO_TICKET',
-    user
+    ticketKey,
+    userKey
   });
 });
 
-test('startAddUser should add user to db and dispatch action', done => {
-  const { admin, ...user } = users[1];
-  store.dispatch(startAddTicket(ticket)).then(ticketKey => {
-    const payload = { ticketKey, user };
-    store.dispatch(startAddUser(payload)).then(() => {
-      db
-        .ref(`tickets/open/${ticketKey}/userKeys`)
-        .once('value')
-        .then(snap => {
-          expect(snap.val()[user.key]).toBeTruthy();
-          const [, action] = store.getActions();
-          expect(action).toEqual({
-            type: 'ADD_USER_TO_TICKET',
-            user
-          });
-          done();
-        });
-    });
+test('startAddUser should add user to ticket and ticket to user and dispatch action', async done => {
+  const userKey = '-83lskdjf';
+  const ticketKey = activeTicketKey;
+  await store.dispatch(startAddUser({}));
+  const [ticketSnap, userTicketsSnap] = await Promise.all([
+    db.ref(`tickets/${activeTicketKey}`).once('value'),
+    db.ref('user_tickets/${key}').once('value')
+  ]);
+  expect(ticketSnap.child('userKeys').val()[userKey]).toBeTruthy();
+  expect(userTicketsSnap.val()[ticketKey]).toBeTruthy();
+  expect(store.getActions()[0]).toEqual({
+    type: 'ADD_USER_TO_TICKET',
+    ticketKey,
+    userKey
   });
+  done();
 });
 
 test('addComment should correctly setup action', () => {

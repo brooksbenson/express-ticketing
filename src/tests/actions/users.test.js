@@ -50,27 +50,20 @@ test('startAddUser should add user to db and store', done => {
 });
 
 test('setUsers should setup action correctly', () => {
-  const action = setUsers(users);
+  const action = setUsers(usersObj);
   expect(action).toEqual({
     type: 'SET_USERS',
-    users
+    users: usersObj
   });
 });
 
-test('startSetUsers should fetch and set users from db', done => {
-  db
-    .ref('usersPublic')
-    .set(users)
-    .then(() => {
-      store.dispatch(startSetUsers()).then(() => {
-        const [action] = store.getActions();
-        const { type, users: usersFromDb } = action;
-        expect(type).toBe('SET_USERS');
-        expect(usersFromDb.length).toBe(users.length);
-        usersFromDb.forEach(user => {
-          expect(user.key).toBeTruthy();
-        });
-        done();
-      });
+test('startSetUsers should fetch users from db and dispatch action', done => {
+  store.dispatch(startSetUsers()).then(() => {
+    const [action] = store.getActions();
+    expect(action).toEqual({
+      type: 'SET_USERS',
+      users: usersObj
     });
+    done();
+  });
 });

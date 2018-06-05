@@ -10,7 +10,7 @@ const ticketsArr = [
     userKey: usersArr[0].key,
     date: Date.now(),
     title: 'Shipping Delay',
-    urgency: 'High',
+    urgency: 'Low',
     comment: {
       key: 'jfkdapo',
       date,
@@ -26,7 +26,7 @@ const ticketsArr = [
     userKey: usersArr[1].key,
     date: Date.now(),
     title: 'Customer Complaint',
-    urgency: 'Medium',
+    urgency: 'Low',
     comment: {
       key: 'jiklsp',
       date,

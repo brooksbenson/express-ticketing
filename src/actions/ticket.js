@@ -1,28 +1,31 @@
 import db from '../firebase/firebase';
 
-export const updateUrgency = urgency => ({
+export const updateUrgency = ({ key, urgency }) => ({
   type: 'UPDATE_URGENCY',
+  key,
   urgency
 });
 
-export const startUpdateUrgency = ({ ticketKey, urgency }) => {
+export const startUpdateUrgency = ({ key, urgency }) => {
   return async dispatch => {
-    await db.ref(`tickets/open/${ticketKey}`).update({ urgency });
-    dispatch(updateUrgency(urgency));
+    await db.ref(`tickets/${key}`).update({ urgency });
+    dispatch(updateUrgency({ key, urgency }));
   };
 };
 
-export const addUser = user => ({
+export const addUser = ({ ticketKey, userKey }) => ({
   type: 'ADD_USER_TO_TICKET',
-  user
+  ticketKey,
+  userKey
 });
 
-export const startAddUser = ({ ticketKey, user }) => {
+export const startAddUser = ({ ticketKey, userKey }) => {
   return async dispatch => {
-    await db
-      .ref(`tickets/open/${ticketKey}/userKeys`)
-      .update({ [user.key]: true });
-    dispatch(addUser(user));
+    await Promise.all([
+      db.ref(`tickets/${ticketKey}/userKeys`).update({ [userKey]: true }),
+      db.ref(`user_tickets/${userKey}`).update({ [ticketKey]: true })
+    ]);
+    dispatch(addUser({ ticketKey, userKey }));
   };
 };
 

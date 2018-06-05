@@ -1,4 +1,4 @@
-export const setUser = user => ({
+export const setUser = key => ({
   type: 'SET_USER',
-  user
+  key
 });
