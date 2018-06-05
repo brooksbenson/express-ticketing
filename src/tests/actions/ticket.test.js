@@ -8,10 +8,8 @@ import {
   startUpdateUrgency,
   addUser,
   startAddUser,
-  addComment,
-  startAddComment,
   setTicket,
-  startSetTicket
+  unsetTicket
 } from '../../actions/ticket';
 
 const { activeTicketKey } = storeModel;
@@ -27,13 +25,27 @@ beforeEach(done => {
     .then(() => done());
 });
 
+test('setTicket should correctly setup action', () => {
+  const action = setTicket(activeTicketKey);
+  expect(action).toEqual({
+    type: 'SET_TICKET',
+    key: activeTicketKey
+  });
+});
+
+test('unsetTicket should correctly setup action', () => {
+  const action = unsetTicket();
+  expect(action).toEqual({
+    type: 'UNSET_TICKET'
+  });
+});
+
 test('updateUrgency should correctly setup action object', () => {
   const urgency = 'High';
-  const key = activeTicketKey;
-  const action = updateUrgency({ key, urgency });
+  const action = updateUrgency(urgency);
   expect(action).toEqual({
     type: 'UPDATE_URGENCY',
-    key,
+    key: activeTicketKey,
     urgency
   });
 });
@@ -41,7 +53,7 @@ test('updateUrgency should correctly setup action object', () => {
 test('startUpdateUrgency should update urgency in db and dispatch action', async done => {
   const urgency = 'Medium';
   const key = activeTicketKey;
-  await store.dispatch(startUpdateUrgency({ key, urgency }));
+  await store.dispatch(startUpdateUrgency(urgency));
   const snap = await db.ref('tickets/${key}/urgency').once('value');
   expect(snap.val()).toBe(urgency);
   expect(store.getActions()[0]).toEqual({
@@ -54,123 +66,28 @@ test('startUpdateUrgency should update urgency in db and dispatch action', async
 
 test('addUser should correctly setup action', () => {
   const userKey = '-ikdoenvc';
-  const ticketKey = activeTicketKey;
-  const action = addUser({ ticketKey, userKey });
+  const action = addUser(userKey);
   expect(action).toEqual({
     type: 'ADD_USER_TO_TICKET',
-    ticketKey,
+    key: activeTicketKey,
     userKey
   });
 });
 
 test('startAddUser should add user to ticket and ticket to user and dispatch action', async done => {
   const userKey = '-83lskdjf';
-  const ticketKey = activeTicketKey;
-  await store.dispatch(startAddUser({}));
-  const [ticketSnap, userTicketsSnap] = await Promise.all([
-    db.ref(`tickets/${activeTicketKey}`).once('value'),
-    db.ref('user_tickets/${key}').once('value')
+  const key = activeTicketKey;
+  await store.dispatch(startAddUser(userKey));
+  const [userKeysSnap, userTicketsSnap] = await Promise.all([
+    db.ref(`tickets/${key}/userKeys`).once('value'),
+    db.ref('user_tickets/${userKey}/${key}').once('value')
   ]);
-  expect(ticketSnap.child('userKeys').val()[userKey]).toBeTruthy();
+  expect(userKeysSnap.val()[userKey]).toBeTruthy();
   expect(userTicketsSnap.val()[ticketKey]).toBeTruthy();
   expect(store.getActions()[0]).toEqual({
     type: 'ADD_USER_TO_TICKET',
-    ticketKey,
+    key,
     userKey
   });
   done();
-});
-
-test('addComment should correctly setup action', () => {
-  const [user] = users;
-  const comment = { date: Date.now(), name: user.name, body: 'test' };
-  const action = addComment(comment);
-  expect(action).toEqual({
-    type: 'ADD_COMMENT_TO_TICKET',
-    comment
-  });
-});
-
-test('startAddComment should add comment to db and dispatch action', done => {
-  const [user] = users;
-  const comment = { date: Date.now(), name: user.name, body: 'test' };
-  store.dispatch(startAddTicket(ticket)).then(ticketKey => {
-    const payload = { ticketKey, comment };
-    store.dispatch(startAddComment(payload)).then(commentKey => {
-      db
-        .ref(`comments/${ticketKey}/${commentKey}`)
-        .once('value')
-        .then(snap => {
-          expect(snap.val()).toEqual(comment);
-          const [, action] = store.getActions();
-          expect(action).toEqual({
-            type: 'ADD_COMMENT_TO_TICKET',
-            comment
-          });
-          done();
-        });
-    });
-  });
-});
-
-test('setTicket should correctly setup action', () => {
-  const action = setTicket(ticket);
-  expect(action).toEqual({
-    type: 'SET_TICKET',
-    ticket
-  });
-});
-
-test('startSetTicket should get ticket from store and dispatch action', async () => {
-  /* 
-    Add contact to db
-    Create mock ticket key
-    Add comment under comments/mockTicketKey
-
-    These things are done becuase the function retrieves 
-    the contact and comments from the database.
-  */
-  const { key, ...contact } = contacts[0];
-  const contactKey = await db
-    .ref(`contacts/${ticket.accountKey}/`)
-    .push(contact).key;
-  const mockTicketKey = '-jfdkaj8';
-  await db.ref(`comments/${mockTicketKey}`).push(ticket.comment);
-  const store2 = configureMockStore([thunk])({
-    accounts,
-    users,
-    tickets: [
-      {
-        key: mockTicketKey,
-        accountKey: accounts[0].key,
-        contactKey,
-        userKeys: [users[0].key],
-        date: ticket.date
-      }
-    ]
-  });
-  const { userKey, comment, contactKey: x, ...storeTicket } = ticket;
-  const { key, ...contact } = contacts[0];
-  const { key: accountKey } = accounts[0];
-  const contactKey = await store.dispatch(
-    startAddContact({ contact, accountKey })
-  );
-  const ticketKey = await store.dispatch(startAddTicket(ticket));
-  await store.dispatch({ ...storeTicket, contactKey });
-  store.dispatch(startSetTicket(ticket)).then(() => {
-    const [, action] = store.getActions();
-    expect(action).toEqual({
-      type: 'SET_TICKET',
-      ticket: {
-        date: ticket.date,
-        account: accounts[0],
-        contact: contacts[0],
-        users: [users[0]],
-        title: ticket.title,
-        urgency: ticket.urgency,
-        comments: [ticket.comment]
-      }
-    });
-    done();
-  });
 });

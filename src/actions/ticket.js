@@ -6,67 +6,36 @@ export const updateUrgency = ({ key, urgency }) => ({
   urgency
 });
 
-export const startUpdateUrgency = ({ key, urgency }) => {
-  return async dispatch => {
+export const startUpdateUrgency = urgency => {
+  return async (dispatch, getState) => {
+    const { activeTicketKey: key } = getState();
     await db.ref(`tickets/${key}`).update({ urgency });
     dispatch(updateUrgency({ key, urgency }));
   };
 };
 
-export const addUser = ({ ticketKey, userKey }) => ({
+export const addUser = ({ key, userKey }) => ({
   type: 'ADD_USER_TO_TICKET',
-  ticketKey,
+  key,
   userKey
 });
 
-export const startAddUser = ({ ticketKey, userKey }) => {
-  return async dispatch => {
+export const startAddUser = userKey => {
+  return async (dispatch, getState) => {
+    const { activeTicketKey: key } = getState();
     await Promise.all([
-      db.ref(`tickets/${ticketKey}/userKeys`).update({ [userKey]: true }),
+      db.ref(`tickets/${key}/userKeys`).update({ [userKey]: true }),
       db.ref(`user_tickets/${userKey}`).update({ [ticketKey]: true })
     ]);
-    dispatch(addUser({ ticketKey, userKey }));
+    dispatch(addUser({ key, userKey }));
   };
 };
 
-export const addComment = comment => ({
-  type: 'ADD_COMMENT_TO_TICKET',
-  comment
-});
-
-export const startAddComment = ({ ticketKey, comment, index }) => {
-  return async dispatch => {
-    const key = 'c' + index;
-    await db.ref(`tickets/${ticketKey}/comments`).update({ [key]: comment });
-    dispatch(addComment(comment));
-    return key;
-  };
-};
-
-// set ticket
-export const setTicket = ticket => ({
+export const setTicket = key => ({
   type: 'SET_TICKET',
-  ticket
+  key
 });
 
-// start set ticket
-export const startSetTicket = t => {
-  return async (dispatch, getState) => {
-    const [contactSnap, commentSnap] = await Promise.all([
-      db.ref(`contacts/${t.contactKey}`).once('value'),
-      db.ref(`comments/${t.key}`).once('value')
-    ]);
-    const { accounts, users } = getState();
-    dispatch(
-      setTicket({
-        date: t.date,
-        account: accounts.find(a => a.key == t.accountKey),
-        contact: contactSnap.val(),
-        comments: commentSnap.val(),
-        users: users.filter(u => t.userKeys[u.key]),
-        title: t.title,
-        urgency: t.urgency
-      })
-    );
-  };
-};
+export const unsetTicket = () => ({
+  type: 'UNSET_TICKET'
+});
