@@ -20,7 +20,7 @@ const usersArr = [
 ];
 
 const usersObj = {};
-usersArr.forEach(({ key, admin, ...info }) => {
+usersArr.forEach(({ key, ...info }) => {
   usersObj[key] = info;
 });
 

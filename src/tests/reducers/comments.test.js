@@ -1,9 +1,9 @@
 import commentsReducer from '../../reducers/comments';
 import { addComment, setComments, unsetComments } from '../../actions/comments';
-import { ticketArr, comments } from '../fixtures/tickets';
+import { ticketsArr, comments } from '../fixtures/tickets';
 
-test('commentsReducer should set comment correctly', () => {
-  const { key } = ticketArr[0];
+test('commentsReducer should set comments correctly', () => {
+  const { key } = ticketsArr[0];
   const ticketComments = comments[key];
   const action = setComments(ticketComments);
   const state = commentsReducer(null, action);
@@ -11,7 +11,7 @@ test('commentsReducer should set comment correctly', () => {
 });
 
 test('commentsReducer should add comment correctly', () => {
-  const { key } = ticketArr[0];
+  const { key } = ticketsArr[0];
   const ticketComments = comments[key];
   const comment = {
     key: '-8jdiso3',
@@ -25,7 +25,9 @@ test('commentsReducer should add comment correctly', () => {
 });
 
 test('commentsReducer should unset comments correctly', () => {
+  const { key } = ticketsArr[0];
+  const ticketComments = comments[key];
   const action = unsetComments();
-  const state = commentsReducer(action);
+  const state = commentsReducer(ticketComments, action);
   expect(state).toEqual(null);
 });

@@ -21,7 +21,8 @@ export const setUsers = users => ({
 
 export const startSetUsers = () => {
   return async dispatch => {
-    const snap = db.ref('user_data').once('value');
+    const snap = await db.ref('user_data').once('value');
+    console.log(snap.val());
     dispatch(setUsers(snap.val()));
   };
 };

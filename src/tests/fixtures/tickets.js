@@ -13,7 +13,7 @@ const ticketsArr = [
     urgency: 'Low',
     comment: {
       key: 'jfkdapo',
-      date,
+      date: Date.now(),
       name: usersArr[0].name,
       body:
         'Received notice from warehouse #z001 that shippment #y849 was delayed'
@@ -29,7 +29,7 @@ const ticketsArr = [
     urgency: 'Low',
     comment: {
       key: 'jiklsp',
-      date,
+      date: Date.now(),
       name: usersArr[1].name,
       body: 'We received a complaint'
     }
@@ -38,13 +38,13 @@ const ticketsArr = [
 
 const tickets = {};
 const comments = {};
-const open_ticket = {};
+const open_tickets = {};
 const user_tickets = {};
 
 ticketsArr.forEach(({ key, userKey, comment, ...ticket }) => {
   tickets[key] = { ...ticket, userKeys: { [userKey]: true } };
   open_tickets[key] = true;
-  user_tickets[userKey][key] = true;
+  user_tickets[userKey] = { [key]: true };
   const { key: commentKey, ...commentInfo } = comment;
   comments[key] = { [commentKey]: commentInfo };
 });

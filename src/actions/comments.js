@@ -1,7 +1,7 @@
 import db from '../firebase/firebase';
 
 export const addComment = ({ key, ...comment }) => ({
-  type: 'ADD_COMMENT_TO_TICKET',
+  type: 'ADD_COMMENT',
   key,
   comment
 });
@@ -10,7 +10,7 @@ export const startAddComment = text => {
   return async (dispatch, getState) => {
     const { activeUserKey: userKey, activeTicketKey } = getState();
     const comment = { date: Date.now(), userKey, text };
-    const { key } = db.ref(`comments/${activeTicketKey}`).push(payload);
+    const { key } = db.ref(`comments/${activeTicketKey}`).push(comment);
     dispatch(addComment({ key, ...comment }));
   };
 };

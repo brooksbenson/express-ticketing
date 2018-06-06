@@ -4,11 +4,13 @@ import { usersArr, usersObj } from '../fixtures/users';
 
 test('usersReducer should add user', () => {
   const { key, ...user } = usersArr[0];
-  const state = usersReducer({}, addUser(user));
-  expect(state).toEqual({ [key]: user });
+  const action = addUser({ key, ...user });
+  const state = usersReducer({}, action);
+  expect(state[key]).toEqual(user);
 });
 
 test('usersReducer should set users', () => {
-  const state = usersReducer({}, setUsers(usersObj));
+  const action = setUsers(usersObj);
+  const state = usersReducer({}, action);
   expect(state).toEqual(usersObj);
 });

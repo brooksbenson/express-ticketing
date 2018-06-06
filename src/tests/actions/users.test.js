@@ -7,21 +7,20 @@ import {
   setUsers,
   startSetUsers
 } from '../../actions/users';
+import dbModel from '../fixtures/db-model';
+import storeModel from '../fixtures/store-model';
 import { usersArr, usersObj } from '../fixtures/users';
 
-const store = configureMockStore([thunk])({});
+const store = configureMockStore([thunk])(storeModel);
 
-beforeEach(done => {
+beforeEach(async done => {
   store.clearActions();
-  db
-    .ref('user_data')
-    .set(usersObj)
-    .then(() => done());
+  await db.ref().set(dbModel);
+  done();
 });
 
 test('addUser should setup action correctly', () => {
-  const { key } = usersArr[0];
-  const user = usersObj[key];
+  const { key, ...user } = usersArr[0];
   const action = addUser({ key, ...user });
   expect(action).toEqual({
     type: 'ADD_USER',
@@ -30,23 +29,14 @@ test('addUser should setup action correctly', () => {
   });
 });
 
-test('startAddUser should add user to db and store', done => {
+test('startAddUser should add user to db and store', async done => {
   const user = { name: 'Jeremy Street', email: 'jeremy@mail.com', admin: true };
-  store.dispatch(startAddUser(user)).then(key => {
-    db
-      .ref(`user_data/${key}`)
-      .once('value')
-      .then(snapshot => {
-        expect(snapshot.val()).toEqual(user);
-        const [action] = store.getActions();
-        expect(action).toEqual({
-          type: 'ADD_USER',
-          key,
-          user
-        });
-        done();
-      });
-  });
+  const key = await store.dispatch(startAddUser(user));
+  const [action] = store.getActions();
+  const snap = await db.ref(`user_data/${key}`).once('value');
+  expect(snap.val()).toEqual(user);
+  expect(action).toEqual({ type: 'ADD_USER', key, user });
+  done();
 });
 
 test('setUsers should setup action correctly', () => {
@@ -57,13 +47,12 @@ test('setUsers should setup action correctly', () => {
   });
 });
 
-test('startSetUsers should fetch users from db and dispatch action', done => {
-  store.dispatch(startSetUsers()).then(() => {
-    const [action] = store.getActions();
-    expect(action).toEqual({
-      type: 'SET_USERS',
-      users: usersObj
-    });
-    done();
+test('startSetUsers should fetch users from db and dispatch action', async done => {
+  await store.dispatch(startSetUsers());
+  const [action] = store.getActions();
+  expect(action).toEqual({
+    type: 'SET_USERS',
+    users: usersObj
   });
+  done();
 });

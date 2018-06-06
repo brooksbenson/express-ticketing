@@ -9,20 +9,22 @@ import {
   updateAccount,
   startUpdateAccount
 } from '../../actions/accounts';
+import dbModel from '../fixtures/db-model';
+import storeModel from '../fixtures/store-model';
 import { accountsArr, accountsObj } from '../fixtures/accounts';
 
-const store = configureMockStore([thunk])({});
+const store = configureMockStore([thunk])(storeModel);
 beforeEach(done => {
   store.clearActions();
   db
     .ref()
-    .set(null)
+    .set(dbModel)
     .then(() => done());
 });
 
 test('addAccount should correctly setup action', () => {
   const { key, ...account } = accountsArr[0];
-  const action = addAccount(account);
+  const action = addAccount({ key, ...account });
   expect(action).toEqual({
     type: 'ADD_ACCOUNT',
     key,
@@ -30,46 +32,36 @@ test('addAccount should correctly setup action', () => {
   });
 });
 
-test('startAddAccount should save account to db and store', done => {
-  const { key, ...account } = accountsArr[0];
-  store.dispatch(startAddAccount(account)).then(accountKey => {
-    db
-      .ref(`account_data/${accountKey}`)
-      .once('value')
-      .then(snapshot => {
-        const accountSnapshot = snapshot.val();
-        expect(accountSnapshot).toEqual(account);
-        const [action] = store.getActions();
-        expect(action).toEqual({
-          type: 'ADD_ACCOUNT',
-          key: accountKey,
-          account
-        });
-        done();
-      });
+test('startAddAccount should save account to db and store', async done => {
+  const account = { name: 'Big Brands', website: 'www.brands.com' };
+  const key = await store.dispatch(startAddAccount(account));
+  const snap = await db.ref(`account_data/${key}`).once('value');
+  expect(snap.val()).toEqual(account);
+  const [action] = store.getActions();
+  expect(action).toEqual({
+    type: 'ADD_ACCOUNT',
+    key,
+    account
   });
+  done();
 });
 
 test('setAccounts should correctly setup action', () => {
-  const action = setAccounts(accountsOb);
+  const action = setAccounts(accountsObj);
   expect(action).toEqual({
     type: 'SET_ACCOUNTS',
-    accountsObj
+    accounts: accountsObj
   });
 });
 
-test('startSetAccounts should fetch accounts from db and dispatch them to store', done => {
-  db
-    .ref('account_data')
-    .set(accountsObj)
-    .then(() => {
-      store.dispatch(startSetAccounts()).then(() => {
-        const [action] = store.getActions();
-        expect(action.type).toBe('SET_ACCOUNTS');
-        expect(action.accounts).toEqual(accountsObj);
-        done();
-      });
-    });
+test('startSetAccounts should fetch accounts from db and dispatch them to store', async done => {
+  await store.dispatch(startSetAccounts());
+  const [action] = store.getActions();
+  expect(action).toEqual({
+    type: 'SET_ACCOUNTS',
+    accounts: accountsObj
+  });
+  done();
 });
 
 test('updateAccount should setup action correctly', () => {
@@ -82,24 +74,11 @@ test('updateAccount should setup action correctly', () => {
   });
 });
 
-test('startUpdateAccount should update account in db and dispatch action', done => {
+test('startUpdateAccount should update account in db and dispatch action', async done => {
   const { key, ...account } = accountsArr[0];
-  store.dispatch(startAddAccount(account)).then(key => {
-    const update = { ...account, name: 'Animal Arc' };
-    store.dispatch(startUpdateAccount({ key, ...update })).then(() => {
-      db
-        .ref(`account_data/${key}`)
-        .once('value')
-        .then(snap => {
-          expect(snap.val()).toEqual(update);
-        });
-    });
-    const [, action] = store.getActions();
-    expect(action).toEqual({
-      type: 'UPDATE_ACCOUNT',
-      key,
-      update
-    });
-    done();
-  });
+  const update = { ...account, name: 'Wendys' };
+  await store.dispatch(startUpdateAccount({ key, ...update }));
+  const snap = await db.ref(`account_data/${key}`).once('value');
+  expect(snap.val()).toEqual(update);
+  done();
 });

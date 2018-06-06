@@ -21,8 +21,8 @@ export const setAccounts = accounts => ({
 
 export const startSetAccounts = () => {
   return async dispatch => {
-    const accountsSnap = await db.ref('account_data').once('value');
-    dispatch(setAccounts(accountsSnap.val()));
+    const snap = await db.ref('account_data').once('value');
+    dispatch(setAccounts(snap.val()));
   };
 };
 
