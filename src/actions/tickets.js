@@ -6,16 +6,23 @@ export const addTicket = ({ key, ...ticket }) => ({
   ticket
 });
 
-export const startAddTicket = ({ userKey, comment, ...rest }) => {
-  return async dispatch => {
-    const ticket = { ...rest, usersKeys: { [userKey]: true } };
+export const startAddTicket = ({ title, urgency }) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const ticket = {
+      date: Date.now(),
+      title,
+      urgency,
+      accountKey: state.activeAccountKey,
+      contactKey: state.activeContactKey,
+      userKeys: { [state.activeUserKey]: true }
+    };
     const { key } = await db.ref('tickets').push(ticket);
-    await Promise.all([
-      db.ref('comments/${key}').push(comment),
-      db.ref('open_tickets').update({ [key]: true }),
-      db.ref('user_tickets/${userKey}').update({ [key]: true })
-    ]);
     dispatch(addTicket({ key, ...ticket }));
+    await Promise.all([
+      db.ref('open_tickets').update({ [key]: true }),
+      db.ref(`user_tickets/${state.activeUserKey}`).update({ [key]: true })
+    ]);
     return key;
   };
 };
@@ -25,23 +32,31 @@ export const setTickets = tickets => ({
   tickets
 });
 
-export const startSetTickets = userKey => {
-  return async dispatch => {
-    const [openTicketsSnap, userTicketsSnap] = await Promise.all([
-      db.ref('open_tickets').value('once'),
-      db.ref(`user_tickets/${userKey}`).value('once')
+export const startSetTickets = () => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const [openTickets, userTickets] = await Promise.all([
+      db.ref('open_tickets').once('value'),
+      db.ref(`user_tickets/${state.activeUserKey}`).once('value')
     ]);
     const toFetch = [];
-    const openTicketKeys = Object.keys(openTicketsSnap.val());
-    Object.keys(userTicketsSnap.val()).forEach(key => {
-      if (openTicketKeys[key]) toFetch.push(key);
+    const userTicketsObj = userTickets.val();
+    Object.keys(openTickets.val()).forEach(key => {
+      if (key in userTicketsObj) toFetch.push(key);
     });
     const tickets = {};
     await Promise.all(
-      toFetch.map(key => async () => {
-        const snap = await db.ref(`tickets/${key}`).once('value');
-        tickets[key] = snap.val();
-      })
+      toFetch.map(
+        key =>
+          new Promise(resolve => {
+            db.ref(`tickets/${key}`)
+              .once('value')
+              .then(snap => {
+                tickets[key] = snap.val();
+                resolve();
+              });
+          })
+      )
     );
     dispatch(setTickets(tickets));
   };

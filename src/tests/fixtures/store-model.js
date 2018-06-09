@@ -1,21 +1,29 @@
-import { accountsObj } from './accounts';
-import { contactsObj } from './contacts';
+import { accountsObj, accountsArr } from './accounts';
+import { contactsObj, contactsArr } from './contacts';
 import { usersObj, usersArr } from './users';
-import { ticketArr, tickets, user_tickets, comments } from './tickets';
+import { ticketsArr, ticketsObj, userTickets, openTickets } from './tickets';
+import { comments } from './comments';
 
-const userKey = usersArr[0].key;
-const keys = Object.keys(user_tickets[userKey]);
-const userTickets = {};
-keys.forEach(key => {
-  userTickets[key] = tickets[key];
+const activeUserKey = usersArr[0].key;
+const activeTicketKey = ticketsArr[0].key;
+const activeAccountKey = ticketsObj[activeTicketKey].accountKey;
+const activeContactKey = ticketsObj[activeTicketKey].contactKey;
+
+const openUserTickets = {};
+Object.keys(userTickets[activeUserKey]).forEach(tKey => {
+  if (tKey in openTickets) {
+    openUserTickets[tKey] = ticketsObj[tKey];
+  }
 });
 
 export default {
+  activeUserKey,
+  activeTicketKey,
+  activeAccountKey,
+  activeContactKey,
   accounts: accountsObj,
-  contacts: contactsObj,
+  contacts: contactsObj[activeAccountKey],
+  comments: comments[activeTicketKey],
   users: usersObj,
-  activeUserKey: userKey,
-  tickets: userTickets,
-  activeTicketKey: keys[0],
-  comments: comments[keys[0]]
+  tickets: openUserTickets
 };

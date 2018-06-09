@@ -3,7 +3,8 @@ import thunk from 'redux-thunk';
 import db from '../../firebase/firebase';
 import dbModel from '../fixtures/db-model';
 import storeModel from '../fixtures/store-model';
-import { ticketsArr, comments } from '../fixtures/tickets';
+import { ticketKeys } from '../fixtures/tickets';
+import { comments } from '../fixtures/comments';
 import {
   addComment,
   startAddComment,
@@ -13,22 +14,20 @@ import {
 } from '../../actions/comments';
 
 const store = configureMockStore([thunk])(storeModel);
-const { activeTicketKey, activeUserKey } = storeModel;
 
 beforeEach(done => {
   store.clearActions();
-  db
-    .ref()
+  db.ref()
     .set(dbModel)
     .then(() => done());
 });
 
 test('addComment should correctly setup action', () => {
-  const key = 'fjdakl;jf;ad';
+  const key = '3333333';
   const comment = {
     date: Date.now(),
-    userKey: activeUserKey,
-    text: 'jfdkaljfd;askjf;dsafkj'
+    userKey: '111111',
+    text: 'Just some text'
   };
   const action = addComment({ key, ...comment });
   expect(action).toEqual({
@@ -39,27 +38,30 @@ test('addComment should correctly setup action', () => {
 });
 
 test('startAddComment should add comment to db and dispatch action', async done => {
+  const { activeUserKey: userKey, activeTicketKey: ticketKey } = storeModel;
   const text = 'String data is very expressive';
   const key = await store.dispatch(startAddComment(text));
+  const snap = await db.ref(`comments/${ticketKey}`).once('value');
   const [action] = store.getActions();
-  const snap = await db.ref(`comments/${activeTicketKey}`);
   expect(snap.val()[key]).toEqual({
     date: expect.any(Number),
-    userKey: activeUserKey,
+    userKey,
     text
   });
   expect(action).toEqual({
     type: 'ADD_COMMENT',
-    date: expect.any(Number),
-    userKey: activeUserKey,
-    text
+    key,
+    comment: {
+      date: expect.any(Number),
+      userKey,
+      text
+    }
   });
   done();
 });
 
 test('setComments should correctly setup action', () => {
-  const { key } = ticketsArr[0];
-  const ticketComments = comments[key];
+  const ticketComments = comments[ticketKeys[0]];
   const action = setComments(ticketComments);
   expect(action).toEqual({
     type: 'SET_COMMENTS',
@@ -68,7 +70,7 @@ test('setComments should correctly setup action', () => {
 });
 
 test('startSetComments should fetch comments from db and dispatch action', async done => {
-  const ticketComments = comments[activeTicketKey];
+  const ticketComments = comments[storeModel.activeTicketKey];
   await store.dispatch(startSetComments());
   const [action] = store.getActions();
   expect(action).toEqual({

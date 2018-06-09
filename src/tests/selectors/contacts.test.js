@@ -1,5 +1,6 @@
 import contactSelector from '../../selectors/contacts';
-import contacts from '../fixtures/contacts';
+import { contactsArr } from '../fixtures/contacts';
+const contacts = contactsArr;
 
 test('should select contacts by name', () => {
   const [contact] = contactSelector(contacts, 'Warren Buffguy');
@@ -12,7 +13,7 @@ test('should select contacts by email', () => {
 });
 
 test('should select contact by number', () => {
-  const number = '3589990345';
+  const number = '8015678989';
   const [contact] = contactSelector(contacts, number);
   expect(contact.number).toBe(number);
 });

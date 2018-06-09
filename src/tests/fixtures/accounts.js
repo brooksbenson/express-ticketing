@@ -21,4 +21,6 @@ accountsArr.forEach(({ key, ...a }) => {
   accountsObj[key] = a;
 });
 
-export { accountsArr, accountsObj };
+const accountKeys = Object.keys(accountsObj);
+
+export { accountsArr, accountsObj, accountKeys };

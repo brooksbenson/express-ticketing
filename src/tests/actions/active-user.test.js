@@ -1,4 +1,4 @@
-import { setUser, unsetUser } from '../../actions/user';
+import { setUser, unsetUser } from '../../actions/active-user';
 
 test('setUser should correctly setup action', () => {
   const key = '-i8829dj';

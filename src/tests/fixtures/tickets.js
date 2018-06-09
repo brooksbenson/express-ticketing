@@ -2,73 +2,90 @@ import { usersArr, usersObj } from '../fixtures/users';
 import { accountsArr, accountsObj } from '../fixtures/accounts';
 import { contactsArr, contactsObj } from '../fixtures/contacts';
 
+const accountKeys = Object.keys(accountsObj);
+const contactKeys = Object.keys(contactsObj);
+const userKeys = Object.keys(usersObj);
+
 const ticketsArr = [
   {
-    key: '-iekgjdksl',
-    accountKey: accountsArr[0].key,
-    contactKey: contactsArr[0].key,
-    userKey: usersArr[0].key,
+    key: '-9999',
+    status: 'open',
+    accountKey: accountKeys[0],
+    contactKey: contactKeys[0],
+    userKeys: [userKeys[0]],
     date: Date.now(),
     title: 'Shipping Delay',
-    urgency: 'Low',
-    comment: {
-      key: 'jfkdapo',
-      date: Date.now(),
-      name: usersArr[0].name,
-      body:
-        'Received notice from warehouse #z001 that shippment #y849 was delayed'
-    }
+    urgency: 'Low'
   },
   {
-    key: '-iekgjdjipp',
-    accountKey: accountsArr[1].key,
-    contactKey: contactsArr[1].key,
-    userKey: usersArr[1].key,
+    key: '-8989',
+    status: 'open',
+    accountKey: accountKeys[1],
+    contactKey: contactKeys[1],
+    userKeys: [userKeys[1]],
     date: Date.now(),
     title: 'Customer Complaint',
-    urgency: 'Low',
-    comment: {
-      key: 'jiklsp',
-      date: Date.now(),
-      name: usersArr[1].name,
-      body: 'We received a complaint'
-    }
+    urgency: 'Low'
+  },
+  {
+    key: '-1234',
+    status: 'open',
+    accountKey: accountKeys[2],
+    contactKey: contactKeys[2],
+    userKeys: [userKeys[1], userKeys[2]],
+    date: Date.now(),
+    title: 'Roof Leak',
+    urgency: 'Low'
+  },
+  {
+    key: '-3333',
+    status: 'closed',
+    accountKey: accountKeys[2],
+    contactKey: contactKeys[2],
+    userKeys: [userKeys[0], userKeys[2]],
+    date: Date.now(),
+    title: 'Bounced Check',
+    urgency: 'High'
   }
 ];
 
-const tickets = {};
-const comments = {};
-const open_tickets = {};
-const user_tickets = {};
-
-ticketsArr.forEach(({ key, userKey, comment, ...ticket }) => {
-  tickets[key] = { ...ticket, userKeys: { [userKey]: true } };
-  open_tickets[key] = true;
-  user_tickets[userKey] = { [key]: true };
-  const { key: commentKey, ...commentInfo } = comment;
-  comments[key] = { [commentKey]: commentInfo };
+const ticketsObj = {};
+const userTickets = {};
+userKeys.forEach(uKey => {
+  userTickets[uKey] = {};
 });
+const openTickets = {};
+const closedTickets = {};
 
-const ticketInit = (date, comment) => ({
-  key: '-iekgjdjipp',
-  accountKey: accountsArr[1].key,
-  contactKey: contactsArr[1].key,
-  userKey: usersArr[1].key,
-  date,
-  title: 'Customer Complaint',
-  urgency: 'Medium',
-  comment: {
-    date,
-    name: usersArr[1].name,
-    body: 'We received a complaint'
+ticketsArr.forEach(({ key, status, userKeys, ...ticket }) => {
+  ticketsObj[key] = { ...ticket, userKeys: {} };
+  userKeys.forEach(uKey => {
+    ticketsObj[key].userKeys[uKey] = true;
+    userTickets[uKey][key] = true;
+  });
+  switch (status) {
+    case 'open':
+      openTickets[key] = true;
+      break;
+    case 'closed':
+      closedTickets[key] = true;
+      break;
   }
 });
 
+const ticketInit = () => ({
+  title: 'Customer Complaint',
+  urgency: 'Low'
+});
+
+const ticketKeys = Object.keys(ticketsObj);
+
 export {
+  ticketKeys,
   ticketsArr,
-  tickets,
-  comments,
-  open_tickets,
-  user_tickets,
+  ticketsObj,
+  userTickets,
+  openTickets,
+  closedTickets,
   ticketInit
 };

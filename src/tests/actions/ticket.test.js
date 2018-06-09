@@ -7,9 +7,7 @@ import {
   updateUrgency,
   startUpdateUrgency,
   addUser,
-  startAddUser,
-  setTicket,
-  unsetTicket
+  startAddUser
 } from '../../actions/ticket';
 
 const { activeTicketKey } = storeModel;
@@ -19,25 +17,9 @@ const store = configureMockStore([thunk])(storeModel);
 
 beforeEach(done => {
   store.clearActions();
-  db
-    .ref()
+  db.ref()
     .set(dbModel)
     .then(() => done());
-});
-
-test('setTicket should correctly setup action', () => {
-  const action = setTicket(activeTicketKey);
-  expect(action).toEqual({
-    type: 'SET_TICKET',
-    key: activeTicketKey
-  });
-});
-
-test('unsetTicket should correctly setup action', () => {
-  const action = unsetTicket();
-  expect(action).toEqual({
-    type: 'UNSET_TICKET'
-  });
 });
 
 test('updateUrgency should correctly setup action object', () => {

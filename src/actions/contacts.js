@@ -6,9 +6,12 @@ export const addContact = ({ key, ...contact }) => ({
   contact
 });
 
-export const startAddContact = ({ contact, accountKey }) => {
-  return async dispatch => {
-    const { key } = await db.ref(`contact_data/${accountKey}`).push(contact);
+export const startAddContact = contact => {
+  return async (dispatch, getState) => {
+    const { activeAccountKey } = getState();
+    const { key } = await db
+      .ref(`contact_data/${activeAccountKey}`)
+      .push(contact);
     dispatch(addContact({ key, ...contact }));
     return key;
   };
@@ -20,10 +23,13 @@ export const updateContact = ({ key, ...update }) => ({
   update
 });
 
-export const startUpdateContact = ({ accountKey, key, ...update }) => {
-  return async dispatch => {
-    await db.ref(`contact_data/${accountKey}/${key}`).set(update);
-    dispatch(updateContact({ key, ...update }));
+export const startUpdateContact = update => {
+  return async (dispatch, getState) => {
+    const { activeAccountKey, activeContactKey } = getState();
+    await db
+      .ref(`contact_data/${activeAccountKey}/${activeContactKey}`)
+      .set(update);
+    dispatch(updateContact({ key: activeContactKey, ...update }));
   };
 };
 
@@ -32,9 +38,10 @@ export const setContacts = contacts => ({
   contacts
 });
 
-export const startSetContacts = accountKey => {
-  return async dispatch => {
-    const snap = db.ref(`contact_data/${accountKey}`).only('value');
+export const startSetContacts = () => {
+  return async (dispatch, getState) => {
+    const { activeAccountKey } = getState();
+    const snap = await db.ref(`contact_data/${activeAccountKey}`).once('value');
     dispatch(setContacts(snap.val()));
   };
 };

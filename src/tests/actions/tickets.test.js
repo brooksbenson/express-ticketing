@@ -1,109 +1,95 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import db from '../../firebase/firebase';
-import { accountsArr, accountsObj } from '../fixtures/accounts';
-import { contactsArr, contactsObj } from '../fixtures/contacts';
-import { usersArr, usersObj } from '../fixtures/users';
 import {
   addTicket,
   startAddTicket,
   setTickets,
   startSetTickets
 } from '../../actions/tickets';
+import storeModel from '../fixtures/store-model';
+import dbModel from '../fixtures/db-model';
 import {
   ticketsArr,
-  tickets,
-  comments,
-  open_tickets,
-  user_tickets,
-  ticketInit
+  ticketsObj,
+  ticketInit,
+  userTickets
 } from '../fixtures/tickets';
 
-const store = configureMockStore([thunk])([]);
+const { activeAccountKey, activeContactKey, activeUserKey } = storeModel;
+const store = configureMockStore([thunk])(storeModel);
 
-let ticket;
 beforeEach(async done => {
   store.clearActions();
-  ticket = ticketInit(Date.now());
-  await db.ref('').set(null);
-  await db.ref({
-    tickets,
-    comments,
-    open_tickets,
-    user_tickets
-  });
+  await db.ref().set(dbModel);
+  done();
 });
 
 test('addTicket should setup action correctly', () => {
-  const { comment, userKey, ...rest } = ticket;
-  const action = addTicket({ userKey, ...rest });
+  const key = '-88204';
+  const ticket = {
+    date: Date.now(),
+    accountKey: activeAccountKey,
+    contactKey: activeContactKey,
+    userKeys: { [activeUserKey]: true },
+    ...ticketInit()
+  };
+  const action = addTicket({ key, ...ticket });
   expect(action).toEqual({
     type: 'ADD_TICKET',
-    ticket: {
-      ...rest,
-      userKeys: [userKey]
-    }
+    key,
+    ticket
   });
 });
 
-test('startAddTicket should save ticket in db', done => {
-  store.dispatch(startAddTicket(ticket)).then(async key => {
-    const snap = await db.ref(`tickets/${key}`).once('value');
-    expect(snap.val()).toEqual({
-      accountKey: ticket.accountKey,
-      contactKey: ticket.contactKey,
-      userKeys: { [ticket.userKey]: true },
-      date: ticket.date,
+test('startAddTicket should save ticket in db', async done => {
+  const ticket = ticketInit();
+  const key = await store.dispatch(startAddTicket(ticket));
+  const snap = await db.ref(`tickets/${key}`).once('value');
+  expect(snap.val()).toEqual({
+    date: expect.any(Number),
+    title: ticket.title,
+    urgency: ticket.urgency,
+    accountKey: activeAccountKey,
+    contactKey: activeContactKey,
+    userKeys: { [activeUserKey]: true }
+  });
+  done();
+});
+
+test('startAddTicket should save ticket key under ref open_tickets', async done => {
+  const ticket = ticketInit();
+  const key = await store.dispatch(startAddTicket(ticket));
+  const snap = await db.ref(`open_tickets`).once('value');
+  expect(snap.val()).toHaveProperty(key);
+  done();
+});
+
+test('startAddTicket should save ticket key under ref user_tickets/user_key', async done => {
+  const ticket = ticketInit();
+  const key = await store.dispatch(startAddTicket(ticket));
+  const snap = await db.ref(`user_tickets/${activeUserKey}/`).once('value');
+  expect(snap.val()).toHaveProperty(key);
+  done();
+});
+
+test('startAddTicket should correctly dispatch action', async done => {
+  const ticket = ticketInit();
+  const key = await store.dispatch(startAddTicket(ticket));
+  const [action] = store.getActions();
+  expect(action).toEqual({
+    type: 'ADD_TICKET',
+    key,
+    ticket: {
+      date: expect.any(Number),
+      accountKey: activeAccountKey,
+      contactKey: activeContactKey,
+      userKeys: { [activeUserKey]: true },
       title: ticket.title,
       urgency: ticket.urgency
-    });
-    done();
+    }
   });
-});
-
-test('startAddTicket should save comment in db', done => {
-  store.dispatch(startAddTicket(ticket)).then(async key => {
-    const snap = await db.ref('comments/${key}').once('value');
-    const comments = snap.val();
-    const [commentKey] = Object.keys(comments);
-    expect(comments[commentKey]).toEqual(ticket.comment);
-    done();
-  });
-});
-
-test('startAddTicket should save ticket key under ref open_tickets', done => {
-  store.dispatch(startAddTicket(ticket)).then(async key => {
-    const snap = await db.ref(`open_tickets`).once('value');
-    expect(snap.val()[key]).toBeTruthy();
-    done();
-  });
-});
-
-test('startAddTicket should save ticket key under ref user_tickets/user_key', done => {
-  store.dispatch(startAddTicket(ticket)).then(async key => {
-    const snap = db.ref(`user_tickets/${ticket.userKey}/`).once('value');
-    expect(snap.val()).toHaveProperty(key);
-    done();
-  });
-});
-
-test('startAddTicket should correctly dispatch action', done => {
-  store.dispatch(startAddTicket(ticket)).then(key => {
-    const [action] = store.getActions();
-    expect(action).toEqual({
-      type: 'ADD_TICKET',
-      ticket: {
-        key: key,
-        accountKey: ticket.accountKey,
-        contactKey: ticket.contactKey,
-        userKeys: { [ticket.userKey]: true },
-        date: ticket.date,
-        title: ticket.title,
-        urgency: ticket.urgency
-      }
-    });
-    done();
-  });
+  done();
 });
 
 test('setTickets should correctly setup action', () => {
@@ -114,14 +100,12 @@ test('setTickets should correctly setup action', () => {
   });
 });
 
-test('startSetTickets should fetch user tickets that are open and dispatch action', done => {
-  const [ticket] = ticketsArr;
-  store.dispatch(startSetTickets(ticket.userKey)).then(() => {
-    const [action] = store.getActions();
-    expect(action).toEqual({
-      type: 'SET_TICKETS',
-      tickets: { [ticket.key]: tickets[ticket.key] }
-    });
-    done();
+test('startSetTickets should fetch user tickets that are open and dispatch action', async done => {
+  await store.dispatch(startSetTickets());
+  const [action] = store.getActions();
+  expect(action).toEqual({
+    type: 'SET_TICKETS',
+    tickets: storeModel.tickets
   });
+  done();
 });

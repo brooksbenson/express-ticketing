@@ -1,18 +1,17 @@
 import ticketsReducer from '../../reducers/tickets';
 import { addTicket, setTickets } from '../../actions/tickets';
-import { ticketsArr, tickets } from '../fixtures/tickets';
+import { ticketsArr, ticketsObj, ticketKeys } from '../fixtures/tickets';
 
 test('should respond to ADD_TICKET correctly', () => {
-  const { key } = ticketsArr[0];
-  const action = addTicket({ key, ...tickets[key] });
+  const [key] = ticketKeys;
+  const ticket = ticketsObj[key];
+  const action = addTicket({ key, ...ticket });
   const state = ticketsReducer({}, action);
-  expect(state).toEqual({
-    [key]: tickets[key]
-  });
+  expect(state[key]).toEqual(ticket);
 });
 
 test('should respond to setTickets correctly', () => {
-  const action = setTickets(tickets);
+  const action = setTickets(ticketsObj);
   const state = ticketsReducer({}, action);
-  expect(state).toEqual(tickets);
+  expect(state).toEqual(ticketsObj);
 });
