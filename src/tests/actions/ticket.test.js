@@ -23,52 +23,52 @@ beforeEach(done => {
 });
 
 test('updateUrgency should correctly setup action object', () => {
+  const key = '-3848309';
   const urgency = 'High';
-  const action = updateUrgency(urgency);
+  const action = updateUrgency({ key, urgency });
   expect(action).toEqual({
     type: 'UPDATE_URGENCY',
-    key: activeTicketKey,
+    key,
     urgency
   });
 });
 
 test('startUpdateUrgency should update urgency in db and dispatch action', async done => {
   const urgency = 'Medium';
-  const key = activeTicketKey;
   await store.dispatch(startUpdateUrgency(urgency));
-  const snap = await db.ref('tickets/${key}/urgency').once('value');
+  const snap = await db.ref(`tickets/${activeTicketKey}/urgency`).once('value');
   expect(snap.val()).toBe(urgency);
   expect(store.getActions()[0]).toEqual({
     type: 'UPDATE_URGENCY',
-    key,
+    key: activeTicketKey,
     urgency
   });
   done();
 });
 
 test('addUser should correctly setup action', () => {
+  const key = '-38383';
   const userKey = '-ikdoenvc';
-  const action = addUser(userKey);
+  const action = addUser({ key, userKey });
   expect(action).toEqual({
     type: 'ADD_USER_TO_TICKET',
-    key: activeTicketKey,
+    key,
     userKey
   });
 });
 
 test('startAddUser should add user to ticket and ticket to user and dispatch action', async done => {
   const userKey = '-83lskdjf';
-  const key = activeTicketKey;
   await store.dispatch(startAddUser(userKey));
-  const [userKeysSnap, userTicketsSnap] = await Promise.all([
-    db.ref(`tickets/${key}/userKeys`).once('value'),
-    db.ref('user_tickets/${userKey}/${key}').once('value')
+  const [ticketUsers, userTickets] = await Promise.all([
+    db.ref(`tickets/${activeTicketKey}/userKeys`).once('value'),
+    db.ref(`user_tickets/${userKey}`).once('value')
   ]);
-  expect(userKeysSnap.val()[userKey]).toBeTruthy();
-  expect(userTicketsSnap.val()[ticketKey]).toBeTruthy();
+  expect(ticketUsers.val()).toHaveProperty(userKey);
+  expect(userTickets.val()).toHaveProperty(activeTicketKey);
   expect(store.getActions()[0]).toEqual({
     type: 'ADD_USER_TO_TICKET',
-    key,
+    key: activeTicketKey,
     userKey
   });
   done();

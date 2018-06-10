@@ -1,17 +1,20 @@
-import { setContact, unsetContact } from '../../actions/active-contact';
+import {
+  setActiveContact,
+  unsetActiveContact
+} from '../../actions/active-contact';
 
-test('setContact should correctly setup action', () => {
+test('setActiveContact should correctly setup action', () => {
   const key = '-i8829dj';
-  const action = setContact(key);
+  const action = setActiveContact(key);
   expect(action).toEqual({
-    type: 'SET_CONTACT',
+    type: 'SET_ACTIVE_CONTACT',
     key
   });
 });
 
-test('unsetContact should setup action correctly', () => {
-  const action = unsetContact();
+test('unsetActiveContact should setup action correctly', () => {
+  const action = unsetActiveContact();
   expect(action).toEqual({
-    type: 'UNSET_CONTACT'
+    type: 'UNSET_ACTIVE_CONTACT'
   });
 });

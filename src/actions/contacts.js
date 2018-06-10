@@ -1,4 +1,5 @@
 import db from '../firebase/firebase';
+import { unsetActiveContact } from './active-contact';
 
 export const addContact = ({ key, ...contact }) => ({
   type: 'ADD_CONTACT',
@@ -43,5 +44,16 @@ export const startSetContacts = () => {
     const { activeAccountKey } = getState();
     const snap = await db.ref(`contact_data/${activeAccountKey}`).once('value');
     dispatch(setContacts(snap.val()));
+  };
+};
+
+export const unsetContacts = () => ({
+  type: 'UNSET_CONTACTS'
+});
+
+export const startUnsetContacts = () => {
+  return dispatch => {
+    dispatch(unsetActiveContact());
+    dispatch(unsetContacts());
   };
 };

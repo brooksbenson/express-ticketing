@@ -1,8 +1,8 @@
-export const setContact = key => ({
-  type: 'SET_CONTACT',
+export const setActiveContact = key => ({
+  type: 'SET_ACTIVE_CONTACT',
   key
 });
 
-export const unsetContact = () => ({
-  type: 'UNSET_CONTACT'
+export const unsetActiveContact = () => ({
+  type: 'UNSET_ACTIVE_CONTACT'
 });

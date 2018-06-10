@@ -7,7 +7,9 @@ import {
   setContacts,
   startSetContacts,
   updateContact,
-  startUpdateContact
+  startUpdateContact,
+  unsetContacts,
+  startUnsetContacts
 } from '../../actions/contacts';
 import { contactsArr, contactsObj } from '../fixtures/contacts';
 import storeModel from '../fixtures/store-model';
@@ -96,4 +98,22 @@ test('startSetContacts should fetch contacts from db and dispatch action', async
     contacts: contactsObj[activeAccountKey]
   });
   done();
+});
+
+test('unsetContacts should correctly setup action', () => {
+  const action = unsetContacts();
+  expect(action).toEqual({
+    type: 'UNSET_CONTACTS'
+  });
+});
+
+test('startUnsetContacts should unset contacts and unset active contact', () => {
+  store.dispatch(startUnsetContacts());
+  const [unsetActiveContact, unsetContacts] = store.getActions();
+  expect(unsetActiveContact).toEqual({
+    type: 'UNSET_ACTIVE_CONTACT'
+  });
+  expect(unsetContacts).toEqual({
+    type: 'UNSET_CONTACTS'
+  });
 });

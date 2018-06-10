@@ -1,23 +1,16 @@
-import activeTicketReducer from '../../reducers/ticket';
 import ticketsReducer from '../../reducers/tickets';
-import { setTicket, addUser, updateUrgency } from '../../actions/ticket';
-import { ticketsArr, tickets } from '../fixtures/tickets';
+import { addUser, updateUrgency } from '../../actions/ticket';
+import { ticketsObj, userTickets } from '../fixtures/tickets';
 
-test('activeTicketKeyReducer should set ticket key correctly', () => {
-  const key = '-888888';
-  const action = setTicket(key);
-  const state = activeTicketReducer(null, action);
-  expect(state).toEqual(key);
-});
-
-test('activeTicketKeyReducer should unset ticket key correctly', () => {
-  const action = unsetTicket();
-  const state = activeTicketReducer('-83849', unsetTicket);
-  expect(state).toEqual(null);
+const [activeUserKey] = Object.keys(userTickets);
+const ticketKeys = Object.keys(userTickets[activeUserKey]);
+const tickets = {};
+ticketKeys.forEach(key => {
+  tickets[key] = ticketsObj[key];
 });
 
 test('ticketsReducer should adjust ticket urgency correctly', () => {
-  const { key } = ticketsArr[0];
+  const [key] = Object.keys(tickets);
   const urgency = 'High';
   const action = updateUrgency({ key, urgency });
   const state = ticketsReducer(tickets, action);
@@ -25,7 +18,7 @@ test('ticketsReducer should adjust ticket urgency correctly', () => {
 });
 
 test('ticketReducer should add user to ticket correctly', () => {
-  const { key } = ticketsArr[0];
+  const [key] = Object.keys(tickets);
   const userKey = '-888888';
   const action = addUser({ key, userKey });
   const state = ticketsReducer(tickets, action);

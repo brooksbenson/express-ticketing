@@ -1,15 +1,18 @@
-import { setContact, unsetContact } from '../../actions/active-contact';
+import {
+  setActiveContact,
+  unsetActiveContact
+} from '../../actions/active-contact';
 import activeContactReducer from '../../reducers/active-contact';
 
-test('activeContactReducer should set contact', () => {
+test('activeContactReducer should set active contact', () => {
   const key = 'fjfidoajpf';
-  const action = setContact(key);
+  const action = setActiveContact(key);
   const state = activeContactReducer(null, action);
   expect(state).toEqual(key);
 });
 
-test('activeContactReducer should unset contact', () => {
-  const action = unsetContact();
+test('activeContactReducer should unset active contact', () => {
+  const action = unsetActiveContact();
   const state = activeContactReducer('fjdkajf', action);
   expect(state).toBe(null);
 });

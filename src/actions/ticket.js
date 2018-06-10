@@ -25,7 +25,7 @@ export const startAddUser = userKey => {
     const { activeTicketKey: key } = getState();
     await Promise.all([
       db.ref(`tickets/${key}/userKeys`).update({ [userKey]: true }),
-      db.ref(`user_tickets/${userKey}`).update({ [ticketKey]: true })
+      db.ref(`user_tickets/${userKey}`).update({ [key]: true })
     ]);
     dispatch(addUser({ key, userKey }));
   };
