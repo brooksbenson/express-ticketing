@@ -103,7 +103,10 @@ export class AccountManagementPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ accounts }) => ({ accounts });
+const mapStateToProps = ({ accounts }) => ({
+  accounts: Object.keys(accounts).map(key => ({ key, ...accounts[key] }))
+});
+
 const mapDispatchToProps = dispatch => ({
   startAddAccount: async account => {
     await dispatch(startAddAccount(account));
@@ -113,6 +116,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  AccountManagementPage
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AccountManagementPage);

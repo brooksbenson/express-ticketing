@@ -1,7 +1,9 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { UserManagementPage } from '../../components/UserManagementPage';
-import users from '../fixtures/users';
+import { usersObj } from '../fixtures/users';
+
+const users = Object.keys(usersObj).map(key => ({ key, ...usersObj[key] }));
 
 let wrapper;
 let startAddUserArg;

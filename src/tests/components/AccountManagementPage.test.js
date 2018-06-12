@@ -1,7 +1,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { AccountManagementPage } from '../../components/AccountManagementPage';
-import accounts from '../fixtures/accounts';
+import { accountsObj } from '../fixtures/accounts';
+
+const accounts = Object.keys(accountsObj).map(key => ({
+  key,
+  ...accountsObj[key]
+}));
 
 let wrapper;
 let startAddAccountArg;

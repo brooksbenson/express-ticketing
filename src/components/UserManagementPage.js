@@ -107,11 +107,16 @@ export class UserManagementPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ users }) => ({ users });
+const mapStateToProps = ({ users }) => ({
+  users: Object.keys(users).map(key => ({ key, ...users[key] }))
+});
 const mapDispatchToProps = dispatch => ({
   startAddUser: async user => {
     await dispatch(startAddUser(user));
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserManagementPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserManagementPage);

@@ -1,11 +1,11 @@
-export default (state = null, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case 'ADD_CONTACT':
       return { ...state, [action.key]: action.contact };
     case 'SET_CONTACTS':
-      return action.contacts;
+      return action.contacts || {};
     case 'UNSET_CONTACTS':
-      return null;
+      return {};
     case 'UPDATE_CONTACT':
       return { ...state, [action.key]: action.update };
     default:

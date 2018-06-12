@@ -16,15 +16,14 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   combineReducers({
     accounts: accountsReducer,
-    activeAccount: activeAccountReducer,
-    activeContact: activeContactReducer,
-    activeTicket: activeTicketReducer,
-    activeUser: activeUserReducer,
+    activeAccountKey: activeAccountReducer,
+    activeContactKey: activeContactReducer,
+    activeTicketKey: activeTicketReducer,
+    activeUserKey: activeUserReducer,
     comments: commentsReducer,
     contacts: contactsReducer,
     tickets: ticketsReducer,
-    users: usersReducer,
-    newTicket: newTicketReducer
+    users: usersReducer
   }),
   composeEnhancers(applyMiddleware(thunk))
 );

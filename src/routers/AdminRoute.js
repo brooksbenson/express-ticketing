@@ -11,7 +11,10 @@ export const AdminRoute = ({ isAdmin, Component, ...rest }) => (
   />
 );
 
-const mapStateToProps = ({ user }) =>
-  !!user ? { isAdmin: user.admin } : { isAdmin: false };
+const mapStateToProps = ({ users, activeUser }) => {
+  const user = users[activeUser];
+  const isAdmin = user ? user.admin : false;
+  return { isAdmin };
+};
 
 export default connect(mapStateToProps)(AdminRoute);

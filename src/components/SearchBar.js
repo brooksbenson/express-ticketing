@@ -4,7 +4,7 @@ const SearchBar = props => {
   const onKeyPress = e => {
     if (e.key == 'Enter') {
       const [pick] = props.results;
-      props.onPick(pick);
+      props.onPick(pick.key);
     }
   };
 
@@ -22,12 +22,12 @@ const SearchBar = props => {
         type="text"
         value={props.searchString}
       />
-      {props.results != null && (
+      {props.displayResults && (
         <ul>
           {props.results.length > 0 ? (
             props.results.slice(0, 7).map(r => (
-              <li key={r[props.uniqueKey]} onClick={() => props.onPick(r)}>
-                {r[props.displayKey]}
+              <li key={r.key} onClick={() => props.onPick(r.key)}>
+                {r.name}
               </li>
             ))
           ) : (
