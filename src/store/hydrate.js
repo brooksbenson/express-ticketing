@@ -5,5 +5,8 @@ import { setUser } from '../actions/active-user';
 
 export default async email => {
   await Promise.all([dispatch(startSetAccounts()), dispatch(startSetUsers())]);
-  dispatch(setUser(getState().users, email));
+  const { users } = getState();
+  const usersArr = Object.keys(users).map(key => ({ ...users[key], key }));
+  const { key } = usersArr.find(u => u.email === email);
+  dispatch(setUser(key));
 };

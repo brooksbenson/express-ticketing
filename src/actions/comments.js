@@ -6,11 +6,13 @@ export const addComment = ({ key, ...comment }) => ({
   comment
 });
 
-export const startAddComment = text => {
+export const startAddComment = (text, ticketKey) => {
   return async (dispatch, getState) => {
     const { activeUserKey: userKey, activeTicketKey } = getState();
     const comment = { date: Date.now(), userKey, text };
-    const { key } = await db.ref(`comments/${activeTicketKey}`).push(comment);
+    const { key } = await db
+      .ref(`comments/${activeTicketKey || ticketKey}`)
+      .push(comment);
     dispatch(addComment({ key, ...comment }));
     return key;
   };

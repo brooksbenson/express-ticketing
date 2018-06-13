@@ -18,11 +18,11 @@ export const startAddTicket = ({ title, urgency }) => {
       userKeys: { [state.activeUserKey]: true }
     };
     const { key } = await db.ref('tickets').push(ticket);
-    dispatch(addTicket({ key, ...ticket }));
     await Promise.all([
       db.ref('open_tickets').update({ [key]: true }),
       db.ref(`user_tickets/${state.activeUserKey}`).update({ [key]: true })
     ]);
+    dispatch(addTicket({ key, ...ticket }));
     return key;
   };
 };

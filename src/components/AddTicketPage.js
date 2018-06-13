@@ -10,6 +10,7 @@ import {
   setActiveContact,
   unsetActiveContact
 } from '../actions/active-contact';
+import { startSetActiveTicket } from '../actions/active-ticket';
 import SearchBar from './SearchBar';
 import ContactController from './ContactController';
 import accountSelector from '../selectors/accounts';
@@ -20,12 +21,18 @@ const defaultState = {
   contactSearchString: '',
   comment: '',
   title: '',
-  urgency: '',
-  contactCtrlOpen: false
+  urgency: ''
 };
 
 export class AddTicketPage extends React.Component {
   state = { ...defaultState };
+
+  static getDerivedStateFromProps({ activeContactKey, contacts }, prevState) {
+    if (activeContactKey) {
+      const { name } = contacts[activeContactKey];
+      return { ...prevState, contactSearchString: name };
+    }
+  }
 
   onAccountSearchChange = text => {
     this.props.startUnsetActiveAccount();
@@ -37,7 +44,7 @@ export class AddTicketPage extends React.Component {
 
   onAccountPick = key => {
     this.props.startSetActiveAccount(key);
-    const { name } = this.props.accounts.find(a => a.key === key);
+    const { name } = this.props.accounts[key];
     this.setState(() => ({
       accountSearchString: name
     }));
@@ -52,10 +59,6 @@ export class AddTicketPage extends React.Component {
 
   onContactPick = key => {
     this.props.setActiveContact(key);
-    const { name } = this.props.contacts.find(c => c.key === key);
-    this.setState(() => ({
-      contactSearchString: name
-    }));
   };
 
   onUrgencyChange = e => {
@@ -77,7 +80,13 @@ export class AddTicketPage extends React.Component {
     this.setState(() => ({ comment }));
   };
 
-  onSubmit = e => {};
+  onSubmit = e => {
+    const { title, urgency, comment } = this.state;
+    this.props.startAddTicket({ title, urgency }).then(async key => {
+      await this.props.startAddComment(comment);
+      this.props.history.push('/accounts');
+    });
+  };
 
   render() {
     const {
@@ -107,7 +116,10 @@ export class AddTicketPage extends React.Component {
               onSearchChange={this.onAccountSearchChange}
               placeholder="Search accounts..."
               searchString={accountSearchString}
-              results={accountSelector(accounts, accountSearchString)}
+              results={accountSelector(
+                Object.keys(accounts).map(key => ({ ...accounts[key], key })),
+                accountSearchString
+              )}
             />
             <div className="ticket-form__block-row">
               <SearchBar
@@ -122,7 +134,10 @@ export class AddTicketPage extends React.Component {
                 onSearchChange={this.onContactSearchChange}
                 placeholder="Search contacts..."
                 searchString={contactSearchString}
-                results={contactSelector(contacts, contactSearchString)}
+                results={contactSelector(
+                  Object.keys(contacts).map(key => ({ ...contacts[key], key })),
+                  contactSearchString
+                )}
               />
               <ContactController />
             </div>
@@ -174,8 +189,8 @@ const mapStateToProps = ({
   activeAccountKey,
   activeContactKey
 }) => ({
-  accounts: Object.keys(accounts).map(key => ({ key, ...accounts[key] })),
-  contacts: Object.keys(contacts).map(key => ({ key, ...contacts[key] })),
+  accounts,
+  contacts,
   activeAccountKey,
   activeContactKey
 });
@@ -185,6 +200,7 @@ const mapDispatchToProps = dispatch => ({
   startUnsetActiveAccount: () => dispatch(startUnsetActiveAccount()),
   setActiveContact: key => dispatch(setActiveContact(key)),
   unsetActiveContact: () => dispatch(unsetActiveContact()),
+  startSetActiveTicket: key => dispatch(startSetActiveTicket(key)),
   startAddTicket: ({ title, urgency }) =>
     dispatch(startAddTicket({ title, urgency })),
   startAddComment: text => dispatch(startAddComment(text))
