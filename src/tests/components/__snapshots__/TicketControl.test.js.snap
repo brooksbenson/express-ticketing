@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TicketControl should match snapshot 1`] = `
+<div
+  className="ticket-control"
+>
+  <h3>
+     Ticket Control 
+  </h3>
+  <div>
+    <h4>
+       Triage 
+    </h4>
+    <span>
+       Urgency 
+    </span>
+    <select
+      className="select"
+      onChange={[Function]}
+    >
+      <option
+        value="low"
+      >
+        Low
+      </option>
+      <option
+        value="medium"
+      >
+        Medium
+      </option>
+      <option
+        value="high"
+      >
+        High
+      </option>
+    </select>
+    <button
+      onClick={[MockFunction]}
+    >
+      Close Ticket
+    </button>
+  </div>
+  <div>
+    <h4>
+       Users 
+    </h4>
+    <button
+      onClick={[MockFunction]}
+    >
+       Add 
+    </button>
+    <ul>
+      <li
+        key="-keiajf"
+      >
+        Brooks Benson
+      </li>
+      <li
+        key="-wqqadv"
+      >
+        Jeff Benson
+      </li>
+    </ul>
+  </div>
+</div>
+`;
