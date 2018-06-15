@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CommentControl should match snapshot 1`] = `
+<section
+  className="comment-control"
+>
+  <h3>
+     Comments 
+  </h3>
+  <textarea
+    onChange={[Function]}
+    value=""
+  />
+  <button
+    onClick={[MockFunction]}
+  >
+     Save Comment 
+  </button>
+  <ul>
+    <li
+      key="12233"
+    >
+      <div>
+        <span>
+          Max Benson
+        </span>
+        <span>
+          0
+        </span>
+      </div>
+      <p>
+        Wow. This is crazy.
+      </p>
+    </li>
+    <li
+      key="14283"
+    >
+      <div>
+        <span>
+          Max Benson
+        </span>
+        <span>
+          0
+        </span>
+      </div>
+      <p>
+        Wow. This is nuts.
+      </p>
+    </li>
+    <li
+      key="24233"
+    >
+      <div>
+        <span>
+          Max Benson
+        </span>
+        <span>
+          0
+        </span>
+      </div>
+      <p>
+        Wow. This is insane.
+      </p>
+    </li>
+  </ul>
+</section>
+`;

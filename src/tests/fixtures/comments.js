@@ -6,17 +6,17 @@ const userKeys = Object.keys(usersObj);
 const commentsArr = [
   {
     key: '12233',
-    date: Date.now(),
+    date: 0,
     text: 'Wow. This is crazy.'
   },
   {
     key: '14283',
-    date: Date.now(),
+    date: 0,
     text: 'Wow. This is nuts.'
   },
   {
     key: '24233',
-    date: Date.now(),
+    date: 0,
     text: 'Wow. This is insane.'
   }
 ];

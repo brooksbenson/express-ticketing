@@ -1,4 +1,8 @@
 import React from 'react';
+import ContactCard from './ContactCard';
+import TicketControl from './TicketControl';
+import CommentControl from './CommentControl';
+import AddUserModal from './AddUserModal';
 import { connect } from 'react-redux';
 import { startSetActiveTicket } from '../actions/active-ticket';
 import { startAddUser, startUpdateUrgency } from '../actions/ticket';
@@ -9,44 +13,39 @@ export class TicketPage extends React.Component {
     super(props);
     const { key } = props.match.params;
     props.startSetActiveTicket(key);
+
     this.state = {
+      addUserModalOpen: false,
       userSearchString: '',
-      urgency: props.urgency
+      userToAdd: ''
     };
   }
 
-  onUrgencyChange = e => {
-    const urgency = e.target.value;
-    this.setState(() => ({ urgency }));
-    this.props.startUpdateUrgency(urgency);
-  };
+  onUserPick = key => {
+    const name = this.props.users[]
+
+    this.setState()
+  } 
 
   render() {
-    const { urgency } = this.state;
-    const {
-      title,
-      contact,
-      accountName,
-      ticketUsers,
-      users,
-      comments
-    } = this.props;
     return (
       <section>
         <div>
-          <div>
-            <h2> {title} </h2>
-            <span> {accountName} </span>
-          </div>
-          <div>
-            <h3> Contact </h3>
-            <p> {contact.name} </p>
-            <p> {contact.email} </p>
-            <p> {contact.number} </p>
-          </div>
+          <h2> {title} </h2>
+          <span> {accountName} </span>
         </div>
-
-        <div />
+        <AddUserModal 
+          users={}
+          isOpen={}
+          searchString={}
+          onAddUser={}
+          onUserPick={}
+          onSearchChange={}
+          onRequestClose={} 
+        />
+        <ContactCard />
+        <TicketControl />
+        <CommentControl />
       </section>
     );
   }

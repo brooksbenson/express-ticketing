@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddUserModal should match snapshot 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="add-user-modal"
+  closeTimeoutMS={200}
+  contentLabel="Add user modal"
+  isOpen={true}
+  onRequestClose={[MockFunction]}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <h3>
+     Add User 
+  </h3>
+  <button
+    onClick={[MockFunction]}
+  >
+    <div />
+    <div />
+  </button>
+  <SearchBar
+    displayResults={false}
+    onPick={[MockFunction]}
+    onSearchChange={[Function]}
+    results={
+      Array [
+        Object {
+          "admin": false,
+          "email": "max@mail.com",
+          "key": "kdlejf",
+          "name": "Max Benson",
+        },
+        Object {
+          "admin": true,
+          "email": "brooks@mail.com",
+          "key": "-keiajf",
+          "name": "Brooks Benson",
+        },
+        Object {
+          "admin": false,
+          "email": "jeff@mail.com",
+          "key": "-wqqadv",
+          "name": "Jeff Benson",
+        },
+      ]
+    }
+    searchString=""
+  />
+  <button
+    onClick={[MockFunction]}
+  >
+    Add User
+  </button>
+</Modal>
+`;
