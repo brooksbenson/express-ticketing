@@ -17,6 +17,7 @@ beforeEach(() => {
   wrapper = shallow(
     <AddUserModal
       isOpen={true}
+      userPicked={false}
       users={usersArr}
       searchString=""
       onRequestClose={onRequestClose}
@@ -31,13 +32,23 @@ test('AddUserModal should match snapshot', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('AddUserModal should pass displayResults, searchString, onSearchChange, onPick, and results to SearchBar component', () => {
+test('AddUserModal should pass displayResults, searchString, onSearchChange, onPick, userPicked, and results to SearchBar component', () => {
   const searchBar = wrapper.find('SearchBar');
   expect(searchBar.prop('searchString')).toBe('');
   expect(searchBar.prop('onSearchChange')).toBeTruthy();
   expect(searchBar.prop('onPick')).toBe(onUserPick);
-  expect(searchBar.prop('displayResults')).toBe(false);
+  expect(searchBar.prop('displayResults')).toBeFalsy();
   expect(searchBar.prop('results')).toEqual(usersArr);
+});
+
+test('AddUserModal should pass false to SearchBar prop displayResults when user has been picked', () => {
+  wrapper.setProps({ searchString: 'Brooks Benson', userPicked: true });
+  expect(wrapper.find('SearchBar').prop('displayResults')).toBeFalsy();
+});
+
+test('AddUserModal should pass true to SearchBar prop displayResults when user has not been picked', () => {
+  wrapper.setProps({ searchString: 'Brooks', userPicked: false });
+  expect(wrapper.find('SearchBar').prop('displayResults')).toBeTruthy();
 });
 
 test('AddUserModal should pass isOpen, onRequestClose, shouldCloseOnEsc, shouldCloseOnOverlayClick to Modal', () => {

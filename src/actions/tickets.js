@@ -15,7 +15,8 @@ export const startAddTicket = ({ title, urgency }) => {
       urgency,
       accountKey: state.activeAccountKey,
       contactKey: state.activeContactKey,
-      userKeys: { [state.activeUserKey]: true }
+      userKeys: { [state.activeUserKey]: true },
+      status: 'open'
     };
     const { key } = await db.ref('tickets').push(ticket);
     await Promise.all([

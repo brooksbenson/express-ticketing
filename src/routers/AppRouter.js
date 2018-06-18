@@ -6,7 +6,7 @@ import AdminRoute from './AdminRoute';
 import AccountManagementPage from '../components/AccountManagementPage';
 import UserManagementPage from '../components/UserManagementPage';
 import AddTicketPage from '../components/AddTicketPage';
-// import TicketPage from '../components/TicketPage';
+import TicketPage from '../components/TicketPage';
 
 // import PrivateRoute from './PrivateRoute';
 // import PublicRoute from './PublicRoute';
@@ -27,6 +27,7 @@ const AppRouter = () => (
         />
 */}
         <Route path="/add" component={AddTicketPage} />
+        <Route path="/ticket/:key" component={TicketPage} />
         <Route
           path="/accounts"
           component={AccountManagementPage}

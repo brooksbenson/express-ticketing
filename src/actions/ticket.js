@@ -30,3 +30,39 @@ export const startAddUser = userKey => {
     dispatch(addUser({ key, userKey }));
   };
 };
+
+export const updateStatus = ({ key, status }) => ({
+  type: 'UPDATE_STATUS',
+  key,
+  status
+});
+
+export const startUpdateStatus = status => {
+  return async (dispatch, getState) => {
+    const { activeTicketKey: key } = getState();
+    await db.ref(`tickets/${key}`).update({ status });
+    dispatch(updateStatus({ key, status }));
+  };
+};
+
+export const startCloseTicket = () => {
+  return async (dispatch, getState) => {
+    const { activeTicketKey: key } = getState();
+    await Promise.all([
+      db.ref('open_tickets').update({ [key]: null }),
+      db.ref('closed_tickets').update({ [key]: true }),
+      dispatch(startUpdateStatus('closed'))
+    ]);
+  };
+};
+
+export const startReopenTicket = () => {
+  return async (dispatch, getState) => {
+    const { activeTicketKey: key } = getState();
+    await Promise.all([
+      db.ref(`open_tickets`).update({ [key]: true }),
+      db.ref(`closed_tickets`).update({ [key]: null }),
+      dispatch(startUpdateStatus('open'))
+    ]);
+  };
+};

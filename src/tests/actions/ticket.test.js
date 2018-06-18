@@ -7,7 +7,11 @@ import {
   updateUrgency,
   startUpdateUrgency,
   addUser,
-  startAddUser
+  startAddUser,
+  updateStatus,
+  startUpdateStatus,
+  startCloseTicket,
+  startReopenTicket
 } from '../../actions/ticket';
 
 const { activeTicketKey } = storeModel;
@@ -70,6 +74,83 @@ test('startAddUser should add user to ticket and ticket to user and dispatch act
     type: 'ADD_USER_TO_TICKET',
     key: activeTicketKey,
     userKey
+  });
+  done();
+});
+
+test('updateStatus should correctly setup action', () => {
+  const key = '-834848';
+  const status = 'closed';
+  const action = updateStatus({ key, status });
+  expect(action).toEqual({
+    type: 'UPDATE_STATUS',
+    key,
+    status
+  });
+});
+
+test('startUpdateStatus should correctly update the ticket status in db and dispatch action', async done => {
+  const status = 'closed';
+  await store.dispatch(startUpdateStatus(status));
+  const [action] = store.getActions();
+  const snap = await db.ref(`tickets/${activeTicketKey}/status`).once('value');
+  expect(snap.val()).toBe(status);
+  expect(action).toEqual({
+    type: 'UPDATE_STATUS',
+    key: activeTicketKey,
+    status
+  });
+  done();
+});
+
+test('startCloseTicket should move ticket key from open_tickets to closed_tickets', async done => {
+  await store.dispatch(startCloseTicket());
+  const openTicketSnap = await db
+    .ref(`open_tickets/${activeTicketKey}`)
+    .once('value');
+  const closeTicketSnap = await db
+    .ref(`closed_tickets/${activeTicketKey}`)
+    .once('value');
+  expect(openTicketSnap.val()).toBeFalsy();
+  expect(closeTicketSnap.val()).toBeTruthy();
+  done();
+});
+
+test('startCloseTicket should update the ticket status to closed and dispatch action', async done => {
+  await store.dispatch(startCloseTicket());
+  const snap = await db.ref(`tickets/${activeTicketKey}/status`).once('value');
+  const [action] = store.getActions();
+  expect(snap.val()).toBe('closed');
+  expect(action).toEqual({
+    type: 'UPDATE_STATUS',
+    key: activeTicketKey,
+    status: 'closed'
+  });
+  done();
+});
+
+test('startReopenTicket should move the ticket key from closed_tickets to open_tickets', async done => {
+  await store.dispatch(startReopenTicket());
+  const openTicketSnap = await db
+    .ref(`open_tickets/${activeTicketKey}`)
+    .once('value');
+  const closeTicketSnap = await db
+    .ref(`closed_tickets/${activeTicketKey}`)
+    .once('value');
+  expect(openTicketSnap.val()).toBeTruthy();
+  expect(closeTicketSnap.val()).toBeFalsy();
+  done();
+});
+
+test('startReopenTicket should update the tickets status to open and dispatch action', async done => {
+  await store.dispatch(startReopenTicket());
+  const snap = await db.ref(`tickets/${activeTicketKey}/status`).once('value');
+  const [action] = store.getActions();
+  expect(snap.val()).toBe('open');
+  expect(action).toEqual({
+    type: 'UPDATE_STATUS',
+    key: activeTicketKey,
+    status: 'open'
   });
   done();
 });

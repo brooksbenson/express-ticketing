@@ -14,30 +14,54 @@ exports[`TicketControl should match snapshot 1`] = `
     <span>
        Urgency 
     </span>
-    <select
-      className="select"
-      onChange={[Function]}
-    >
-      <option
+    <div>
+      <select
+        className="select"
+        onChange={[Function]}
         value="low"
       >
-        Low
-      </option>
-      <option
-        value="medium"
+        <option
+          value="low"
+        >
+          Low
+        </option>
+        <option
+          value="medium"
+        >
+          Medium
+        </option>
+        <option
+          value="high"
+        >
+          High
+        </option>
+      </select>
+    </div>
+    <div>
+      <span>
+         Status 
+      </span>
+      <select
+        className="select"
+        onChange={[Function]}
+        value="open"
       >
-        Medium
-      </option>
-      <option
-        value="high"
-      >
-        High
-      </option>
-    </select>
+        <option
+          value="open"
+        >
+          Open
+        </option>
+        <option
+          value="closed"
+        >
+          Closed
+        </option>
+      </select>
+    </div>
     <button
       onClick={[MockFunction]}
     >
-      Close Ticket
+      Save
     </button>
   </div>
   <div>

@@ -52,7 +52,8 @@ test('startAddTicket should save ticket in db', async done => {
     urgency: ticket.urgency,
     accountKey: activeAccountKey,
     contactKey: activeContactKey,
-    userKeys: { [activeUserKey]: true }
+    userKeys: { [activeUserKey]: true },
+    status: 'open'
   });
   done();
 });
@@ -86,7 +87,8 @@ test('startAddTicket should correctly dispatch action', async done => {
       contactKey: activeContactKey,
       userKeys: { [activeUserKey]: true },
       title: ticket.title,
-      urgency: ticket.urgency
+      urgency: ticket.urgency,
+      status: 'open'
     }
   });
   done();

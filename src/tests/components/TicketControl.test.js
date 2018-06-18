@@ -8,25 +8,29 @@ const { userKeys, urgency } = ticketsArr[2];
 
 const users = userKeys.map(key => ({ ...usersObj[key], key }));
 const className = 'ticket-control';
-const isOpen = true;
 
 let onUrgencyChange;
 let onStatusChange;
 let openAddUserModal;
+let onSave;
 let wrapper;
 
 beforeEach(() => {
   onUrgencyChange = jest.fn();
   onStatusChange = jest.fn();
   openAddUserModal = jest.fn();
+  onSave = jest.fn();
+
   wrapper = shallow(
     <TicketControl
       className={className}
-      isOpen={isOpen}
       users={users}
+      urgency="low"
+      status="open"
       onUrgencyChange={onUrgencyChange}
       onStatusChange={onStatusChange}
       openAddUserModal={openAddUserModal}
+      onSave={onSave}
     />
   );
 });
@@ -41,8 +45,20 @@ test('TicketControl should give wrapper element the className passed as a prop',
 
 test('TicketControl should invoke onUrgencyChange on urgency change', () => {
   const value = 'high';
-  wrapper.find('select').simulate('change', { target: { value } });
+  wrapper
+    .find('select')
+    .at(0)
+    .simulate('change', { target: { value } });
   expect(onUrgencyChange).toHaveBeenCalledWith(value);
+});
+
+test('TicketControl should invoke onStatusChange on status change', () => {
+  const value = 'closed';
+  wrapper
+    .find('select')
+    .at(1)
+    .simulate('change', { target: { value } });
+  expect(onStatusChange).toHaveBeenCalledWith(value);
 });
 
 test('TicketControl should render a list of users correctly', () => {
@@ -51,12 +67,12 @@ test('TicketControl should render a list of users correctly', () => {
   expect(userListItems.at(1).text()).toBe(users[1].name);
 });
 
-test('TicketControl should invoke onStatusChange on close ticket button click', () => {
+test('TicketControl should invoke onSave when save button is clicked', () => {
   wrapper
     .find('button')
     .at(0)
     .simulate('click');
-  expect(onStatusChange).toHaveBeenCalled();
+  expect(onSave).toHaveBeenCalled();
 });
 
 test('TicketControl should invoke openAddUserModal on add user button click', () => {
@@ -65,23 +81,4 @@ test('TicketControl should invoke openAddUserModal on add user button click', ()
     .at(1)
     .simulate('click');
   expect(openAddUserModal).toHaveBeenCalled();
-});
-
-test('TicketControl should render ticket status button with text "Close Ticket" when isOpen prop is true', () => {
-  expect(
-    wrapper
-      .find('button')
-      .at(0)
-      .text()
-  ).toBe('Close Ticket');
-});
-
-test('TicketControl should render ticket status button with text "Reopen Ticket" when isOpen prop is false', () => {
-  wrapper.setProps({ isOpen: false });
-  expect(
-    wrapper
-      .find('button')
-      .at(0)
-      .text()
-  ).toBe('Reopen Ticket');
 });

@@ -58,7 +58,7 @@ const openTickets = {};
 const closedTickets = {};
 
 ticketsArr.forEach(({ key, status, userKeys, ...ticket }) => {
-  ticketsObj[key] = { ...ticket, userKeys: {} };
+  ticketsObj[key] = { ...ticket, status, userKeys: {} };
   userKeys.forEach(uKey => {
     ticketsObj[key].userKeys[uKey] = true;
     userTickets[uKey][key] = true;

@@ -83,8 +83,8 @@ export class AddTicketPage extends React.Component {
   onSubmit = e => {
     const { title, urgency, comment } = this.state;
     this.props.startAddTicket({ title, urgency }).then(async key => {
-      await this.props.startAddComment(comment);
-      this.props.history.push('/accounts');
+      await this.props.startAddComment(comment, key);
+      this.props.history.push(`/ticket/${key}`);
     });
   };
 
@@ -203,7 +203,7 @@ const mapDispatchToProps = dispatch => ({
   startSetActiveTicket: key => dispatch(startSetActiveTicket(key)),
   startAddTicket: ({ title, urgency }) =>
     dispatch(startAddTicket({ title, urgency })),
-  startAddComment: text => dispatch(startAddComment(text))
+  startAddComment: (text, key) => dispatch(startAddComment(text, key))
 });
 
 export default connect(

@@ -21,9 +21,9 @@ export default props => (
       <div />
     </button>
     <SearchBar
-      displayResults={!!props.searchString}
+      displayResults={!!props.searchString && !props.userPicked}
       onPick={props.onUserPick}
-      onSearchChange={e => props.onSearchChange(e.target.value)}
+      onSearchChange={text => props.onSearchChange(text)}
       results={userSelector(props.users, props.searchString)}
       searchString={props.searchString}
     />

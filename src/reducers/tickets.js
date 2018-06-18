@@ -4,6 +4,10 @@ export default (state = {}, action) => {
       return { ...state, [action.key]: action.ticket };
     case 'SET_TICKETS':
       return action.tickets;
+    case 'UPDATE_STATUS':
+      const { key, status } = action;
+      const ticket = { ...state[key], status };
+      return { ...state, [key]: ticket };
     case 'UPDATE_URGENCY': {
       const { key, urgency } = action;
       const ticket = { ...state[key], urgency };
