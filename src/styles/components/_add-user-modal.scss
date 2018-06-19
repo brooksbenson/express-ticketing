@@ -1,0 +1,55 @@
+.add-user-modal {
+  background: $off-white;
+  box-shadow: 0 0 1px $theme-grey;
+  left: 50%;
+  padding: $rem-one-half $rem-one;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  > h3 {
+    font-size: $rem-two;
+  }
+  > button {
+    left: $rem-half;
+    padding: $rem-half;
+    position: relative;
+  }
+}
+
+.add-user-modal__close {
+  background: $theme-black;
+  border-radius: 3px;
+  cursor: pointer;
+  float: right;
+  height: 3px;
+  position: relative;
+  top: $rem-two * -1;
+  transform: rotate(45deg);
+  width: $rem-one-half;
+  &::after {
+    content: '';
+    background: $theme-black;
+    border-radius: 3px;
+    float: right;
+    height: 3px;
+    transform: rotate(270deg);
+    width: $rem-one-half;
+  }
+}
+
+.add-user-modal__search {
+  > .input {
+    margin: $rem-one-half 0;
+    padding: $rem-half;
+    width: $rem-one * 20;
+  }
+  > ul {
+    background: white;
+    box-shadow: 0 0 1px #666;
+    list-style: none;
+    padding: 0.5rem;
+    position: absolute;
+    top: $rem-one * 9;
+    z-index: 1;
+  }
+}

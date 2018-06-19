@@ -1,3 +1,10 @@
+@mixin sub-heading {
+  border-bottom: 1px solid black;
+  font-size: $rem-two + 0.3;
+  margin-bottom: 1rem + 0.2;
+  padding-bottom: 3px;
+}
+
 .ticket-page {
   > * {
     margin-bottom: $rem-two;
@@ -18,18 +25,136 @@
 
 .ticket-page__contact-card {
   border: 1px solid black;
+  border-radius: 3px;
   padding: $rem-one-half;
   > h3 {
-    border-bottom: 1px dotted black;
-    font-size: $rem-two + 0.3;
-    margin-bottom: 1rem;
-    padding-bottom: 3px;
+    @include sub-heading;
   }
   > ul {
     font-size: $rem-one-half + 0.3;
     list-style: none;
+    padding-left: $rem-half;
+    > li:not(:last-child) {
+      margin-bottom: $rem-one-half;
+    }
+  }
+}
+
+.ticket-page__ticket-control {
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: $rem-one-half;
+  > h3 {
+    @include sub-heading;
+  }
+  > .container {
+    display: flex;
+    position: relative;
+
+    > div {
+      width: 50%;
+      > h4 {
+        font-size: $rem-two;
+      }
+    }
+
+    > div:nth-child(1) {
+      padding-left: $rem-one;
+      > h4 {
+        margin-bottom: $rem-one;
+      }
+      > .combobox {
+        align-items: center;
+        display: flex;
+        margin-bottom: $rem-one-half;
+        padding-left: 3px;
+        > span {
+          font-size: $rem-one-half + 0.2;
+          letter-spacing: 0.5px;
+          width: $rem-one * 7;
+        }
+        > .select {
+          height: $rem-three;
+          min-width: $rem-one * 8;
+        }
+      }
+      > .btn {
+        padding: $rem-one;
+      }
+    }
+
+    > div:nth-child(2) {
+      > h4 {
+        display: inline-block;
+        margin-bottom: $rem-half;
+      }
+      > .btn {
+        float: right;
+        padding: $rem-half + 0.1;
+      }
+      > ul {
+        list-style: none;
+        max-height: $rem-one * 15;
+        max-width: $rem-one * 30;
+        overflow: scroll;
+        > li {
+          border-bottom: 1px dotted black;
+          letter-spacing: 1px;
+          margin-bottom: $rem-half;
+          padding: $rem-half;
+        }
+      }
+    }
+  }
+}
+
+.ticket-page__comment-control {
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: $rem-one-half;
+
+  > h3 {
+    @include sub-heading;
+  }
+  > textarea {
+    height: $rem-one * 10;
+    width: 100%;
+  }
+  > button {
+    font-size: $rem-one-half + 0.2;
+    left: $rem-one;
+    padding: $rem-half $rem-one;
+    position: relative;
+    top: $rem-half;
+  }
+  > ul {
+    list-style: none;
+    padding: $rem-two;
     > li {
-      margin: $rem-half;
+      box-shadow: 0 0 1px $theme-grey;
+      padding: $rem-one-half;
+      &:not(:last-child) {
+        margin-bottom: $rem-one-half;
+      }
+      > div {
+        align-items: baseline;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: $rem-half;
+        > .name {
+          font-size: $rem-one-half + 0.3;
+          font-weight: $font-weight-thick;
+        }
+        > .date {
+          color: $theme-grey;
+          font-size: $rem-one-half;
+        }
+      }
+      > p {
+        line-height: 2;
+        padding: $rem-half;
+        word-wrap: break-word;
+      }
     }
   }
 }

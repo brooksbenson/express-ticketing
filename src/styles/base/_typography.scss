@@ -6,9 +6,11 @@ body {
 }
 
 .heading {
-  font-size: $rem-three;
   font-weight: $font-weight-thick;
 
+  &--primary {
+    font-size: $rem-three;
+  }
   &--secondary {
     font-size: $rem-two-half;
   }

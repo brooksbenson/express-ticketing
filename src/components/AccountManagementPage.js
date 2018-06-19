@@ -56,7 +56,7 @@ export class AccountManagementPage extends React.Component {
     return (
       <section className="content-container">
         <div className="manage-accounts content-innards">
-          <h2 className="heading"> Manage Accounts </h2>
+          <h2 className="heading heading--primary"> Manage Accounts </h2>
           <div className="manage-accounts__block">
             <h3 className="heading heading--secondary">
               {key ? 'Update' : 'New'} Account

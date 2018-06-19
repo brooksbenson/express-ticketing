@@ -36,6 +36,20 @@
     background: $theme-blue;
     font-weight: $font-weight-avg;
   }
+
+  &--special {
+    background: $theme-white;
+    border: 1px solid black;
+    color: black;
+    font-weight: $font-weight-thin;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, color 0.2s;
+
+    &:hover {
+      background: $theme-black;
+      color: $theme-white;
+    }
+  }
 }
 
 .select {

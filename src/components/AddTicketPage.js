@@ -105,7 +105,7 @@ export class AddTicketPage extends React.Component {
     return (
       <section className="content-container">
         <div className="ticket-form content-innards">
-          <h2 className="heading"> Create Ticket </h2>
+          <h2 className="heading heading--primary"> Create Ticket </h2>
           <section className="ticket-form__block">
             <h3 className="heading heading--secondary"> Account </h3>
             <SearchBar

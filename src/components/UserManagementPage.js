@@ -49,7 +49,7 @@ export class UserManagementPage extends React.Component {
     return (
       <section className="content-container">
         <div className="manage-users content-innards">
-          <h2 className="heading"> Manage Users </h2>
+          <h2 className="heading heading--primary"> Manage Users </h2>
           <div className="manage-users__block">
             <h3 className="heading heading--secondary">New User</h3>
             <form className="manage-users__form" onSubmit={this.onSave}>

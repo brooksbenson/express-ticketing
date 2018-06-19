@@ -108,7 +108,7 @@ export class TicketPage extends React.Component {
       <section className="content-container">
         <div className="content-innards ticket-page">
           <div className="ticket-page__heading">
-            <h2 className="heading"> {this.props.title} </h2>
+            <h2 className="heading heading--primary"> {this.props.title} </h2>
             <span> {this.props.accountName} </span>
           </div>
           <ContactCard
@@ -116,6 +116,7 @@ export class TicketPage extends React.Component {
             {...this.props.contact}
           />
           <TicketControl
+            className="ticket-page__ticket-control"
             status={this.state.status}
             urgency={this.state.urgency}
             users={this.props.attachedUsers}
@@ -125,6 +126,7 @@ export class TicketPage extends React.Component {
             onSave={this.onTicketControlSave}
           />
           <CommentControl
+            className="ticket-page__comment-control"
             comments={this.props.comments}
             comment={this.state.comment}
             onCommentChange={this.onCommentChange}
@@ -134,6 +136,7 @@ export class TicketPage extends React.Component {
             users={this.props.nonAttachedUsers}
             isOpen={this.state.addUserModalOpen}
             searchString={this.state.userSearchString}
+            userPicked={this.state.userPicked}
             onAddUser={this.onAddUser}
             onUserPick={this.onUserPick}
             onSearchChange={this.onUserSearchChange}
