@@ -29,7 +29,7 @@ export default props => (
             <option value="closed">Closed</option>
           </select>
         </div>
-        <button className="btn btn--special" onClick={props.onSave}>
+        <button className="btn btn--secondary" onClick={props.onSave}>
           Save
         </button>
       </div>

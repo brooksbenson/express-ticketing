@@ -1,7 +1,7 @@
 .manage-accounts {
   box-shadow: 0 0 3px $theme-grey;
   > .heading {
-    border-bottom: 2px solid black;
+    border-bottom: 1px dotted black;
     padding-bottom: 0.5rem;
   }
 }
@@ -74,8 +74,7 @@
     padding: $rem-half;
 
     > li {
-      background: $off-white;
-      box-shadow: 0 1px 3px $theme-grey;
+      border-bottom: 1px dotted black;
       cursor: pointer;
       letter-spacing: 1px;
       margin-bottom: $rem-one-half;

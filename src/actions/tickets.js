@@ -41,8 +41,8 @@ export const startSetTickets = () => {
       db.ref(`user_tickets/${state.activeUserKey}`).once('value')
     ]);
     const toFetch = [];
-    const userTicketsObj = userTickets.val();
-    Object.keys(openTickets.val()).forEach(key => {
+    const userTicketsObj = userTickets.val() || {};
+    Object.keys(openTickets.val() || {}).forEach(key => {
       if (key in userTicketsObj) toFetch.push(key);
     });
     const tickets = {};

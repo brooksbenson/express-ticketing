@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TicketCard should match snapshot 1`] = `
+<div
+  className="ticket-card"
+  onClick={[Function]}
+>
+  <div
+    className="ticket-card__top"
+  >
+    <h3>
+      Walmart
+    </h3>
+    <div
+      className="urgency"
+      style={
+        Object {
+          "background": "#ff0000",
+        }
+      }
+    />
+  </div>
+  <p>
+    Shipping delay
+  </p>
+  <p>
+    1231234442324
+  </p>
+</div>
+`;

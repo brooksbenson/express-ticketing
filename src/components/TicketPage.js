@@ -111,10 +111,6 @@ export class TicketPage extends React.Component {
             <h2 className="heading heading--primary"> {this.props.title} </h2>
             <span> {this.props.accountName} </span>
           </div>
-          <ContactCard
-            className="ticket-page__contact-card"
-            {...this.props.contact}
-          />
           <TicketControl
             className="ticket-page__ticket-control"
             status={this.state.status}
@@ -124,6 +120,10 @@ export class TicketPage extends React.Component {
             onStatusChange={this.onStatusChange}
             openAddUserModal={this.onOpenAddUserModal}
             onSave={this.onTicketControlSave}
+          />
+          <ContactCard
+            className="ticket-page__contact-card"
+            {...this.props.contact}
           />
           <CommentControl
             className="ticket-page__comment-control"

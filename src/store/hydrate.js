@@ -10,5 +10,4 @@ export default async email => {
   const usersArr = Object.keys(users).map(key => ({ ...users[key], key }));
   const { key: userKey } = usersArr.find(u => u.email === email);
   dispatch(setUser(userKey));
-  await dispatch(startSetTickets());
 };

@@ -10,14 +10,14 @@
     width: $rem-one * 9;
   }
   > .heading {
-    border-bottom: 2px solid black;
+    border-bottom: 1px dotted black;
     padding-bottom: 0.5rem;
   }
 }
 
 .ticket-form__block {
   > .heading {
-    border-bottom: 1px solid $theme-black;
+    border-bottom: 1px dotted $theme-black;
     margin-bottom: $rem-one-half;
   }
   display: flex;

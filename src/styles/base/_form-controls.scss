@@ -25,16 +25,19 @@
   &--primary {
     background: $theme-green;
     font-weight: $font-weight-thick;
+    letter-spacing: 0.5px;
   }
 
   &--secondary {
     background: $theme-black;
-    font-weight: $font-weight-avg;
+    font-weight: $font-weight-thin;
+    letter-spacing: 0.5px;
   }
 
   &--tertiary {
     background: $theme-blue;
-    font-weight: $font-weight-avg;
+    font-weight: $font-weight-thin;
+    letter-spacing: 0.5px;
   }
 
   &--special {

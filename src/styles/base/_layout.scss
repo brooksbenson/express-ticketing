@@ -4,8 +4,14 @@
   max-width: $rem-one * 80;
 }
 
+.content-container-lg {
+  margin: 0 auto;
+  max-width: $rem-one * 100;
+  padding: 0 $rem-two;
+}
+
 .content-innards {
-  box-shadow: 0px 0px 1px #666;
+  box-shadow: 0px 0px 1px $theme-grey;
   margin: 2rem 1rem;
   min-height: 90vh;
   padding: $rem-three;

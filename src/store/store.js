@@ -13,18 +13,28 @@ import newTicketReducer from '../reducers/new-ticket';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const appReducer = combineReducers({
+  accounts: accountsReducer,
+  activeAccountKey: activeAccountReducer,
+  activeContactKey: activeContactReducer,
+  activeTicketKey: activeTicketReducer,
+  activeUserKey: activeUserReducer,
+  comments: commentsReducer,
+  contacts: contactsReducer,
+  tickets: ticketsReducer,
+  users: usersReducer
+});
+
+const rootReducer = (state, action) => {
+  if (action.type === 'USER_LOGOUT') {
+    return {};
+  } else {
+    return appReducer(state, action);
+  }
+};
+
 const store = createStore(
-  combineReducers({
-    accounts: accountsReducer,
-    activeAccountKey: activeAccountReducer,
-    activeContactKey: activeContactReducer,
-    activeTicketKey: activeTicketReducer,
-    activeUserKey: activeUserReducer,
-    comments: commentsReducer,
-    contacts: contactsReducer,
-    tickets: ticketsReducer,
-    users: usersReducer
-  }),
+  rootReducer,
   composeEnhancers(applyMiddleware(thunk))
 );
 

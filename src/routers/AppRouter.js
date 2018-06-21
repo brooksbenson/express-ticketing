@@ -3,13 +3,14 @@ import { Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import Header from '../components/Header';
 import AdminRoute from './AdminRoute';
+import BaseRoute from './BaseRoute';
+import PublicRoute from './PublicRoute';
 import AccountManagementPage from '../components/AccountManagementPage';
 import UserManagementPage from '../components/UserManagementPage';
 import AddTicketPage from '../components/AddTicketPage';
 import TicketPage from '../components/TicketPage';
-
-// import PrivateRoute from './PrivateRoute';
-// import PublicRoute from './PublicRoute';
+import TicketOverviewPage from '../components/TicketOverviewPage';
+import LoginPage from '../components/LoginPage';
 
 export const history = createHistory();
 
@@ -18,22 +19,16 @@ const AppRouter = () => (
     <div>
       <Header />
       <Switch>
-        {/*     
-        <Route path="/ticket/:key" component={TicketPage} />
+        <PublicRoute path="/" Component={LoginPage} exact={true} />
+        <BaseRoute path="/add" Component={AddTicketPage} />
+        <BaseRoute path="/tickets" Component={TicketOverviewPage} />
+        <BaseRoute path="/ticket/:key" Component={TicketPage} />
         <AdminRoute
           path="/accounts"
           Component={AccountManagementPage}
           exact={true}
         />
-*/}
-        <Route path="/add" component={AddTicketPage} />
-        <Route path="/ticket/:key" component={TicketPage} />
-        <Route
-          path="/accounts"
-          component={AccountManagementPage}
-          exact={true}
-        />
-        <Route path="/users" component={UserManagementPage} exact={true} />
+        <AdminRoute path="/users" Component={UserManagementPage} exact={true} />
       </Switch>
     </div>
   </Router>

@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import store from './store/store';
 import hydrateStore from './store/hydrate';
+import { auth } from './firebase/firebase';
+import logout from './actions/logout';
+import LoadingPage from './components/LoadingPage';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 
@@ -14,6 +17,27 @@ const appJsx = (
   </Provider>
 );
 
-hydrateStore('aidan@mail.com').then(() => {
-  ReactDOM.render(appJsx, appRoot);
+ReactDOM.render(<LoadingPage />, appRoot);
+
+let hasRendered = false;
+function renderApp() {
+  if (!hasRendered) {
+    ReactDOM.render(appJsx, appRoot);
+    hasRendered = true;
+  }
+}
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    hydrateStore(user.email).then(() => {
+      renderApp();
+      if (history.location.pathname === '/') {
+        history.push('/tickets');
+      }
+    });
+  } else {
+    store.dispatch(logout());
+    renderApp();
+    history.push('/');
+  }
 });
