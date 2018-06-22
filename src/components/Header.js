@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import HorizontalNav from './HorizontalNav';
+import VerticalNav from './VerticalNav';
 import { connect } from 'react-redux';
 import StackIcon from '../svg/stack.svg';
 import { auth } from '../firebase/firebase';
@@ -13,25 +14,10 @@ export const Header = props => (
         <h1> Express Ticketing </h1>
       </div>
       {props.isLoggedIn && (
-        <nav className="header__nav">
-          <NavLink to="/tickets" activeClassName="active">
-            My Tickets
-          </NavLink>
-          <NavLink to="/create" activeClassName="active">
-            Create
-          </NavLink>
-          {props.isAdmin && (
-            <NavLink to="/users" activeClassName="active">
-              Users
-            </NavLink>
-          )}
-          {props.isAdmin && (
-            <NavLink to="/accounts" activeClassName="active">
-              Accounts
-            </NavLink>
-          )}
-          <a onClick={props.logout}>Logout</a>
-        </nav>
+        <div>
+          <HorizontalNav isAdmin={props.isAdmin} logout={props.logout} />
+          <VerticalNav isAdmin={props.isAdmin} logout={props.logout} />
+        </div>
       )}
     </div>
   </header>

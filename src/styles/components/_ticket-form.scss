@@ -24,6 +24,10 @@
   flex-direction: column;
   margin: $rem-three 0;
   padding: 0 $rem-one;
+  @media (max-width: $bp-sm) {
+    margin: $rem-two 0;
+    padding: 0;
+  }
 }
 
 .ticket-form__search-bar {

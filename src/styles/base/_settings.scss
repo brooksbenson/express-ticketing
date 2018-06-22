@@ -1,13 +1,13 @@
 // Colors
-$theme-green: rgb(39, 199, 139);
+$smoky-grey: #c7c8ca;
+$charcoal-black: #25292e;
+$theme-green: #2ecc71;
 $theme-blue: rgb(24, 79, 125);
 $theme-black: rgb(0, 0, 0);
 $theme-white: #fff;
 $theme-grey: #666;
 $dark-grey: grey;
 $off-white: #f7f7f7;
-$smoky-grey: rgb(199, 200, 202);
-$charcoal-black: rgb(37, 41, 46);
 // Font Size
 $font-size-xl: 3rem;
 $font-size-l: 2rem;
@@ -29,5 +29,5 @@ $rem-four: 4rem;
 $rem-four-half: 4.5rem;
 $rem-five: 5rem;
 // Breakpoints
-$bp-md: 750px;
-$bp-sm: 550px;
+$bp-md: 800px;
+$bp-sm: 600px;

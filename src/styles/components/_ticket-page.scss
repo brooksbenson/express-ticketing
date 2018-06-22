@@ -12,14 +12,12 @@
 }
 
 .ticket-page__heading {
-  align-items: center;
   border-bottom: 1px dotted black;
-  display: flex;
-  justify-content: space-between;
   padding-bottom: 0.5rem;
 
   & > span {
     font-size: $rem-one-half + 0.3;
+    margin-left: $rem-half;
   }
 }
 

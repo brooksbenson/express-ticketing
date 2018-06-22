@@ -14,16 +14,20 @@ import {
 import { startAddComment } from '../actions/comments';
 import separateUsers from '../helpers/separate-users';
 import orderComments from '../helpers/order-comments';
+import formatNumber from '../helpers/format-number';
 
 export class TicketPage extends React.Component {
   constructor(props) {
     super(props);
-    const { key } = props.match.params;
-    props.startSetActiveTicket(key);
-    console.log(props);
     this.state = {
-      urgency: props.urgency,
-      status: props.status,
+      title: '',
+      urgency: '',
+      status: '',
+      accountName: '',
+      contact: {},
+      comments: [],
+      attachedUsers: [],
+      nonAttachedUsers: [],
       addUserModalOpen: false,
       userSearchString: '',
       userToAdd: '',
@@ -32,9 +36,19 @@ export class TicketPage extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { urgency, status } = nextProps;
-    return { ...prevState, urgency, status };
+  componentDidMount() {
+    const { key } = this.props.match.params;
+    this.props.startSetActiveTicket(key).then(payload => {
+      this.setState(() => ({
+        title: payload.title,
+        urgency: payload.urgency,
+        status: payload.status,
+        accountName: payload.accountName,
+        contact: payload.contact,
+        comments: payload.comments,
+        ...separateUsers(this.props.users, payload.userKeys)
+      }));
+    });
   }
 
   onCloseModal = () => {
@@ -104,36 +118,40 @@ export class TicketPage extends React.Component {
   };
 
   render() {
+    console.log('fired');
     return (
-      <section className="content-container">
+      <section className="content-container-md">
         <div className="content-innards ticket-page">
           <div className="ticket-page__heading">
-            <h2 className="heading heading--primary"> {this.props.title} </h2>
-            <span> {this.props.accountName} </span>
+            <h2 className="heading heading--primary"> {this.state.title} </h2>
+            <span className="ticket-page__heading-account">
+              {this.state.accountName}
+            </span>
+            <ul>
+              <li>{this.state.contact.name}</li>
+              <li>{this.state.contact.email}</li>
+              <li>{formatNumber(this.state.contact.number || '')}</li>
+            </ul>
           </div>
           <TicketControl
             className="ticket-page__ticket-control"
             status={this.state.status}
             urgency={this.state.urgency}
-            users={this.props.attachedUsers}
+            users={this.state.attachedUsers}
             onUrgencyChange={this.onUrgencyChange}
             onStatusChange={this.onStatusChange}
             openAddUserModal={this.onOpenAddUserModal}
             onSave={this.onTicketControlSave}
           />
-          <ContactCard
-            className="ticket-page__contact-card"
-            {...this.props.contact}
-          />
           <CommentControl
             className="ticket-page__comment-control"
-            comments={this.props.comments}
+            comments={this.state.comments}
             comment={this.state.comment}
             onCommentChange={this.onCommentChange}
             onCommentSave={this.onCommentSave}
           />
           <AddUserModal
-            users={this.props.nonAttachedUsers}
+            users={this.state.nonAttachedUsers}
             isOpen={this.state.addUserModalOpen}
             searchString={this.state.userSearchString}
             userPicked={this.state.userPicked}
@@ -148,26 +166,9 @@ export class TicketPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({
-  activeTicketKey,
-  tickets,
-  contacts,
-  accounts,
-  comments,
-  users
-}) => {
-  const usersArr = Object.keys(users).map(key => ({ ...users[key], key }));
-  const ticket = tickets[activeTicketKey];
-  return {
-    title: ticket ? ticket.title : '',
-    accountName: ticket ? accounts[ticket.accountKey].name : '',
-    status: ticket ? ticket.status : '',
-    urgency: ticket ? ticket.urgency : '',
-    contact: ticket ? contacts[ticket.contactKey] : {},
-    comments: ticket ? orderComments(comments, users) : [],
-    ...separateUsers(usersArr, ticket ? ticket.userKeys : {})
-  };
-};
+const mapStateToProps = ({ users }) => ({
+  users: Object.keys(users).map(key => ({ key, ...users[key] }))
+});
 
 const mapDispatchToProps = dispatch => ({
   startSetActiveTicket: key => dispatch(startSetActiveTicket(key)),

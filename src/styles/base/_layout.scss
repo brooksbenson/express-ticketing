@@ -2,18 +2,28 @@
   margin: 0 auto;
   padding: 0 $rem-one-half;
   max-width: $rem-one * 80;
+
+  @media (max-width: $bp-sm) {
+    padding: 0 $rem-half;
+  }
 }
 
 .content-container-md {
   margin: 0 auto;
   max-width: $rem-one * 100;
   padding: 0 $rem-two;
+  @media (max-width: $bp-sm) {
+    padding: 0 $rem-half;
+  }
 }
 
 .content-container-lg {
   margin: 0 auto;
   max-width: $rem-one * 110;
   padding: 0 $rem-two;
+  @media (max-width: $bp-sm) {
+    padding: 0 $rem-half;
+  }
 }
 
 .content-innards {

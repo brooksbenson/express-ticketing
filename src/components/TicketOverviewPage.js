@@ -25,14 +25,12 @@ export class TicketOverviewPage extends React.Component {
         <div className="ticket-overview content-innards">
           <div className="ticket-overview__top">
             <h2 className="heading heading--primary"> My Tickets </h2>
-            <div className="ticket-overview__search">
-              <span> Search </span>
-              <input
-                className="input"
-                onChange={this.onSearchChange}
-                value={this.state.searchString}
-              />
-            </div>
+            <input
+              className="search"
+              onChange={this.onSearchChange}
+              placeholder="Search"
+              value={this.state.searchString}
+            />
           </div>
           <div className="ticket-overview__bottom">
             {ticketSelector(this.props.tickets, this.state.searchString).map(

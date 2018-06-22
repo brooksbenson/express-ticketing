@@ -32,8 +32,18 @@
   font-size: $rem-one-half + 0.1;
   margin-bottom: $rem-half;
 
-  > a {
-    margin-right: $rem-one-half;
-    text-decoration: none;
+  &--horz {
+    > a {
+      margin-right: $rem-one-half;
+      text-decoration: none;
+      &:hover {
+        color: $theme-white;
+      }
+    }
+  }
+
+  &--vert {
+    left: 22px;
+    position: relative;
   }
 }

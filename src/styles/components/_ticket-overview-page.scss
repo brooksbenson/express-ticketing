@@ -3,32 +3,44 @@
 }
 
 .ticket-overview__top {
-  border-bottom: 1px dotted black;
   align-items: baseline;
+  border-bottom: 1px dotted black;
   display: flex;
   justify-content: space-between;
-  margin-bottom: $rem-four-half;
+  margin-bottom: $rem-three;
   padding-bottom: $rem-one;
-}
 
-.ticket-overview__search {
-  & > span {
-    margin-right: $rem-half;
-    font-size: $rem-one-half + 0.2;
-  }
-  & > input {
+  > input {
     letter-spacing: 0.7px;
-    padding: 3px $rem-half;
-    width: $rem-one * 20;
+    padding: $rem-half;
+    width: $rem-one * 25;
+  }
+  @media (max-width: $bp-md) {
+    border: none;
+    flex-direction: column;
+    margin-bottom: $rem-one-half;
+    > h2 {
+      margin-bottom: $rem-half;
+    }
+    > input {
+      margin: 0 auto;
+      width: 99%;
+    }
   }
 }
 
 .ticket-overview__bottom {
   display: grid;
+  grid-gap: $rem-two;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: $rem-one;
-  grid-row-gap: $rem-four;
   padding: 0 $rem-one;
+
+  @media (max-width: $bp-md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: $bp-sm) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .ticket-overview__ticket-card {
@@ -40,7 +52,7 @@
   margin: auto;
   padding: $rem-one;
   position: relative;
-  width: 90%;
+  width: 100%;
 
   &:hover {
     box-shadow: 0 0 1px $theme-grey;
