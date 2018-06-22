@@ -21,7 +21,7 @@ export class TicketOverviewPage extends React.Component {
 
   render() {
     return (
-      <section className="content-container-lg">
+      <section className="content-container-md">
         <div className="ticket-overview content-innards">
           <div className="ticket-overview__top">
             <h2 className="heading heading--primary"> My Tickets </h2>

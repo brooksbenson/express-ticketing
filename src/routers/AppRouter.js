@@ -20,7 +20,7 @@ const AppRouter = () => (
       <Header />
       <Switch>
         <PublicRoute path="/" Component={LoginPage} exact={true} />
-        <BaseRoute path="/add" Component={AddTicketPage} />
+        <BaseRoute path="/create" Component={AddTicketPage} />
         <BaseRoute path="/tickets" Component={TicketOverviewPage} />
         <BaseRoute path="/ticket/:key" Component={TicketPage} />
         <AdminRoute

@@ -25,8 +25,8 @@
 
 .ticket-overview__bottom {
   display: grid;
-  grid-template-columns: 30% 30% 30%;
-  grid-column-gap: 1.6%;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: $rem-one;
   grid-row-gap: $rem-four;
   padding: 0 $rem-one;
 }
@@ -62,6 +62,7 @@
       position: relative;
       top: $rem-one * -1;
       width: $rem-one-half;
+      z-index: 1;
     }
   }
 

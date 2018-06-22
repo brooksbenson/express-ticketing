@@ -1,18 +1,56 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import StackIcon from '../svg/stack.svg';
+import { auth } from '../firebase/firebase';
+import logout from '../actions/logout';
 
-export function Header({ startLogout }) {
-  return (
-    <header className="header">
-      <div className="content-container">
-        <div className="header__content">
-          <Link className="header__title" to="/dashboard">
-          </Link>
-        </div>
+export const Header = props => (
+  <header className="header">
+    <div className="header__content content-container-lg">
+      <div className="header__logo">
+        <StackIcon height={60} width={60} />
+        <h1> Express Ticketing </h1>
       </div>
-    </header>
-  );
-};
+      {props.isLoggedIn && (
+        <nav className="header__nav">
+          <NavLink to="/tickets" activeClassName="active">
+            My Tickets
+          </NavLink>
+          <NavLink to="/create" activeClassName="active">
+            Create
+          </NavLink>
+          {props.isAdmin && (
+            <NavLink to="/users" activeClassName="active">
+              Users
+            </NavLink>
+          )}
+          {props.isAdmin && (
+            <NavLink to="/accounts" activeClassName="active">
+              Accounts
+            </NavLink>
+          )}
+          <a onClick={props.logout}>Logout</a>
+        </nav>
+      )}
+    </div>
+  </header>
+);
 
-export default Header;
+const mapStateToProps = ({ activeUserKey, users }) => ({
+  isLoggedIn: !!activeUserKey,
+  isAdmin: !!activeUserKey && users[activeUserKey].admin
+});
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => {
+    auth.signOut().then(() => {
+      dispatch(logout());
+    });
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

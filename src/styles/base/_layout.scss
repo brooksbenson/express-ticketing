@@ -4,9 +4,15 @@
   max-width: $rem-one * 80;
 }
 
-.content-container-lg {
+.content-container-md {
   margin: 0 auto;
   max-width: $rem-one * 100;
+  padding: 0 $rem-two;
+}
+
+.content-container-lg {
+  margin: 0 auto;
+  max-width: $rem-one * 110;
   padding: 0 $rem-two;
 }
 

@@ -20,13 +20,15 @@ export default class LoginPage extends React.Component {
   };
 
   onLogin = e => {
+    e.preventDefault();
+    console.log(this.state);
     const { email, password } = this.state;
     auth.signInWithEmailAndPassword(email, password);
   };
 
   render() {
     return (
-      <form className="login-panel">
+      <form className="login-panel" onSubmit={this.onLogin}>
         <h2> Login </h2>
         <div className="login-panel__input">
           <span>
