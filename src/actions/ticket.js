@@ -27,7 +27,6 @@ export const startAddUser = userKey => {
       db.ref(`tickets/${key}/userKeys`).update({ [userKey]: true }),
       db.ref(`user_tickets/${userKey}`).update({ [key]: true })
     ]);
-    dispatch(addUser({ key, userKey }));
   };
 };
 

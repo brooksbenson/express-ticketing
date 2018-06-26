@@ -5,7 +5,6 @@ import activeAccountReducer from '../reducers/active-account';
 import activeContactReducer from '../reducers/active-contact';
 import activeTicketReducer from '../reducers/active-ticket';
 import activeUserReducer from '../reducers/active-user';
-import commentsReducer from '../reducers/comments';
 import contactsReducer from '../reducers/contacts';
 import ticketsReducer from '../reducers/tickets';
 import usersReducer from '../reducers/users';
@@ -19,7 +18,6 @@ const appReducer = combineReducers({
   activeContactKey: activeContactReducer,
   activeTicketKey: activeTicketReducer,
   activeUserKey: activeUserReducer,
-  comments: commentsReducer,
   contacts: contactsReducer,
   tickets: ticketsReducer,
   users: usersReducer

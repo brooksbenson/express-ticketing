@@ -21,7 +21,7 @@ export default props => (
           <div className={`${props.className}__list-item-top`}>
             <span className="name">{c.name}</span>
             <span className="date">
-              {moment(c.date).format('MM-DD-YY [at] hh:ma')}
+              {moment(c.date).format('MM-DD-YYYY [at] h:mma')}
             </span>
           </div>
           <p>{c.text}</p>

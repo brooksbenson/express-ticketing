@@ -27,6 +27,6 @@ export default props => (
       />
     </div>
     <p className="title">{props.title}</p>
-    <p className="date">{moment(props.date).format('MM-DD-YY [at] h:ma')}</p>
+    <p className="date">{moment(props.date).format('MM-DD-YYYY [at] h:mma')}</p>
   </div>
 );

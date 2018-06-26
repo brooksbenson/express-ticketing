@@ -49,8 +49,8 @@ export class TicketPage extends React.Component {
         status: payload.status,
         accountName: payload.accountName,
         contact: payload.contact,
-        comments: payload.comments,
-        ...separateUsers(this.props.users, payload.userKeys)
+        comments: orderComments(payload.comments, this.props.usersByKey),
+        ...separateUsers(this.props.usersArr, payload.userKeys)
       }));
     });
   }
@@ -65,7 +65,7 @@ export class TicketPage extends React.Component {
   };
 
   onUserPick = key => {
-    const { name } = this.props.nonAttachedUsers.find(u => u.key === key);
+    const { name } = this.state.nonAttachedUsers.find(u => u.key === key);
     this.setState(() => ({
       userToAdd: key,
       userSearchString: name,
@@ -75,6 +75,7 @@ export class TicketPage extends React.Component {
 
   onUserSearchChange = text => {
     this.setState(() => ({
+      userToAdd: '',
       userSearchString: text,
       userPicked: false
     }));
@@ -83,6 +84,11 @@ export class TicketPage extends React.Component {
   onAddUser = () => {
     const key = this.state.userToAdd;
     this.props.startAddUser(key).then(() => {
+      const user = { ...this.props.usersByKey[key], key };
+      this.setState(({ attachedUsers, nonAttachedUsers }) => ({
+        attachedUsers: [...attachedUsers, user],
+        nonAttachedUsers: nonAttachedUsers.filter(u => u.key != key)
+      }));
       this.onCloseModal();
     });
   };
@@ -115,9 +121,19 @@ export class TicketPage extends React.Component {
   };
 
   onCommentSave = () => {
-    const { comment } = this.state;
-    this.props.startAddComment(comment).then(() => {
-      this.setState(() => ({ comment: '' }));
+    const text = this.state.comment;
+    this.props.startAddComment(text).then(() => {
+      this.setState(({ comments }) => ({
+        comment: '',
+        comments: [
+          {
+            text,
+            name: this.props.usersByKey[this.props.activeUserKey].name,
+            date: Date.now()
+          },
+          ...comments
+        ]
+      }));
     });
   };
 
@@ -172,8 +188,10 @@ export class TicketPage extends React.Component {
   }
 }
 
-const mapStateToProps = ({ users }) => ({
-  users: Object.keys(users).map(key => ({ key, ...users[key] }))
+const mapStateToProps = ({ users, activeUserKey }) => ({
+  activeUserKey,
+  usersByKey: users,
+  usersArr: Object.keys(users).map(key => ({ key, ...users[key] }))
 });
 
 const mapDispatchToProps = dispatch => ({
