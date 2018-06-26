@@ -24,7 +24,11 @@ export class TicketPage extends React.Component {
       urgency: '',
       status: '',
       accountName: '',
-      contact: {},
+      contact: {
+        name: '',
+        email: '',
+        number: ''
+      },
       comments: [],
       attachedUsers: [],
       nonAttachedUsers: [],
@@ -118,20 +122,22 @@ export class TicketPage extends React.Component {
   };
 
   render() {
-    console.log('fired');
     return (
       <section className="content-container-md">
         <div className="content-innards ticket-page">
-          <div className="ticket-page__heading">
-            <h2 className="heading heading--primary"> {this.state.title} </h2>
-            <span className="ticket-page__heading-account">
-              {this.state.accountName}
-            </span>
-            <ul>
-              <li>{this.state.contact.name}</li>
-              <li>{this.state.contact.email}</li>
-              <li>{formatNumber(this.state.contact.number || '')}</li>
-            </ul>
+          <div className="ticket-page__heading-block">
+            <div className="ticket-page__heading">
+              <h2 className="ticket-page__heading-main heading heading--primary">
+                {this.state.title}
+              </h2>
+              <span className="ticket-page__heading-account">
+                {this.state.accountName}
+              </span>
+            </div>
+            <ContactCard
+              className="ticket-page__contact-heading"
+              {...this.state.contact}
+            />
           </div>
           <TicketControl
             className="ticket-page__ticket-control"

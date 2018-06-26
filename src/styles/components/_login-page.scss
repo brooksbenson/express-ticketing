@@ -8,16 +8,18 @@
   transform: translate(-50%, -50%);
 
   > h2 {
-    font-size: $rem-two-half;
-    font-weight: $font-weight-avg;
-    letter-spacing: 1px;
-    margin-bottom: $rem-half;
+    font-size: $rem-two + 0.2;
+    font-weight: $font-weight-thick;
+    margin-bottom: 1rem;
+    margin-left: 3px;
+    transform: skew(-5deg);
   }
 }
 
 .login-panel__input {
   align-items: center;
   display: flex;
+  font-size: $rem-one + 0.3;
   margin-bottom: $rem-one-half;
   > span {
     align-items: center;
