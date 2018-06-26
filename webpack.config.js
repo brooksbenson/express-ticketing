@@ -14,6 +14,8 @@ switch (process.env.NODE_ENV) {
     break;
 }
 
+console.log(process.env.NODE_ENV);
+
 module.exports = env => {
   const isProduction = env === 'production';
   const CSSExtract = new ExtractTextPlugin('styles.css');
