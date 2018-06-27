@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 switch (process.env.NODE_ENV) {
   case 'test':
     dotenv.config({ path: '.env.test' });
@@ -12,6 +13,8 @@ switch (process.env.NODE_ENV) {
     dotenv.config({ path: '.env.development' });
     break;
 }
+
+console.log(process.env.NODE_ENV);
 
 module.exports = env => {
   const isProduction = env === 'production';
@@ -36,11 +39,15 @@ module.exports = env => {
             use: [
               {
                 loader: 'css-loader',
-                options: { sourceMap: true }
+                options: {
+                  sourceMap: true
+                }
               },
               {
                 loader: 'sass-loader',
-                options: { sourceMap: true }
+                options: {
+                  sourceMap: true
+                }
               }
             ]
           })
@@ -88,7 +95,8 @@ module.exports = env => {
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true,
-      publicPath: '/dist/'
+      publicPath: '/dist/',
+      overlay: true
     }
   };
 };
