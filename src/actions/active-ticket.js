@@ -18,7 +18,7 @@ export const startSetActiveTicket = key => {
         .once('value')
     ]);
     dispatch(setActiveTicket(key));
-    const comments = commentsSnap.val();
+    const comments = commentsSnap.val() || {};
     return {
       title: ticket.title,
       urgency: ticket.urgency,
