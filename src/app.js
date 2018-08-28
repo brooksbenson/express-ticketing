@@ -28,6 +28,7 @@ function renderApp() {
 }
 
 auth.onAuthStateChanged(user => {
+  if (history.location.path === '/users') return;
   if (user) {
     hydrateStore(user.email).then(() => {
       renderApp();
